@@ -100,7 +100,7 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
 
     // Convert all of the operation processor (including default) to be registered with the system.
     public func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
-        print("downloaded")
+
         if let response = downloadTask.response as? NSHTTPURLResponse, let URLRequest = downloadTask.originalRequest, let context = self.coordinator.dataManager?.networkContext where response.statusCode == 200 {
 
             if let responseOperation = URLRequest.responseOperation as? String, let operationProcessor = URLResponseFactory.processor(responseOperation) {

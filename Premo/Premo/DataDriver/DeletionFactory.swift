@@ -1,8 +1,5 @@
 //
 //  DeleteFactory.swift
-
-//
-
 //
 
 import Foundation

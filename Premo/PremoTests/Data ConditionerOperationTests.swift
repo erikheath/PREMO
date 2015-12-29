@@ -1,9 +1,5 @@
 //
 //  Data ConditionerOperationTests.swift
-//  Premo
-//
-//  Created by ERIKHEATH A THOMAS on 12/13/15.
-//  Copyright © 2015 Premo Network. All rights reserved.
 //
 
 import XCTest

@@ -1,8 +1,5 @@
 //
 //  Constants.swift
-
-//
-
 //
 
 import Foundation
@@ -34,16 +31,7 @@ public enum DataLayerError: Int, ErrorType {
     }
 }
 
-public enum JSONParserError: Int, ErrorType {
-    case formatError = 6000
-    case expectedAttributeValueError = 6001
-    case expectedAttributeError = 6002
-    case expectedAttributeTypeError = 6003
-    case expectedInverseRelationshipError = 6004
-    case missingUserInfoDictionary = 6005
-    case missingJSONRootKeyPath = 6006
-    case missingEntity = 6007
-}
+
 
 // MARK: Remote Store Model User Info Keys
 let kAPIVersion = "remotestore.apiversion"
@@ -59,7 +47,6 @@ let kFallthough = "remotestore.fallthrough"
 let kCachePolicyEnabled = "remotestore.enablecachepolicy"
 let kCoordinatorShouldUseDefaultRemoteStoreHost = "remotestore.usedefaultstorehost"
 let kRerootJSONSource = "remotestore.rerootjsonsource"
-let kRemoteStoreURLType = "remotestore.urltype"
 let kDownloadResourceOption = "remotestore.resourceRequestOption"
 let kDownloadResourceOnSet = "downloadOnSet"
 let kDownloadResourceOnGet = "downloadOnGet"
@@ -74,10 +61,14 @@ let kRemoteStoreClientIDValue = "remotestore.queryitem.clientid.value"
 let kRemoteStoreClientIDKey = "remotestore.queryitem.clientid.key"
 let kRemoteStoreRequestSchemaKey = "remotestore.queryitem.requestschema.key"
 let kRemoteStoreRequestSchemaValue = "remotestore.queryitem.requestschema.value"
-let kRemoteStoreJSONMetadataKeyPath = "remotestore.jsonmetadatakeypath"
+let kRemoteStoreURLResponse = "remotestore.URLResponse"
 let kPredicateParameters = "remotestore.predicateparameters"
+let kRemoteStoreURLType = "remotestore.urltype"
 let kRemoteStoreURLTypeFeed = "FEED"
 let kRemoteStoreURLTypeImage = "IMAGE"
+let kImageStoreType = "localstore.imagestoretype"
+let kRemoteStoreResourceType = "remotestore.resourcetype"
+let kRemoteStoreResourceTypeURL = "URL"
 
 // MARK: Model Entity Keys
 let kModelInfoEntity = "ModelSettings"
@@ -98,6 +89,11 @@ let kTimeToLive = "localstore.timetolive"
 let kOverrideComponents = "localstore.overridecomponents"
 let kOverrideTokens = "localstore.overridetokens"
 let kExpirationInterval = "localstore.expirationInterval"
+let kLastRemoteUpdate = "lastRemoteUpdate"
+let kRemoteUpdateExpiration = "remoteUpdateExpiration"
+let kRemoteUpdateInterval = "remoteUpdateInterval"
+let kRemoteOrderPosition = "remoteOrderPosition"
+
 // MARK: Local Store Notification Keys
 public let kObjectIDsForRequestNotification = "kObjectIDsForRequestNotification"
 public let kObjectIDsArray = "kObjectIDsArray"

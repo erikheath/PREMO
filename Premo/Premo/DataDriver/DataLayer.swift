@@ -165,7 +165,15 @@ public class DataLayer: NSObject {
 
         // Execute the preload fetch
         guard let request = self.preloadFetch else { return }
-        try self.masterContext.executeFetchRequest(request)
+        var requestError: ErrorType? = nil
+        self.masterContext.performBlockAndWait { () -> Void in
+            do {
+                try self.masterContext.executeFetchRequest(request)
+            } catch {
+                requestError = error
+            }
+        }
+        if requestError != nil { throw requestError! }
 
         // Initialization complete
     }

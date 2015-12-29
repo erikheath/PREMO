@@ -22,7 +22,7 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
     /**
      The fetch requests dictionary contains all of the requests processed by the coordinator.
     */
-    var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: NSURLRequest.FulfillmentStatus)> = Dictionary()
+    var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: FulfillmentStatus)> = Dictionary()
 
     // MARK: Conditional Processing
 
@@ -40,7 +40,7 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
                 // Has this request already been made and are the results still valid?
                 for (key, value) in fetchRequests {
                     if request.entity! == value.entity && request.predicate?.description == value.predicateString {
-                        if value.status == NSURLRequest.FulfillmentStatus.pending {
+                        if value.status == FulfillmentStatus.pending {
                             break requestProcessor
                         } else if key.compare(NSDate()) != NSComparisonResult.OrderedDescending {
                             keyToUpdate = key
@@ -59,7 +59,7 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
                         timeToLive = (request.entity!.userInfo![kTimeToLive] as? NSString)!.doubleValue
                     }
                     keyToUpdate = NSDate(timeIntervalSinceNow: timeToLive)
-                    fetchRequests.updateValue((request.entity!, request.predicate!.description, NSURLRequest.FulfillmentStatus.pending), forKey: keyToUpdate!)
+                    fetchRequests.updateValue((request.entity!, request.predicate!.description, FulfillmentStatus.pending), forKey: keyToUpdate!)
                 }
 
                 // if it's expired or doesn't exist, rerequest it.

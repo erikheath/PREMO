@@ -1,12 +1,15 @@
 //
 //  NSURLRequest+RequestResponse.swift
-
-//
-
 //
 
 import Foundation
 import CoreData
+
+public enum FulfillmentStatus: Int {
+    case unknown = 0
+    case pending = 1
+    case fulfilled = 2
+}
 
 extension NSURLRequest {
 
@@ -26,7 +29,7 @@ extension NSURLRequest {
     }
 
     // The target attributes that generated the Request. May be nil.
-    public var requestPropertyDescription:NSPropertyDescription? {
+    public var requestProperty:NSPropertyDescription? {
 
         get {
             return NSURLProtocol.propertyForKey(ExtendedKeys.requestPropertyKey.rawValue, inRequest: self) as? NSPropertyDescription
@@ -67,12 +70,6 @@ extension NSURLRequest {
         get {
             return NSURLProtocol.propertyForKey(ExtendedKeys.overrideComponentsKey.rawValue, inRequest: self) as? NSURLComponents
         }
-    }
-
-    public enum FulfillmentStatus: Int {
-        case unknown = 0
-        case pending = 1
-        case fulfilled = 2
     }
 
     // The data fulfillment status of the request.
@@ -132,7 +129,7 @@ extension NSURLRequest {
             // The attributes which generated the request
             attributes: do {
 
-                guard let formatTokens = (self.requestPropertyDescription?.userInfo?[kFormatTokens + "." + methodType] as? NSString)?.propertyList() as? Dictionary<NSObject, AnyObject> else {
+                guard let formatTokens = (self.requestProperty?.userInfo?[kFormatTokens + "." + methodType] as? NSString)?.propertyList() as? Dictionary<NSObject, AnyObject> else {
                     break attributes
                 }
 
@@ -164,7 +161,7 @@ extension NSMutableURLRequest {
             self.requestEntity = entity
         }
         if let propertyDescription = property {
-            self.requestPropertyDescription = propertyDescription
+            self.requestProperty = propertyDescription
         }
         if let predicate = predicate {
             self.requestPredicate = predicate
@@ -185,7 +182,7 @@ extension NSMutableURLRequest {
 
 
     // The target attribute that generated the Request. May be nil. Only a request attribute or request Entity may be set, and setting the attribute will cause the entity to be the entity of the attribute.
-    override public var requestPropertyDescription:NSPropertyDescription? {
+    override public var requestProperty:NSPropertyDescription? {
 
         set(requestPropertyDescription) {
             if let requestPropertyDescription = requestPropertyDescription {
@@ -357,7 +354,7 @@ extension NSMutableURLRequest {
                 // The attributes which generated the request
                 attributes: do {
 
-                    guard let formatTokens = (self.requestPropertyDescription?.userInfo?[kFormatTokens + "." + methodType] as? NSString)?.propertyList() as? Dictionary<NSObject, AnyObject> else {
+                    guard let formatTokens = (self.requestProperty?.userInfo?[kFormatTokens + "." + methodType] as? NSString)?.propertyList() as? Dictionary<NSObject, AnyObject> else {
                         break attributes
                     }
 
@@ -475,7 +472,7 @@ extension NSMutableURLRequest {
         // The attributes which generated the request
         attributes: do {
 
-            guard let userInfo = self.requestPropertyDescription?.userInfo else {
+            guard let userInfo = self.requestProperty?.userInfo else {
                 break attributes
             }
             self.resolveComponents(URLComponents, userInfo: userInfo)

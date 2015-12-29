@@ -1,8 +1,5 @@
 //
 //  DataRequestOperation.swift
-
-//
-
 //
 
 import Foundation
@@ -64,7 +61,8 @@ public class DataRequestOperation: NSOperation {
             if !self.cancelled {
                 do {
                     for request in remoteStoreRequests {
-                        let dataTask = try self.URLSession.dataTaskWithRequest(request.resolveURL())
+                        let resolvedRequest = try request.resolveURL()
+                        let dataTask = self.URLSession.dataTaskWithRequest(resolvedRequest)
                         dataTask.resume()
                     }
                 } catch {

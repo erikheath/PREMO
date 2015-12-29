@@ -37,9 +37,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // The catalolg requires: hitting the catalog endpoint with a fetch request.
         // Where should it happen: It should happen right after launch, when the app is foregrounded, etc. There should be a check for e-tag to see if a reload is necessary. In this situation, you want to have a fetch request executed against the main context, which is the throttle point. However, you could also execute the request directly on the master context. We'll start with the main context, and then consider moving to the master context.
 
-        print(self.datalayer)
+        let navbarProxy = UINavigationBar.appearance()
+        navbarProxy.barTintColor = UIColor.blackColor()
+        navbarProxy.tintColor = UIColor.whiteColor()
+        navbarProxy.barStyle = UIBarStyle.Black
+        navbarProxy.titleTextAttributes = [NSFontAttributeName: self.navBarFont()]
 
         return true
+    }
+
+    func navBarFont() -> UIFont {
+        let newFont = UIFont(name: "Montserrat-Light", size: 17)
+        let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
+        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
+        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
+        let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
+        return UIFont(descriptor: fontDescriptor!, size: 17)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -63,11 +76,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        do {
-            try self.saveContext()
-        } catch {
-
-        }
+//        do {
+//            try self.saveContext()
+//        } catch {
+//
+//        }
     }
 
     // MARK: - Core Data stack
@@ -89,23 +102,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     lazy var managedObjectContext: NSManagedObjectContext? = {
         return self.datalayer?.mainContext
     }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext () throws {
-        do {
-            guard let moc = self.managedObjectContext else {
-                throw DataLayerError.genericError
-            }
-            if moc.hasChanges {
-                try moc.save()
-            }
-        } catch {
-            let userInfoDict:[String: AnyObject] = [kUnderlyingErrorsArrayKey: error as NSError]
-            NSNotificationCenter.defaultCenter().postNotificationName(kErrorNotification, object: nil, userInfo:userInfoDict)
-            throw error
-        }
-    }
 
 }
 

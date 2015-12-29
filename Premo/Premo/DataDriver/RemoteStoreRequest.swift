@@ -1,10 +1,10 @@
 //
-// TODO: Change to class inheriting from NSObject
+// RemoteStoreRequest.swift
+//
 
-import Foundation
 import CoreData
 
-public class RemoteStoreRequest {
+public class RemoteStoreRequest: NSObject {
     let entity: NSEntityDescription
     let property: NSPropertyDescription?
     let predicate: NSPredicate?

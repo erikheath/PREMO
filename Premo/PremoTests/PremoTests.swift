@@ -1,9 +1,5 @@
 //
 //  PremoTests.swift
-//  PremoTests
-//
-//  Created by ERIKHEATH A THOMAS on 11/19/15.
-//  Copyright © 2015 Premo Network. All rights reserved.
 //
 
 import XCTest

@@ -1,8 +1,5 @@
 //
 //  URLResponse.swift
-
-//
-
 //
 
 import Foundation

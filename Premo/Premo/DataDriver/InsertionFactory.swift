@@ -1,8 +1,5 @@
 //
 //  POSTFactory.swift
-
-//
-
 //
 
 import Foundation
