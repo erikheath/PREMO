@@ -11,14 +11,18 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureNavigation()
+    }
+
+    func configureNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         guard let navbarController = self.parentViewController as? UINavigationController else { return }
         navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
         navbarController.navigationBar.backIndicatorImage = UIImage(named: "menu_fff")
-
     }
 
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         (self.parentViewController as? UINavigationController)?.setNavigationBarHidden(true, animated: true)
 
     }
@@ -43,7 +47,6 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
                 guard let controller = segue.destinationViewController as? CategoryTableViewController else { return }
                 controller.managedObjectContext = self.managedObjectContext
                 controller.categoryObject = object
-                controller.navigationItem
             }
         }
         guard let navbarController = self.parentViewController as? UINavigationController else { return }

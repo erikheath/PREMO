@@ -5,10 +5,60 @@
 import UIKit
 import CoreData
 
-class FeatureTableViewController: UITableViewController {
+
+class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate {
+
+    enum PlaybackError: Int, ErrorType {
+        case unknownError = 5000
+        case credentialError = 5001
+        case responseError = 5002
+        case sourceError = 5003
+        case catalogError = 5004
+
+        var objectType : NSError {
+            get {
+                return NSError(domain: "LoginError", code: self.rawValue, userInfo: nil)
+            }
+        }
+    }
+
 
     var contentItem: ContentItem? = nil
+
     var previewMask: UIImage? = nil
+
+    lazy var playbackSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: nil)
+
+    lazy var featurePcode: String? =  {
+        let contentSource = self.contentItem?.contentSource
+        guard let sources = (self.contentItem?.categories?.anyObject() as? CategoryList)!.appConfig?.catalogSources as? Set<Catalog> else { return nil }
+        var pCode: String? = nil
+        for catalog in sources {
+            if catalog.catalogSource == contentSource {
+                pCode = catalog.catalogPcode
+                break
+            }
+        }
+        return pCode
+    }()
+
+    lazy var featureEmbedCode: String? = { self.contentItem?.contentSourceID }()
+
+    lazy var trailerPcode: String? = {
+        let contentSource = self.contentItem?.trailers?.trailerSource
+        guard let sources = (self.contentItem?.categories?.anyObject() as? CategoryList)!.appConfig?.catalogSources as? Set<Catalog> else { return nil }
+        var pCode: String? = nil
+        for catalog in sources {
+            if catalog.catalogSource == contentSource {
+                pCode = catalog.catalogPcode
+                break
+            }
+        }
+        return pCode
+    }()
+
+    lazy var trailerEmbedCode: String? = { self.contentItem?.trailers?.trailerSourceID }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +66,7 @@ class FeatureTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         guard let navbarController = self.parentViewController as? UINavigationController else { return }
         navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")
@@ -32,6 +83,70 @@ class FeatureTableViewController: UITableViewController {
     override func prefersStatusBarHidden() -> Bool {
         return false
     }
+
+    // MARK: - Actions
+
+    @IBAction func playTrailer(sender: AnyObject) {
+        do {
+            guard let embedCode = self.trailerEmbedCode, let pCode = self.trailerPcode else { throw PlaybackError.catalogError }
+
+            let player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"))
+            player.setEmbedCode(embedCode)
+            let playerController = OOOoyalaPlayerViewController(player: player)
+
+            self.presentViewController(playerController, animated: true, completion: nil)
+        } catch {
+            let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+    }
+
+    @IBAction func playFeature(sender: AnyObject) {
+        do {
+            guard let embedCode = self.featureEmbedCode, let pCode = self.featurePcode else { throw PlaybackError.catalogError }
+
+            let player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"), embedTokenGenerator: self)
+            player.setEmbedCode(embedCode)
+            let playerController = OOOoyalaPlayerViewController(player: player)
+
+            self.presentViewController(playerController, animated: true, completion: nil)
+        } catch {
+            let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+    }
+
+    // MARK: - Embed Token Generator
+    func tokenForEmbedCodes(embedCodes: [AnyObject]!, callback: OOEmbedTokenCallback!) {
+        do {
+            guard let pCode = self.featurePcode, let embedCode = self.featureEmbedCode, let embedCodeURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/ooyalaplayertoken/" + pCode + "/" + embedCode) else { throw PlaybackError.catalogError }
+            let tokenRequest = NSMutableURLRequest(URL: embedCodeURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 45.0)
+            tokenRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
+            tokenRequest.setValue(NSUserDefaults.standardUserDefaults().stringForKey("jwt"), forHTTPHeaderField: "Authorization")
+            let tokenRequestTask = self.playbackSession.dataTaskWithRequest(tokenRequest, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                do {
+                if error != nil || data == nil { throw PlaybackError.credentialError }
+                    guard let JSONObject = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.init(rawValue: 0)) as? NSDictionary, let success = JSONObject.objectForKey("success") where (success as? NSNumber)!.boolValue == true, let embedTokenURLString = (JSONObject.objectForKey("payload") as? NSDictionary)!.objectForKey("embedTokenUrl") as? String else { throw PlaybackError.credentialError }
+                    callback(embedTokenURLString)
+                } catch { callback("") }
+            })
+
+            tokenRequestTask.resume()
+        } catch {
+            let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+    }
+
 
     // MARK: - Table view data source
 
@@ -99,9 +214,15 @@ class FeatureTableViewController: UITableViewController {
             self.previewMask = UIImage(CGImage: outputImage)
         }
         let newImageView = UIImageView(image: self.previewMask)
-        let posterImage = UIImage(data: posterImageData)
-        posterCell.detailPosterImageView.image = posterImage
-        posterCell.detailPosterImageView.maskView = newImageView
+        guard let posterImage = UIImage(data: posterImageData) else { return }
+        posterCell.subscribeToPlayButton.imageView?.image = posterImage
+        posterCell.subscribeToPlayButton.imageView?.maskView = newImageView
+        posterCell.readyToPlayButton.imageView?.image = posterImage
+        posterCell.readyToPlayButton.imageView?.maskView = newImageView
+        if let subscriptionValidUntilDate = NSUserDefaults.standardUserDefaults().objectForKey("subscriptionValidUntilDate") as? NSDate where subscriptionValidUntilDate.compare(NSDate()) == NSComparisonResult.OrderedDescending  {
+            posterCell.subscribeToPlayButton.hidden = true
+            posterCell.readyToPlayButton.hidden = false
+        }
     }
 
     func configureControllerCell(cell: ControllerTableViewCell, indexPath: NSIndexPath) {
@@ -151,8 +272,7 @@ class FeatureTableViewController: UITableViewController {
 
         cell.textLabel?.attributedText = header
         cell.detailTextLabel?.attributedText = content
-//        cell.header.attributedText = header
-//        cell.content.attributedText = content
+
     }
 
     func formatCreditedNameList(description: NSOrderedSet) -> String {
@@ -335,6 +455,7 @@ class FeatureTableViewController: UITableViewController {
         }
         return height
     }
+
 
 
 }

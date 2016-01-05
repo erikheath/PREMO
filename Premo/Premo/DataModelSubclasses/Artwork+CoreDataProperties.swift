@@ -1,5 +1,9 @@
 //
 //  Artwork+CoreDataProperties.swift
+//  Premo
+//
+//  Created by ERIKHEATH A THOMAS on 1/4/16.
+//  Copyright © 2016 Premo Network. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
 //  to delete and recreate this implementation file for your updated model.
@@ -13,6 +17,6 @@ extension Artwork {
     @NSManaged var artwork269x152: NSData?
     @NSManaged var artworkRemoteID: String?
     @NSManaged var artworkURL269x152: NSObject?
-    @NSManaged var contentItem: ContentItem?
+    @NSManaged var contentItem: NSSet?
 
 }

@@ -102,6 +102,9 @@ public class DataConditionerOperation: NSOperation {
             case let x where x == kRemoteStoreURLTypeImage:
                 return URLResponseProcessingType.Image
 
+            case let x where x == kRemoteStoreURLTypeFeed:
+                return URLResponseProcessingType.JSON
+
             default:
                 throw DataConditionerError.unknownRemoteStoreType
             }

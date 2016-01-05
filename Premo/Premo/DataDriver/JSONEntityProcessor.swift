@@ -286,9 +286,13 @@ public class JSONEntityProcessor: NSObject {
             guard let rootKeyPath = relationship.destinationEntity?.userInfo?[kJSONRootKeyPath] as? String else { return }
 
             guard let dataStructure = valueSource.valueForKeyPath(rootKeyPath) as? [Dictionary<NSObject, AnyObject>] else {
-                // There is no data to process, but because the root key path is present, the relationship must be nullified.
-                managedObject.setValue(nil, forKey: relationship.name)
+                // There is no data to process and the root key path is absent.
                 return
+            }
+
+            if dataStructure.count == 0 {
+                // Nullify the relationship
+                managedObject.setValue(nil, forKey: relationship.name)
             }
 
             let relationshipSet = managedObject.valueForKey(relationship.name)

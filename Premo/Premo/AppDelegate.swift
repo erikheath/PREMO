@@ -6,9 +6,21 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
+
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
 
     var window: UIWindow?
+
+    var appDeviceID: String = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let premoID = defaults.stringForKey("PREMOID") {
+            return premoID
+        } else {
+            let premoID = NSUUID().UUIDString
+            defaults.setObject(premoID, forKey: "PREMOID")
+            return premoID
+        }
+    }()
 
     lazy var datalayer: DataLayer? = {
 
@@ -29,19 +41,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
 
-        // TODO: Check if the user is logged in / has some credentials to determine which screen to show
-        
-        // TODO: Reload the catalog as quickly as possible
-        // The catalolg requires: hitting the catalog endpoint with a fetch request.
-        // Where should it happen: It should happen right after launch, when the app is foregrounded, etc. There should be a check for e-tag to see if a reload is necessary. In this situation, you want to have a fetch request executed against the main context, which is the throttle point. However, you could also execute the request directly on the master context. We'll start with the main context, and then consider moving to the master context.
-
+        // UI Customization
         let navbarProxy = UINavigationBar.appearance()
         navbarProxy.barTintColor = UIColor.blackColor()
         navbarProxy.tintColor = UIColor.whiteColor()
         navbarProxy.barStyle = UIBarStyle.Black
         navbarProxy.titleTextAttributes = [NSFontAttributeName: self.navBarFont()]
+
+        if self.datalayer == nil {
+            // This causes the catalog to be loaded.
+            return false
+        }
 
         return true
     }

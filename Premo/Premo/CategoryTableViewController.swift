@@ -14,10 +14,12 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: self.managedObjectContext)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextDidSaveNotification, object: self.managedObjectContext)
     }
 
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         guard let navbarController = self.parentViewController as? UINavigationController else { return }
         navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
@@ -85,20 +87,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         } else {
             // POSTERCELL
             guard let posterCell = cell as? PosterTableViewCell else { return }
-            guard let contentItem = self.categoryObject?.contentItems?[indexPath.row] as? ContentItem, let posterImageData = contentItem.artwork?.artwork269x152 else { return }
-            let posterImage = UIImage(data: posterImageData)
-            let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
-            let gradientFilter = CIFilter(name: "CISmoothLinearGradient")
-            gradientFilter?.setDefaults()
-            gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
-            gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
-            gradientFilter?.setValue(CIVector(x: 150, y: 150), forKey: "inputPoint1")
-            guard let outputImageRecipe = gradientFilter?.outputImage else { return }
-            let outputImage = context.createCGImage(outputImageRecipe, fromRect: cell.bounds)
-            let newImage = UIImage(CGImage: outputImage)
-            let newImageView = UIImageView(image: newImage)
-            posterCell.poster.image = posterImage
-            posterCell.poster.maskView = newImageView
+            guard let contentItem = self.categoryObject?.contentItems?[indexPath.row] as? ContentItem else { return }
 
             guard var categoryName = self.categoryObject?.categoryName, var itemTitle = contentItem.contentDisplayHeader, let itemSubHeading = contentItem.contentDisplaySubheader else { return }
 
@@ -115,6 +104,22 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             let mutableItemSubHeading = NSMutableAttributedString(string: itemSubHeading)
             mutableItemSubHeading.addAttribute(NSFontAttributeName, value: self.subHeadingFont(), range: NSMakeRange(0, mutableItemSubHeading.length))
             posterCell.subheadingLabel!.attributedText = mutableItemSubHeading
+
+            guard let posterImageData = contentItem.artwork?.artwork269x152 else { return }
+
+            let posterImage = UIImage(data: posterImageData)
+            let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
+            let gradientFilter = CIFilter(name: "CISmoothLinearGradient")
+            gradientFilter?.setDefaults()
+            gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
+            gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
+            gradientFilter?.setValue(CIVector(x: 150, y: 150), forKey: "inputPoint1")
+            guard let outputImageRecipe = gradientFilter?.outputImage else { return }
+            let outputImage = context.createCGImage(outputImageRecipe, fromRect: cell.bounds)
+            let newImage = UIImage(CGImage: outputImage)
+            let newImageView = UIImageView(image: newImage)
+            posterCell.poster.image = posterImage
+            posterCell.poster.maskView = newImageView
 
         }
     }
@@ -165,4 +170,38 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             }
         }
     }
+
+    // MARK: - Core Data
+
+    func processCoreDataNotification(notification: NSNotification) {
+        guard let targetCategoryName = self.categoryObject?.categoryName else { return }
+
+        if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> {
+            for managedObject in insertedObjects {
+                if managedObject is CategoryList && managedObject.valueForKey("categoryName") as? String == targetCategoryName {
+                    print("reload data from insert")
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
+            for managedObject in updatedObjects {
+                if managedObject is CategoryList && managedObject.valueForKey("categoryName") as? String == targetCategoryName {
+                    print("reload data from update category")
+                    self.tableView.reloadData()
+                }
+                if managedObject is Artwork {
+                    guard let paths = self.tableView.indexPathsForVisibleRows else { continue }
+                    for indexPath in paths {
+                        if (self.categoryObject?.contentItems?[indexPath.row] as? ContentItem)!.artwork?.objectID == managedObject.objectID {
+                            print("reload data from update artwork")
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
 }

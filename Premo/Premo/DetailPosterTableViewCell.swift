@@ -6,7 +6,9 @@ import UIKit
 
 class DetailPosterTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var detailPosterImageView: UIImageView!
+    @IBOutlet weak var readyToPlayButton: UIButton!
+    
+    @IBOutlet weak var subscribeToPlayButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,4 +21,5 @@ class DetailPosterTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    
 }
