@@ -68,28 +68,36 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     }
 
     @IBOutlet weak var firstNameTextField: UITextField!
+
     @IBOutlet weak var lastNameTextField: UITextField!
+
     @IBOutlet weak var emailTextField: UITextField!
+
     @IBOutlet weak var passwordTextField: UITextField!
+
+    @IBOutlet weak var gotoLoginButton: UIButton!
+
+    @IBOutlet weak var signupActivityIndicator: UIActivityIndicatorView!
 
     @IBAction func signUp(sender: AnyObject) {
         // Manual check to see if the fields are full - or don't make the button pushable until the fields have something in them.
         // Put up timer and disable navigation buttons. Should there be a cancel?
         self.view.endEditing(true)
+        self.manageUserInteractions(false)
         if self.currentSignUpTask != nil && self.currentSignUpTask?.state == NSURLSessionTaskState.Running {
             self.currentSignUpTask?.cancel()
             self.currentSignUpTask = nil
         }
         self.signUpResponse = nil
-        guard let userName = emailTextField.text?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) where userName != "",
-            let password = passwordTextField.text?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()),
-            let firstName = firstNameTextField.text?.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) where firstName != "",
+        guard let userName = emailTextField.text where userName != "",
+            let password = passwordTextField.text where password != "",
+            let firstName = firstNameTextField.text where firstName != "",
             let lastName = lastNameTextField.text where lastName != ""
-            else { return }
+            else { self.presentMissingCredentialError(); return }
 
-        guard let signUpURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/signup") else { return }
+        guard let signUpURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/signup") else { self.presentUnknownFailure(); return }
 
-        let signUpRequest = NSMutableURLRequest(URL: signUpURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 45.0)
+        let signUpRequest = NSMutableURLRequest(URL: signUpURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
         signUpRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
         do {
             let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "firstName": firstName, "lastName": lastName, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
@@ -101,9 +109,8 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             self.currentSignUpTask = signUpTask
             signUpTask.resume()
         } catch {
-
+                self.presentMissingCredentialError()
         }
-
 
     }
 
@@ -175,11 +182,27 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         }
     }
 
+    func presentMissingCredentialError() {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let alert = UIAlertController(title: "Login Failed", message: "Your first name, last name, an email address, and a password at least six(6) characters long are required. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+
+            self.signupActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+    }
+
     func presentSignUpError() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
 
             let alert = UIAlertController(title: "Sign Up Failed", message: "The email address was not formatted correctly or the password was shorter than 6 characters. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+            self.signupActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -188,8 +211,11 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
 
             let alert = UIAlertController(title: "Sign Up Failure", message: "Your sign up information was unable to be processed. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
 
+            self.signupActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -197,8 +223,11 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     func presentAuthorizationFailure() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: "Authorization Failure", message: "You are currently not authorized to access these services. Please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
 
+            self.signupActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
 
@@ -207,8 +236,11 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     func presentUnknownFailure() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: "Sign Up Failure", message: "An unknown error has occurred preventing sign up. Please check that your internet connection is active or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
 
+            self.signupActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -217,8 +249,11 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
 
             let alert = UIAlertController(title: "Sign Up Failure", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
 
+            self.signupActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -231,7 +266,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             if errorCode is String { code = Int(errorCode as! String) } else if errorCode is NSNumber { code = (errorCode as! NSNumber).integerValue }
             guard let resolvedCode = code else { throw SignUpError.unknownError }
             if resolvedCode == 100 || resolvedCode == 103 {
-                self.performSelectorOnMainThread("presentCustomFailure", withObject: errorMessage, waitUntilDone: false)
+                self.presentCustomFailure(errorMessage)
             }
         } catch {
             self.presentUnknownFailure()
@@ -255,7 +290,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
                 (self.navigationController as? AppRoutingNavigationController)?.transitionToVideoStack(true)
             }))
-            
+            self.signupActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -279,5 +314,22 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         emailTextField.resignFirstResponder()
     }
 
+    func manageUserInteractions(enabled: Bool) {
+
+        if enabled == true {
+            self.signupActivityIndicator.stopAnimating()
+        } else {
+            self.signupActivityIndicator.startAnimating()
+        }
+
+        firstNameTextField.userInteractionEnabled = enabled
+        lastNameTextField.userInteractionEnabled = enabled
+        emailTextField.userInteractionEnabled = enabled
+        passwordTextField.userInteractionEnabled = enabled
+        signupButton.userInteractionEnabled = enabled
+        gotoLoginButton.userInteractionEnabled = enabled
+        self.navigationItem.backBarButtonItem?.enabled = enabled
+        
+    }
 
 }

@@ -4,14 +4,14 @@
 
 import UIKit
 
-class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionDataDelegate, UITextFieldDelegate {
+class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionDataDelegate {
 
 
     enum LoginError: Int, ErrorType {
         case unknownError = 5000
         case credentialError = 5001
         case responseError = 5002
-        
+
         var objectType : NSError {
             get {
                 return NSError(domain: "LoginError", code: self.rawValue, userInfo: nil)
@@ -52,10 +52,18 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
     }
 
     @IBOutlet weak var emailTextField: UITextField!
-    
+
     @IBOutlet weak var passwordTextField: UITextField!
 
     @IBOutlet weak var loginButton: UIButton!
+
+    @IBOutlet weak var forgotPasswordButton: UIButton!
+
+    @IBOutlet weak var loginActivityIndicator: UIActivityIndicatorView!
+
+    @IBOutlet weak var needAnAccountButton: UIButton!
+
+    @IBOutlet weak var skipLoginButton: UIButton!
 
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if identifier == "showCreateAccountFromLogin" && self.navigationController?.childViewControllers.count == 3 {
@@ -75,14 +83,15 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         // Manual check to see if the fields are full - or don't make the button pushable until the fields have something in them.
         // Put up timer and disable navigation buttons. Should there be a cancel?
         self.view.endEditing(true)
+        self.manageUserInteractions(false)
         if self.currentLoginTask != nil && self.currentLoginTask?.state == NSURLSessionTaskState.Running {
             self.currentLoginTask?.cancel()
             self.currentLoginTask = nil
         }
         self.loginResponse = nil
-        guard let userName = emailTextField.text where userName != "", let password = passwordTextField.text where password != "" else { return }
+        guard let userName = emailTextField.text where userName != "", let password = passwordTextField.text where password != "" else { self.presentMissingCredentialError(); return }
 
-        guard let loginURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/login") else { return }
+        guard let loginURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/login") else { self.presentUnknownFailure(); return }
 
         let loginRequest = NSMutableURLRequest(URL: loginURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 45.0)
         loginRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
@@ -95,6 +104,7 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
             let loginTask = self.loginSession.dataTaskWithRequest(loginRequest)
             self.currentLoginTask = loginTask
             loginTask.resume()
+
         } catch {
 
         }
@@ -165,51 +175,74 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         }
     }
 
+    func presentMissingCredentialError() {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let alert = UIAlertController(title: "Login Failed", message: "An email address and password are required. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+
+            self.loginActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+    }
+
     func presentLoginError() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-        let alert = UIAlertController(title: "Login Failed", message: "Your email address or password was not recognized. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-
-        self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Login Failed", message: "Your email address or password was not recognized. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+            self.loginActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
     func presentServerFailure() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
 
-        let alert = UIAlertController(title: "Login Failure", message: "Your login was unable to be processed. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Login Failure", message: "Your login was unable to be processed. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+            self.loginActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
     func presentAuthorizationFailure() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-        let alert = UIAlertController(title: "Authorization Failure", message: "You are currently not authorized to access these services. Please login to your account or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-
-        self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Authorization Failure", message: "You are currently not authorized to access these services. Please login to your account or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+            self.loginActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
     func presentUnknownFailure() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
 
-        let alert = UIAlertController(title: "Login Failure", message: "An unknown error has occurred preventing login. Please check that your internet connection is active or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-
-        self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Login Failure", message: "An unknown error has occurred preventing login. Please check that your internet connection is active or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+            self.loginActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
     func presentCustomFailure(message: String) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
 
-        let alert = UIAlertController(title: "Login Failure", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-
-        self.presentViewController(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Login Failure", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+            self.loginActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
@@ -265,6 +298,7 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
                 (self.navigationController as? AppRoutingNavigationController)?.transitionToVideoStack(true)
             }))
 
+            self.loginActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -284,4 +318,21 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         emailTextField.resignFirstResponder()
     }
 
+    func manageUserInteractions(enabled: Bool) {
+
+        if enabled == true {
+            self.loginActivityIndicator.stopAnimating()
+        } else {
+            self.loginActivityIndicator.startAnimating()
+        }
+        
+        emailTextField.userInteractionEnabled = enabled
+        passwordTextField.userInteractionEnabled = enabled
+        loginButton.userInteractionEnabled = enabled
+        forgotPasswordButton.userInteractionEnabled = enabled
+        needAnAccountButton.userInteractionEnabled = enabled
+        skipLoginButton.userInteractionEnabled = enabled
+        self.navigationItem.backBarButtonItem?.enabled = enabled
+        
+    }
 }
