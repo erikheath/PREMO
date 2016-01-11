@@ -10,7 +10,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     lazy var managedObjectContext: NSManagedObjectContext? = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer?.mainContext
 
-    var categoryObject: CategoryList? = nil
+    var categoryObjectName: String? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +25,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
         navbarController.navigationBar.backIndicatorImage = UIImage(named: "menu_fff")
         self.navigationItem.title = "PREMO"
+        navbarController.navigationBarHidden = false
+
 
         self.setNeedsStatusBarAppearanceUpdate()
 
@@ -54,7 +56,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         if section == 0 {
             rowCount = 0
         } else {
-            rowCount = (self.categoryObject?.contentItems?.count)! as Int ?? 0
+            rowCount = (self.fetchedResultsController.sections?[section - 1].numberOfObjects)! ?? 0
         }
         return rowCount
     }
@@ -86,10 +88,11 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 //            cell.imageView?.image = UIImage(named: object.valueForKey("categoryIcon")!.description)
         } else {
             // POSTERCELL
+            let modifiedPath = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section - 1)
             guard let posterCell = cell as? PosterTableViewCell else { return }
-            guard let contentItem = self.categoryObject?.contentItems?[indexPath.row] as? ContentItem else { return }
+            guard let contentItem = self.fetchedResultsController.objectAtIndexPath(modifiedPath) as? ContentItem else { return }
 
-            guard var categoryName = self.categoryObject?.categoryName, var itemTitle = contentItem.contentDisplayHeader, let itemSubHeading = contentItem.contentDisplaySubheader else { return }
+            guard var categoryName = self.categoryObjectName, var itemTitle = contentItem.contentDisplayHeader, let itemSubHeading = contentItem.contentDisplaySubheader else { return }
 
             categoryName = (categoryName as NSString).uppercaseString
             let mutableCategoryName = NSMutableAttributedString(string: categoryName)
@@ -162,7 +165,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showContentDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                guard let object = categoryObject?.contentItems?.objectAtIndex(indexPath.row) as? ContentItem else { return }
+                let modifiedPath = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section - 1)
+                guard let object = self.fetchedResultsController.objectAtIndexPath(modifiedPath) as? ContentItem else { return }
                 let controller = segue.destinationViewController as! FeatureTableViewController
                 controller.contentItem = object
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
@@ -174,26 +178,12 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     // MARK: - Core Data
 
     func processCoreDataNotification(notification: NSNotification) {
-        guard let targetCategoryName = self.categoryObject?.categoryName else { return }
-
-        if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> {
-            for managedObject in insertedObjects {
-                if managedObject is CategoryList && managedObject.valueForKey("categoryName") as? String == targetCategoryName {
-                    print("reload data from insert")
-                    self.tableView.reloadData()
-                }
-            }
-        }
         if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
             for managedObject in updatedObjects {
-                if managedObject is CategoryList && managedObject.valueForKey("categoryName") as? String == targetCategoryName {
-                    print("reload data from update category")
-                    self.tableView.reloadData()
-                }
                 if managedObject is Artwork {
                     guard let paths = self.tableView.indexPathsForVisibleRows else { continue }
                     for indexPath in paths {
-                        if (self.categoryObject?.contentItems?[indexPath.row] as? ContentItem)!.artwork?.objectID == managedObject.objectID {
+                        if (self.fetchedResultsController.sections?[0].objects?[indexPath.row] as? ContentItem)!.artwork?.objectID == managedObject.objectID {
                             print("reload data from update artwork")
                             self.tableView.reloadData()
                         }
@@ -201,6 +191,96 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
                 }
             }
         }
+    }
+
+    // MARK: - Fetched results controller
+
+    var fetchedResultsController: NSFetchedResultsController {
+        if _fetchedResultsController != nil {
+            return _fetchedResultsController!
+        }
+
+        let fetchRequest = NSFetchRequest()
+        // Edit the entity name as appropriate.
+        //        let mom = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer?.persistentStoreCoordinator.managedObjectModel
+        //        let entity = mom?.entitiesByName["CategoryList"]
+        let entity = NSEntityDescription.entityForName("ContentItem", inManagedObjectContext: self.managedObjectContext!)
+        fetchRequest.entity = entity
+
+        // Set the batch size to a suitable number.
+        fetchRequest.fetchBatchSize = 20
+
+        // Edit the sort key as appropriate.
+        let sortDescriptor = NSSortDescriptor(key: "remoteOrderPosition", ascending: true)
+
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
+        // Edit the search predicate.
+        if let categoryName = self.categoryObjectName {
+            fetchRequest.predicate = NSPredicate(format: "categoryMember.categoryName = %@", argumentArray: [categoryName])
+        }
+
+        // Edit the section name key path and cache name if appropriate.
+        // nil for section name key path means "no sections".
+        let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: self.categoryObjectName)
+        aFetchedResultsController.delegate = self
+        _fetchedResultsController = aFetchedResultsController
+
+        do {
+            try _fetchedResultsController!.performFetch()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            print("Unresolved error \(error)")
+        }
+
+        return _fetchedResultsController!
+    }
+    var _fetchedResultsController: NSFetchedResultsController? = nil
+
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.beginUpdates()
+    }
+
+    func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
+        switch type {
+        case .Insert:
+            self.tableView.insertSections(NSIndexSet(index: sectionIndex + 1), withRowAnimation: .Fade)
+        case .Delete:
+            self.tableView.deleteSections(NSIndexSet(index: sectionIndex + 1), withRowAnimation: .Fade)
+        default:
+            return
+        }
+    }
+
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        var modifiedPath:NSIndexPath? = nil
+        var modifiedNewPath:NSIndexPath? = nil
+        if indexPath != nil {
+            modifiedPath = NSIndexPath(forRow: (indexPath?.row)!, inSection: (indexPath?.section)! + 1)
+        }
+        if newIndexPath != nil {
+            modifiedNewPath = NSIndexPath(forRow: (newIndexPath?.row)!, inSection: (newIndexPath?.section)! + 1)
+        }
+        switch type {
+        case .Insert:
+            guard let _ = modifiedNewPath else { return }
+            tableView.insertRowsAtIndexPaths([modifiedNewPath!], withRowAnimation: .Fade)
+        case .Delete:
+            guard let _ = modifiedPath else { return }
+            tableView.deleteRowsAtIndexPaths([modifiedPath!], withRowAnimation: .Fade)
+        case .Update:
+            guard let _ = modifiedPath, let cell = tableView.cellForRowAtIndexPath(modifiedPath!) else { return }
+            self.configureCell(cell, atIndexPath: modifiedPath!)
+        case .Move:
+            guard let _ = modifiedPath, let _ = modifiedNewPath else { return }
+            tableView.deleteRowsAtIndexPaths([modifiedPath!], withRowAnimation: .Fade)
+            tableView.insertRowsAtIndexPaths([modifiedNewPath!], withRowAnimation: .Fade)
+        }
+    }
+
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.endUpdates()
     }
 
 

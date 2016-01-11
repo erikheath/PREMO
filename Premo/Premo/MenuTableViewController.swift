@@ -46,7 +46,7 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
                 }
                 guard let controller = segue.destinationViewController as? CategoryTableViewController else { return }
                 controller.managedObjectContext = self.managedObjectContext
-                controller.categoryObject = object
+                controller.categoryObjectName = object.categoryName
             }
         }
         guard let navbarController = self.parentViewController as? UINavigationController else { return }
@@ -167,6 +167,8 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
 
         let fetchRequest = NSFetchRequest()
         // Edit the entity name as appropriate.
+//        let mom = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer?.persistentStoreCoordinator.managedObjectModel
+//        let entity = mom?.entitiesByName["CategoryList"]
         let entity = NSEntityDescription.entityForName("CategoryList", inManagedObjectContext: self.managedObjectContext!)
         fetchRequest.entity = entity
 

@@ -25,13 +25,11 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
 
     var contentItem: ContentItem? = nil
 
-    var previewMask: UIImage? = nil
-
     lazy var playbackSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: nil)
 
     lazy var featurePcode: String? =  {
         let contentSource = self.contentItem?.contentSource
-        guard let sources = (self.contentItem?.categories?.anyObject() as? CategoryList)!.appConfig?.catalogSources as? Set<Catalog> else { return nil }
+        guard let sources = self.contentItem?.categoryMember?.appConfig?.catalogSources as? Set<Catalog> else { return nil }
         var pCode: String? = nil
         for catalog in sources {
             if catalog.catalogSource == contentSource {
@@ -46,7 +44,7 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
 
     lazy var trailerPcode: String? = {
         let contentSource = self.contentItem?.trailers?.trailerSource
-        guard let sources = (self.contentItem?.categories?.anyObject() as? CategoryList)!.appConfig?.catalogSources as? Set<Catalog> else { return nil }
+        guard let sources = self.contentItem?.categoryMember?.appConfig?.catalogSources as? Set<Catalog> else { return nil }
         var pCode: String? = nil
         for catalog in sources {
             if catalog.catalogSource == contentSource {
@@ -202,23 +200,27 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
         guard let posterCell = cell as? DetailPosterTableViewCell, let posterImageData = self.contentItem?.artwork?.artwork269x152 else {
             return
         }
-        if self.previewMask == nil {
-            let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
-            let gradientFilter = CIFilter(name: "CISmoothLinearGradient")
-            gradientFilter?.setDefaults()
-            gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
-            gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
-            gradientFilter?.setValue(CIVector(x: 0, y: 50), forKey: "inputPoint1")
-            guard let outputImageRecipe = gradientFilter?.outputImage else { return }
-            let outputImage = context.createCGImage(outputImageRecipe, fromRect: cell.bounds)
-            self.previewMask = UIImage(CGImage: outputImage)
-        }
-        let newImageView = UIImageView(image: self.previewMask)
-        guard let posterImage = UIImage(data: posterImageData) else { return }
-        posterCell.subscribeToPlayButton.imageView?.image = posterImage
-        posterCell.subscribeToPlayButton.imageView?.maskView = newImageView
-        posterCell.readyToPlayButton.imageView?.image = posterImage
-        posterCell.readyToPlayButton.imageView?.maskView = newImageView
+        let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
+        let gradientFilter = CIFilter(name: "CISmoothLinearGradient")
+        gradientFilter?.setDefaults()
+        gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor1")
+        gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor0")
+        gradientFilter?.setValue(CIVector(x: 0, y: 100), forKey: "inputPoint1")
+        guard let gradientImageRecipe = gradientFilter?.outputImage else { return }
+
+        guard let posterCoreImage = CIImage(data: posterImageData) else { return }
+        let compositeFilter = CIFilter(name: "CISourceOverCompositing")
+        compositeFilter?.setDefaults()
+        compositeFilter?.setValue(gradientImageRecipe, forKey: "inputImage")
+        compositeFilter?.setValue(posterCoreImage, forKey: "inputBackgroundImage")
+        guard let outputImageRecipie = compositeFilter?.outputImage else { return }
+
+        guard let targetImageSize = UIImage(data: posterImageData)?.size else { return }
+        let outputImage = context.createCGImage(outputImageRecipie, fromRect: CGRectMake(0, 0, targetImageSize.width, targetImageSize.height))
+        let posterImage: UIImage? = UIImage(CGImage: outputImage)
+        guard let _ = posterImage else { return }
+        posterCell.subscribeToPlayButton.setBackgroundImage(posterImage, forState: UIControlState.Normal)
+        posterCell.readyToPlayButton.setBackgroundImage(posterImage, forState: UIControlState.Normal)
         if let subscriptionValidUntilDate = NSUserDefaults.standardUserDefaults().objectForKey("subscriptionValidUntilDate") as? NSDate where subscriptionValidUntilDate.compare(NSDate()) == NSComparisonResult.OrderedDescending  {
             posterCell.subscribeToPlayButton.hidden = true
             posterCell.readyToPlayButton.hidden = false

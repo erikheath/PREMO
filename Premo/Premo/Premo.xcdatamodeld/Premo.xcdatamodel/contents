@@ -140,7 +140,7 @@
             </userInfo>
         </attribute>
         <relationship name="appConfig" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AppConfig" inverseName="categories" inverseEntity="AppConfig" syncable="YES"/>
-        <relationship name="contentItems" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ContentItem" inverseName="categories" inverseEntity="ContentItem" syncable="YES">
+        <relationship name="contentItems" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ContentItem" inverseName="categoryMember" inverseEntity="ContentItem" syncable="YES">
             <userInfo>
                 <entry key="remotestore.jsonrootkeypath" value="CURRENTROOT"/>
                 <entry key="remotestore.rerootjsonsource" value="NO"/>
@@ -260,9 +260,10 @@
             </userInfo>
         </attribute>
         <attribute name="contentURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="remoteOrderPosition" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="actors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Actor" inverseName="contentItems" inverseEntity="Actor" syncable="YES"/>
         <relationship name="artwork" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Artwork" inverseName="contentItem" inverseEntity="Artwork" syncable="YES"/>
-        <relationship name="categories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CategoryList" inverseName="contentItems" inverseEntity="CategoryList" syncable="YES"/>
+        <relationship name="categoryMember" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryList" inverseName="contentItems" inverseEntity="CategoryList" syncable="YES"/>
         <relationship name="directors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Director" inverseName="contentItems" inverseEntity="Director" syncable="YES"/>
         <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="contentItems" inverseEntity="Genre" syncable="YES"/>
         <relationship name="producers" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Producer" inverseName="contentItems" inverseEntity="Producer" syncable="YES"/>
@@ -270,8 +271,7 @@
         <relationship name="seriesMembership" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Series" inverseName="contentItems" inverseEntity="Series" syncable="YES"/>
         <relationship name="trailers" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ProgramTrailers" inverseName="contentItem" inverseEntity="ProgramTrailers" syncable="YES"/>
         <userInfo>
-            <entry key="localstore.entityid" value="contentSourceID"/>
-            <entry key="remotestore.entityid" value="source_id"/>
+            <entry key="localstore.entityid" value="AUTOGENERATEKEY"/>
             <entry key="remotestore.jsonrootkeypath" value="title_list"/>
         </userInfo>
     </entity>
@@ -294,7 +294,11 @@
                 <entry key="remotestore.jsonkeypath" value="color.iOS"/>
             </userInfo>
         </attribute>
-        <attribute name="genreName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="genreName" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="remotestore.jsonkeypath" value="name"/>
+            </userInfo>
+        </attribute>
         <relationship name="appConfig" maxCount="1" deletionRule="Nullify" destinationEntity="AppConfig" inverseName="genres" inverseEntity="AppConfig" syncable="YES"/>
         <relationship name="contentItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContentItem" inverseName="genres" inverseEntity="ContentItem" syncable="YES"/>
         <relationship name="seriesMembers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Series" inverseName="genres" inverseEntity="Series" syncable="YES"/>
@@ -351,9 +355,9 @@
         <element name="Artwork" positionX="619" positionY="23" width="128" height="105"/>
         <element name="Catalog" positionX="-351" positionY="-333" width="128" height="88"/>
         <element name="CategoryList" positionX="81" positionY="-279" width="164" height="178"/>
-        <element name="ContentItem" positionX="279" positionY="-126" width="180" height="493"/>
+        <element name="ContentItem" positionX="279" positionY="-126" width="180" height="510"/>
         <element name="Director" positionX="583" positionY="272" width="128" height="73"/>
-        <element name="Genre" positionX="-297" positionY="-171" width="128" height="118"/>
+        <element name="Genre" positionX="-297" positionY="-171" width="128" height="120"/>
         <element name="Producer" positionX="628" positionY="159" width="128" height="75"/>
         <element name="ProgramTrailers" positionX="565" positionY="-90" width="128" height="88"/>
         <element name="Season" positionX="-101" positionY="189" width="128" height="88"/>

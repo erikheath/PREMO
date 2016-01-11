@@ -253,12 +253,31 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: "PREMO Account Created", message: "Your PREMO Account has been created and you have been logged in.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-                self.performSegueWithIdentifier("showSubscribeFromAccount", sender: self)
+                (self.navigationController as? AppRoutingNavigationController)?.transitionToVideoStack(true)
             }))
             
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
-    
-    
+
+    @IBAction func endEditingInView(sender: AnyObject) {
+            self.view.endEditing(true)
+    }
+
+    @IBAction func firstNameEditingEnded(sender: AnyObject) {
+        lastNameTextField.becomeFirstResponder()
+        firstNameTextField.resignFirstResponder()
+    }
+
+    @IBAction func lastNameEditingEnded(sender: AnyObject) {
+        emailTextField.becomeFirstResponder()
+        lastNameTextField.resignFirstResponder()
+    }
+
+    @IBAction func emailEditingEnded(sender: AnyObject) {
+        passwordTextField.becomeFirstResponder()
+        emailTextField.resignFirstResponder()
+    }
+
+
 }

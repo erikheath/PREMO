@@ -4,7 +4,7 @@
 
 import UIKit
 
-class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionDataDelegate {
+class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionDataDelegate, UITextFieldDelegate {
 
 
     enum LoginError: Int, ErrorType {
@@ -57,10 +57,6 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
 
     @IBOutlet weak var loginButton: UIButton!
 
-    @IBAction func unwindToLoginFromCreateAccount(sender: UIStoryboardSegue) {
-       
-    }
-
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if identifier == "showCreateAccountFromLogin" && self.navigationController?.childViewControllers.count == 3 {
             // Perform an unwind instead
@@ -71,6 +67,9 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         return true
     }
 
+    @IBAction func skipLogin(sender: AnyObject) {
+        (self.navigationController as? AppRoutingNavigationController)?.transitionToVideoStack(true)
+    }
 
     @IBAction func login(sender: AnyObject) {
         // Manual check to see if the fields are full - or don't make the button pushable until the fields have something in them.
@@ -236,7 +235,6 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         NSUserDefaults.standardUserDefaults().setObject(userName, forKey: "userName")
         NSUserDefaults.standardUserDefaults().setObject(firstName, forKey: "firstName")
         NSUserDefaults.standardUserDefaults().setObject(lastName, forKey: "lastName")
-        NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "subscription")
 
         if let subscriptionSource = payloadDictionary["payload"]?["subscription"]?!["source"] as? String, let subscriptionCreated = payloadDictionary["payload"]?["subscription"]?!["created"] as? String, let subscriptionExpires = payloadDictionary["payload"]?["subscription"]?!["expires"] as? String, let subscriptionValidUntil = payloadDictionary["payload"]?["subscription"]?!["validUntil"] as? String, let subscriptionAutoRenew = payloadDictionary["payload"]?["subscription"]?!["autoRenew"] as? NSNumber {
             NSUserDefaults.standardUserDefaults().setObject(subscriptionSource, forKey: "subscriptionSource")
@@ -250,10 +248,13 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
                 NSUserDefaults.standardUserDefaults().setObject(subscriptionCreatedDate, forKey: "subscriptionCreatedDate")
                 NSUserDefaults.standardUserDefaults().setObject(subscriptionExpiresDate, forKey: "subscriptionExpiresDate")
                 NSUserDefaults.standardUserDefaults().setObject(subscriptionValidUntilDate, forKey: "subscriptionValidUntilDate")
-                NSUserDefaults.standardUserDefaults().setObject(subscriptionAutoRenew, forKey: "subscriptionAutoRenew")
+                NSUserDefaults.standardUserDefaults().setBool(subscriptionAutoRenew.boolValue, forKey: "subscriptionAutoRenew")
             }
+
+            NSUserDefaults.standardUserDefaults().synchronize()
+
         }
-        
+
         self.displaySuccessAlert()
     }
 
@@ -261,11 +262,26 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: "You Are Now Logged In", message: "You have successfully logged into your PREMO account.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-                self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                (self.navigationController as? AppRoutingNavigationController)?.transitionToVideoStack(true)
             }))
 
             self.presentViewController(alert, animated: true, completion: nil)
         }
+    }
+
+
+    @IBAction func showForgotPassword(sender: AnyObject) {
+        guard let supportSite = NSURL(string: "http://www.premonetwork.com/support") else { return }
+        UIApplication.sharedApplication().openURL(supportSite)
+    }
+
+    @IBAction func endEditingInView(sender: AnyObject) {
+        self.view.endEditing(true)
+    }
+
+    @IBAction func emailEditingEnded(sender: AnyObject) {
+        passwordTextField.becomeFirstResponder()
+        emailTextField.resignFirstResponder()
     }
 
 }

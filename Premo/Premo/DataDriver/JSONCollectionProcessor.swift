@@ -167,15 +167,15 @@ public class JSONCollectionProcessor: NSObject {
 
         }
 
-        var saveError:ErrorType? = nil
-        context.performBlockAndWait({ () -> Void in
-            do {
-                try context.save()
-            } catch {
-                saveError = error
-            }
-        })
-        if saveError != nil { throw saveError! }
+//        var saveError:ErrorType? = nil
+//        context.performBlockAndWait({ () -> Void in
+//            do {
+//                try context.save()
+//            } catch {
+//                saveError = error
+//            }
+//        })
+//        if saveError != nil { throw saveError! }
 
         return objectIDArray
 
@@ -183,7 +183,7 @@ public class JSONCollectionProcessor: NSObject {
 
 
     /**
-     Searches for an existing remote store object. In the even that one can not be found, creates and returns a new one based on the passed in entity.
+     Searches for an existing remote store object. In the event that one can not be found, creates and returns a new one based on the passed in entity.
 
      - Parameter valueSource: The data to search when looking for a local identifier to use when searching the local store for an existing object.
 
@@ -203,32 +203,37 @@ public class JSONCollectionProcessor: NSObject {
             var managedObject:NSManagedObject?
 
             guard let valueSource = valueSource else { throw JSONParserError.expectedAttributeError }
-            guard let modelEntityID = (entity.userInfo?[kModelEntityID] as? String),
-                let keyPath:String = entity.userInfo?[kEntityID] as? String,
-                let propertyID:String = valueSource.valueForKey(keyPath) as? String where entity.name != nil else {
-                    throw JSONParserError.missingData
+            guard let modelEntityID = (entity.userInfo?[kModelEntityID] as? String) else {
+                throw JSONParserError.missingData
             }
 
-            let request = NSFetchRequest(entityName: entity.name!)
-            request.sortDescriptors = [NSSortDescriptor(key: modelEntityID, ascending: false)]
-
-            let leftExpression = NSExpression(forKeyPath: modelEntityID)
-            let rightExpression = NSExpression(forConstantValue: propertyID)
-
-            request.predicate = NSComparisonPredicate(leftExpression:leftExpression , rightExpression: rightExpression, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options:NSComparisonPredicateOptions(rawValue: 0))
-
-            var results: Array<AnyObject> = Array()
-            var fetchError: ErrorType? = nil
-            context.performBlockAndWait({ () -> Void in
-                do {
-                    results = try context.executeFetchRequest(request)
-                } catch {
-                    fetchError = error
+            if modelEntityID != "AUTOGENERATEKEY" {
+                guard let keyPath:String = entity.userInfo?[kEntityID] as? String,
+                    let propertyID:String = valueSource.valueForKey(keyPath) as? String where entity.name != nil else {
+                        throw JSONParserError.missingData
                 }
-            })
 
-            if fetchError != nil { }
-            managedObject = (results as NSArray).firstObject as? NSManagedObject
+                let request = NSFetchRequest(entityName: entity.name!)
+                request.sortDescriptors = [NSSortDescriptor(key: modelEntityID, ascending: false)]
+
+                let leftExpression = NSExpression(forKeyPath: modelEntityID)
+                let rightExpression = NSExpression(forConstantValue: propertyID)
+
+                request.predicate = NSComparisonPredicate(leftExpression:leftExpression , rightExpression: rightExpression, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options:NSComparisonPredicateOptions(rawValue: 0))
+
+                var results: Array<AnyObject> = Array()
+                var fetchError: ErrorType? = nil
+                context.performBlockAndWait({ () -> Void in
+                    do {
+                        results = try context.executeFetchRequest(request)
+                    } catch {
+                        fetchError = error
+                    }
+                })
+
+                if fetchError != nil { }
+                managedObject = (results as NSArray).firstObject as? NSManagedObject
+            }
 
             var objectIDError: ErrorType? = nil
             if managedObject == nil {
@@ -240,10 +245,10 @@ public class JSONCollectionProcessor: NSObject {
                 })
 
                 if objectIDError != nil { throw objectIDError! }
-
+                
                 managedObject = object
             }
-
+            
             return managedObject!
             
         } catch {

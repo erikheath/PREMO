@@ -2,7 +2,7 @@
 //  Genre+CoreDataProperties.swift
 //  Premo
 //
-//  Created by ERIKHEATH A THOMAS on 1/4/16.
+//  Created by ERIKHEATH A THOMAS on 1/10/16.
 //  Copyright © 2016 Premo Network. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -16,8 +16,8 @@ extension Genre {
 
     @NSManaged var genreColor: String?
     @NSManaged var genreName: String?
+    @NSManaged var appConfig: AppConfig?
     @NSManaged var contentItems: NSSet?
     @NSManaged var seriesMembers: NSSet?
-    @NSManaged var appConfig: AppConfig?
 
 }

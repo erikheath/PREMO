@@ -2,7 +2,7 @@
 //  CategoryList+CoreDataProperties.swift
 //  Premo
 //
-//  Created by ERIKHEATH A THOMAS on 1/4/16.
+//  Created by ERIKHEATH A THOMAS on 1/10/16.
 //  Copyright © 2016 Premo Network. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -21,7 +21,7 @@ extension CategoryList {
     @NSManaged var lastRemoteUpdate: NSDate?
     @NSManaged var remoteOrderPosition: NSDate?
     @NSManaged var remoteUpdateExpiration: NSDate?
-    @NSManaged var contentItems: NSOrderedSet?
     @NSManaged var appConfig: AppConfig?
+    @NSManaged var contentItems: NSOrderedSet?
 
 }

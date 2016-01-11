@@ -145,12 +145,16 @@ public class JSONEntityProcessor: NSObject {
     func managedObjectForContext( context: NSManagedObjectContext, entity:NSEntityDescription, valueSource: NSDictionary ) throws -> NSManagedObject? {
 
         var objectIDError: ErrorType? = nil
+        guard let modelEntityID = (entity.userInfo?[kModelEntityID] as? String) else {
+            return nil
+        }
 
-        guard let _ = (entity.userInfo?[kModelEntityID] as? String),
-            let keyPath:String = entity.userInfo?[kEntityID] as? String,
-            let _:String = valueSource.valueForKeyPath(keyPath) as? String,
-            let _ = entity.name else {
-                return nil
+        if modelEntityID != "AUTOGENERATEKEY" {
+            guard let keyPath:String = entity.userInfo?[kEntityID] as? String,
+                let _ = valueSource.valueForKeyPath(keyPath) as? String,
+                let _ = entity.name else {
+                    return nil
+            }
         }
 
         let managedObject = NSManagedObject(entity: entity, insertIntoManagedObjectContext: context)
@@ -165,7 +169,7 @@ public class JSONEntityProcessor: NSObject {
         return managedObject
 
     }
-
+    
     /**
      Searches for, and if found, returns a managed object context by searching for an object that matches the search criteria in the valueSource in the context for the specified entity type.
 
@@ -183,39 +187,48 @@ public class JSONEntityProcessor: NSObject {
     func managedObjectInContext( context:NSManagedObjectContext, entity:NSEntityDescription, valueSource:NSDictionary) throws -> NSManagedObject? {
 
         do {
-            guard let modelEntityID = (entity.userInfo?[kModelEntityID] as? String),
-                let keyPath:String = entity.userInfo?[kEntityID] as? String,
-                let propertyID:String = valueSource.valueForKey(keyPath) as? String,
-                let entityName = entity.name else {
-                    return nil
+
+            guard let modelEntityID = (entity.userInfo?[kModelEntityID] as? String) else {
+                return nil
             }
 
-            let request = NSFetchRequest(entityName: entityName)
-            request.sortDescriptors = [NSSortDescriptor(key: modelEntityID, ascending: false)]
+            if modelEntityID != "AUTOGENERATEKEY" {
 
-            let leftExpression = NSExpression(forKeyPath: modelEntityID)
-            let rightExpression = NSExpression(forConstantValue: propertyID)
-
-            request.predicate = NSComparisonPredicate(leftExpression:leftExpression , rightExpression: rightExpression, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options:NSComparisonPredicateOptions(rawValue: 0))
-
-            var results:Array<AnyObject> = Array()
-            var contextError: ErrorType? = nil
-            context.performBlockAndWait({ () -> Void in
-                do {
-                    results = try context.executeFetchRequest(request)
-                } catch {
-                    contextError = error
+                guard let keyPath:String = entity.userInfo?[kEntityID] as? String,
+                    let propertyID:String = valueSource.valueForKey(keyPath) as? String,
+                    let entityName = entity.name else {
+                        return nil
                 }
-            })
 
-            if contextError != nil { throw contextError! }
+                let request = NSFetchRequest(entityName: entityName)
+                request.sortDescriptors = [NSSortDescriptor(key: modelEntityID, ascending: false)]
+
+                let leftExpression = NSExpression(forKeyPath: modelEntityID)
+                let rightExpression = NSExpression(forConstantValue: propertyID)
+
+                request.predicate = NSComparisonPredicate(leftExpression:leftExpression , rightExpression: rightExpression, modifier: NSComparisonPredicateModifier.DirectPredicateModifier, type: NSPredicateOperatorType.EqualToPredicateOperatorType, options:NSComparisonPredicateOptions(rawValue: 0))
+
+                var results:Array<AnyObject> = Array()
+                var contextError: ErrorType? = nil
+                context.performBlockAndWait({ () -> Void in
+                    do {
+                        results = try context.executeFetchRequest(request)
+                    } catch {
+                        contextError = error
+                    }
+                })
+
+                if contextError != nil { throw contextError! }
+                
+                return (results as NSArray).firstObject as? NSManagedObject
+            }
             
-            return (results as NSArray).firstObject as? NSManagedObject
-
         } catch {
-
+            
             throw error
         }
+
+        return nil
     }
 
 
@@ -245,7 +258,7 @@ public class JSONEntityProcessor: NSObject {
                 // An object exists in the context corresponding to the key and value in the data. Update the existing object.
                 relationshipObject = contextObject
             } else if let contextObject = try self.managedObjectForContext(context, entity: destinationEntity, valueSource: valueSource) {
-                // A key and value exist for the destination object. Create a new object in the context.
+                // A key and required value for key exists for the destination object, or the object is set as autoGenerateKey. Create a new object in the context.
                 relationshipObject = contextObject
             } else if let keyPath:String = destinationEntity.userInfo?[kEntityID] as? String where (valueSource.allKeys as NSArray).containsObject(keyPath) == true {
                 // The key exists in the data source, but not the value for the object. Nullify the relationship and return.
