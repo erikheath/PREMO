@@ -84,15 +84,16 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
 
     // MARK: - Actions
 
-    @IBAction func playTrailer(sender: AnyObject) {
+    @IBAction func playFeature(sender: AnyObject) {
         do {
-            guard let embedCode = self.trailerEmbedCode, let pCode = self.trailerPcode else { throw PlaybackError.catalogError }
-
-            let player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"))
+            guard let embedCode = self.featureEmbedCode, let pCode = self.featurePcode else { throw PlaybackError.catalogError }
+            let player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"), embedTokenGenerator: self)
             player.setEmbedCode(embedCode)
             let playerController = OOOoyalaPlayerViewController(player: player)
+            playerController.setFullscreen(true)
+            player.allowsExternalPlayback = true
+            self.navigationController?.pushViewController(playerController, animated: true)
 
-            self.presentViewController(playerController, animated: true, completion: nil)
         } catch {
             let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
@@ -102,22 +103,35 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
 
     }
 
-    @IBAction func playFeature(sender: AnyObject) {
-        do {
-            guard let embedCode = self.featureEmbedCode, let pCode = self.featurePcode else { throw PlaybackError.catalogError }
+    // MARK: - Navigation
 
-            let player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"), embedTokenGenerator: self)
-            player.setEmbedCode(embedCode)
-            let playerController = OOOoyalaPlayerViewController(player: player)
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        switch identifier {
+        case "showTrailer":
+            guard let _ = self.trailerEmbedCode, let _ = self.trailerPcode else {
+                let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
 
-            self.presentViewController(playerController, animated: true, completion: nil)
-        } catch {
-            let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-
-            self.presentViewController(alert, animated: true, completion: nil)
+                self.presentViewController(alert, animated: true, completion: nil)
+                return false
+            }
+        default:
+            break
         }
+        return true
+    }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        guard let identifier = segue.identifier else { return }
+        switch identifier {
+        case "showTrailer":
+            guard let embedCode = self.trailerEmbedCode, let pCode = self.trailerPcode else { return }
+            (segue.destinationViewController as? VideoPlaybackViewController)?.pCode = pCode
+            (segue.destinationViewController as? VideoPlaybackViewController)?.embedCode = embedCode
+
+        default:
+            break
+        }
     }
 
     // MARK: - Embed Token Generator

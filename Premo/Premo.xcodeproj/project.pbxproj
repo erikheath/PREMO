@@ -40,6 +40,7 @@
 		4A2A81C61C4344330032A8F4 /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A81AE1C4344330032A8F4 /* CategoryList.swift */; };
 		4A2A81C71C4344330032A8F4 /* ContentItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A81AF1C4344330032A8F4 /* ContentItem+CoreDataProperties.swift */; };
 		4A2A81C81C4344330032A8F4 /* ContentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A81B01C4344330032A8F4 /* ContentItem.swift */; };
+		4A2A81CA1C44B5BE0032A8F4 /* VideoPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */; };
 		4A3D11D11C1E2E62000D6D85 /* Data ConditionerOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D11D01C1E2E62000D6D85 /* Data ConditionerOperationTests.swift */; };
 		4A3D11D31C1E2F6C000D6D85 /* PersistentStoreCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D11D21C1E2F6C000D6D85 /* PersistentStoreCoordinatorTests.swift */; };
 		4A3D11D51C1E3580000D6D85 /* OperationGraphManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D11D41C1E3580000D6D85 /* OperationGraphManagerTests.swift */; };
@@ -163,6 +164,7 @@
 		4A2A81AE1C4344330032A8F4 /* CategoryList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryList.swift; path = Premo/DataModelSubclasses/CategoryList.swift; sourceTree = "<group>"; };
 		4A2A81AF1C4344330032A8F4 /* ContentItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ContentItem+CoreDataProperties.swift"; path = "Premo/DataModelSubclasses/ContentItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4A2A81B01C4344330032A8F4 /* ContentItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentItem.swift; path = Premo/DataModelSubclasses/ContentItem.swift; sourceTree = "<group>"; };
+		4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlaybackViewController.swift; sourceTree = "<group>"; };
 		4A3D11D01C1E2E62000D6D85 /* Data ConditionerOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data ConditionerOperationTests.swift"; sourceTree = "<group>"; };
 		4A3D11D21C1E2F6C000D6D85 /* PersistentStoreCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentStoreCoordinatorTests.swift; path = PremoTests/PersistentStoreCoordinatorTests.swift; sourceTree = SOURCE_ROOT; };
 		4A3D11D41C1E3580000D6D85 /* OperationGraphManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationGraphManagerTests.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				4A3D12221C1F711F000D6D85 /* CategoryTableViewController.swift */,
 				4A1F2E151C2F51FC00E3D05C /* PosterTableViewCell.swift */,
 				4A1F2E471C30C76100E3D05C /* FeatureTableViewController.swift */,
+				4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */,
 				4A1F2E3F1C30C62100E3D05C /* DetailPosterTableViewCell.swift */,
 				4A1F2E411C30C65300E3D05C /* ControllerTableViewCell.swift */,
 				4A1F2E431C30C67600E3D05C /* CreditsTableViewCell.swift */,
@@ -666,6 +669,7 @@
 				4A2A81BE1C4344330032A8F4 /* Producer.swift in Sources */,
 				4AEE7ED91C0188CC009F0004 /* RemoteStoreRequest.swift in Sources */,
 				4A76ECF01C28B43E005C6F83 /* JSONAttributeProcessor.swift in Sources */,
+				4A2A81CA1C44B5BE0032A8F4 /* VideoPlaybackViewController.swift in Sources */,
 				4A2A81B51C4344330032A8F4 /* Catalog+CoreDataProperties.swift in Sources */,
 				4AEE7EDA1C0188CC009F0004 /* OperationGraphManager.swift in Sources */,
 				4AEE7ED31C0188CC009F0004 /* Constants.swift in Sources */,
