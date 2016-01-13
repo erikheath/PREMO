@@ -6,7 +6,7 @@ import UIKit
 import CoreData
 
 
-class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate {
+class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate {
 
     enum PlaybackError: Int, ErrorType {
         case unknownError = 5000
@@ -70,6 +70,10 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
         navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")
         navbarController.navigationBar.backIndicatorImage = UIImage(named: "back")
         self.navigationItem.title = contentItem?.contentDetailDisplayTitle
+        navbarController.navigationBarHidden = false
+
+
+        self.setNeedsStatusBarAppearanceUpdate()
 
     }
 
@@ -80,27 +84,6 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
 
     override func prefersStatusBarHidden() -> Bool {
         return false
-    }
-
-    // MARK: - Actions
-
-    @IBAction func playFeature(sender: AnyObject) {
-        do {
-            guard let embedCode = self.featureEmbedCode, let pCode = self.featurePcode else { throw PlaybackError.catalogError }
-            let player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"), embedTokenGenerator: self)
-            player.setEmbedCode(embedCode)
-            let playerController = OOOoyalaPlayerViewController(player: player)
-            playerController.setFullscreen(true)
-            player.allowsExternalPlayback = true
-            self.navigationController?.pushViewController(playerController, animated: true)
-
-        } catch {
-            let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-
     }
 
     // MARK: - Navigation
@@ -115,9 +98,20 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
                 self.presentViewController(alert, animated: true, completion: nil)
                 return false
             }
+
+        case "showFeature":
+            guard let _ = self.featureEmbedCode, let _ = self.featurePcode else {
+                let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+
+                self.presentViewController(alert, animated: true, completion: nil)
+                return false
+            }
+
         default:
             break
         }
+
         return true
     }
 
@@ -128,37 +122,21 @@ class FeatureTableViewController: UITableViewController, OOEmbedTokenGenerator, 
             guard let embedCode = self.trailerEmbedCode, let pCode = self.trailerPcode else { return }
             (segue.destinationViewController as? VideoPlaybackViewController)?.pCode = pCode
             (segue.destinationViewController as? VideoPlaybackViewController)?.embedCode = embedCode
+            (segue.destinationViewController as? VideoPlaybackViewController)?.playbackType = VideoPlaybackViewController.PlaybackType.Trailer
 
+        case "showFeature":
+            guard let embedCode = self.featureEmbedCode, let pCode = self.featurePcode else { return }
+            (segue.destinationViewController as? VideoPlaybackViewController)?.pCode = pCode
+            (segue.destinationViewController as? VideoPlaybackViewController)?.embedCode = embedCode
+            (segue.destinationViewController as? VideoPlaybackViewController)?.playbackType = VideoPlaybackViewController.PlaybackType.Feature
         default:
             break
         }
     }
 
-    // MARK: - Embed Token Generator
-    func tokenForEmbedCodes(embedCodes: [AnyObject]!, callback: OOEmbedTokenCallback!) {
-        do {
-            guard let pCode = self.featurePcode, let embedCode = self.featureEmbedCode, let embedCodeURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/ooyalaplayertoken/" + pCode + "/" + embedCode) else { throw PlaybackError.catalogError }
-            let tokenRequest = NSMutableURLRequest(URL: embedCodeURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 45.0)
-            tokenRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
-            tokenRequest.setValue(NSUserDefaults.standardUserDefaults().stringForKey("jwt"), forHTTPHeaderField: "Authorization")
-            let tokenRequestTask = self.playbackSession.dataTaskWithRequest(tokenRequest, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-                do {
-                if error != nil || data == nil { throw PlaybackError.credentialError }
-                    guard let JSONObject = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.init(rawValue: 0)) as? NSDictionary, let success = JSONObject.objectForKey("success") where (success as? NSNumber)!.boolValue == true, let embedTokenURLString = (JSONObject.objectForKey("payload") as? NSDictionary)!.objectForKey("embedTokenUrl") as? String else { throw PlaybackError.credentialError }
-                    callback(embedTokenURLString)
-                } catch { callback("") }
-            })
-
-            tokenRequestTask.resume()
-        } catch {
-            let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
+    @IBAction func unwindFromSubscribe(unwindSegue: UIStoryboardSegue) {
 
     }
-
 
     // MARK: - Table view data source
 

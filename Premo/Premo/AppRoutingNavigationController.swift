@@ -28,7 +28,14 @@ class AppRoutingNavigationController: UINavigationController {
 //    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
 //        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 //        self.transitionToInitialStack()
-//    }
+//
+
+    enum NavigationStack: String {
+        case videoStack = "videoStack"
+        case credentialStack = "credentialStack"
+    }
+
+    var currentNavigationStack: NavigationStack = NavigationStack.credentialStack
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +77,7 @@ class AppRoutingNavigationController: UINavigationController {
         categoryController.managedObjectContext = rootController.managedObjectContext
         categoryController.categoryObjectName = "Featured"
         (self.parentViewController as? UINavigationController)?.setNavigationBarHidden(false, animated: false)
+        self.currentNavigationStack = .videoStack
 
     }
 
@@ -83,6 +91,7 @@ class AppRoutingNavigationController: UINavigationController {
 
         let controllers = [rootController]
         self.setViewControllers(controllers, animated: false)
+        self.currentNavigationStack = .credentialStack
 
     }
 

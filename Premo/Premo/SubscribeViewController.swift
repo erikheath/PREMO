@@ -36,11 +36,30 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate {
         request.start()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        (self.parentViewController as? UINavigationController)?.setNavigationBarHidden(true, animated: true)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+
+    }
+
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func skipSubscribe(sender: AnyObject) {
+        if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == .credentialStack {
+            (self.navigationController as? AppRoutingNavigationController)!.transitionToVideoStack(true)
+        } else {
+            self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+        }
+    }
 
     @IBAction func subscribe(sender: AnyObject) {
         // Either payment process or go to app store. This may mean I need to check things when coming back to the foreground. Also, I need to put up a progress indicator of some sort. And I need to subscribe to a notification sent by App Delegate for transaction completion.

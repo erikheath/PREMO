@@ -117,7 +117,7 @@ public class JSONCollectionProcessor: NSObject {
     }
 
     /**
-     Processes the JSON collection to create and/or update objects in the passed in context based on the passed in entity.
+     Processes the JSON collection to create and/or update objects in the passed in context based on the passed in entity. This method calls out to registered object conditioners prior to parsing each JSON object representation.
 
      - Parameter collection: An array of Dictionary objects representing the objects of the passed in entity type to be created.
 
@@ -136,7 +136,9 @@ public class JSONCollectionProcessor: NSObject {
 
         var objectIDArray: Array<NSManagedObjectID> = Array()
 
-        for JSONObject:Dictionary<NSObject, AnyObject> in collection {
+        let conditionedCollection = JSONObjectDataConditionerFactory.conditionObjects(collection, entity: entity)
+
+        for JSONObject:Dictionary<NSObject, AnyObject> in conditionedCollection {
 
             var managedObject:NSManagedObject? = nil
 
@@ -166,16 +168,6 @@ public class JSONCollectionProcessor: NSObject {
             objectIDArray.append(managedObject!.objectID)
 
         }
-
-//        var saveError:ErrorType? = nil
-//        context.performBlockAndWait({ () -> Void in
-//            do {
-//                try context.save()
-//            } catch {
-//                saveError = error
-//            }
-//        })
-//        if saveError != nil { throw saveError! }
 
         return objectIDArray
 

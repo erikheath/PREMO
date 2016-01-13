@@ -265,7 +265,7 @@
         <relationship name="artwork" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Artwork" inverseName="contentItem" inverseEntity="Artwork" syncable="YES"/>
         <relationship name="categoryMember" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryList" inverseName="contentItems" inverseEntity="CategoryList" syncable="YES"/>
         <relationship name="directors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Director" inverseName="contentItems" inverseEntity="Director" syncable="YES"/>
-        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="contentItems" inverseEntity="Genre" syncable="YES"/>
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Genre" inverseName="contentItems" inverseEntity="Genre" syncable="YES"/>
         <relationship name="producers" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Producer" inverseName="contentItems" inverseEntity="Producer" syncable="YES"/>
         <relationship name="seasonMembership" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Season" inverseName="contentItems" inverseEntity="Season" syncable="YES"/>
         <relationship name="seriesMembership" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Series" inverseName="contentItems" inverseEntity="Series" syncable="YES"/>

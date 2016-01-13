@@ -192,19 +192,14 @@ public class DataConditionerOperation: NSOperation {
      */
     public func processValidationErrors(errors: NSError, context: NSManagedObjectContext) throws {
         // This method removes objects listed in the NSAffectedObjectsErrorKey when trying to save.
-/*
-        Error Domain=NSCocoaErrorDomain Code=1560 "Multiple validation errors occurred." UserInfo={NSDetailedErrors=(
-        "Error Domain=NSCocoaErrorDomain Code=1570 \"appConfig is a required value.\" UserInfo={NSValidationErrorKey=appConfig, NSLocalizedDescription=appConfig is a required value., NSValidationErrorObject=<Genre: 0x12f69e300> (entity: Genre; id: 0xd000000000080006 <x-coredata://7DD450DA-2009-45DE-B3F0-107FEFC54C77/Genre/p2> ; data: {\n    appConfig = nil;\n    contentItems = \"<relationship fault: 0x12f6d8b70 'contentItems'>\";\n    genreColor = \"rgba(0, 176, 241, 1)\";\n    genreName = nil;\n    seriesMembers = \"<relationship fault: 0x12f6dad70 'seriesMembers'>\";\n})}",
-*/
-//        print(errors)
+
         if errors.domain == NSCocoaErrorDomain && errors.code == NSValidationMultipleErrorsError && errors.userInfo[NSDetailedErrorsKey] != nil {
             // There were multiple validation errors. Remove the objects generating the errors.
             guard let detailedErrors = errors.userInfo[NSDetailedErrorsKey] as? Array<NSError> else { return }
             for error in detailedErrors {
                 guard let objectToDelete = error.userInfo[NSValidationObjectErrorKey] as? NSManagedObject else { continue }
                 objectToDelete.managedObjectContext?.deleteObject(objectToDelete)
-//                print("deleting")
-//                print(objectToDelete)
+
             }
 
         } else if errors.domain == NSCocoaErrorDomain && errors.userInfo[NSValidationObjectErrorKey] != nil {

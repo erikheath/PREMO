@@ -101,7 +101,7 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
             cell.imageView?.image = UIImage(named: object.valueForKey("categoryIcon")!.description)
         } else {
             cell.imageView?.image = UIImage(named: "account")
-            let mutableString = NSMutableAttributedString(string: "ACOUNT")
+            let mutableString = NSMutableAttributedString(string: "ACCOUNT")
             mutableString.addAttribute(NSFontAttributeName, value: self.categoryFont(), range: NSMakeRange(0, mutableString.length))
             mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 5.0), range: NSMakeRange(0, mutableString.length))
             cell.textLabel!.attributedText = mutableString

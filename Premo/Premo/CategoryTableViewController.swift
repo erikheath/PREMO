@@ -92,21 +92,34 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             guard let posterCell = cell as? PosterTableViewCell else { return }
             guard let contentItem = self.fetchedResultsController.objectAtIndexPath(modifiedPath) as? ContentItem else { return }
 
-            guard var categoryName = self.categoryObjectName, var itemTitle = contentItem.contentDisplayHeader, let itemSubHeading = contentItem.contentDisplaySubheader else { return }
+            if let genreObject = contentItem.genres?.firstObject as? Genre, var genreName = genreObject.genreName, var genreColorString = genreObject.genreColor {
+                genreName = (genreName as NSString).uppercaseString
+                let mutableGenreName = NSMutableAttributedString(string: genreName)
+                mutableGenreName.addAttribute(NSFontAttributeName, value: self.categoryHeaderFont(), range: NSMakeRange(0, mutableGenreName.length))
 
-            categoryName = (categoryName as NSString).uppercaseString
-            let mutableCategoryName = NSMutableAttributedString(string: categoryName)
-            mutableCategoryName.addAttribute(NSFontAttributeName, value: self.categoryHeaderFont(), range: NSMakeRange(0, mutableCategoryName.length))
-            posterCell.categoryLabel!.attributedText = mutableCategoryName
+                genreColorString = (genreColorString as NSString).substringWithRange(NSMakeRange(5, (genreColorString as NSString).length - 1))
+                let colorArray: Array<NSString> = (genreColorString as NSString).componentsSeparatedByString(", ") as Array<NSString>
+                if colorArray.count == 4 {
+                    let genreColor = UIColor(colorLiteralRed: colorArray[0].floatValue / 255.0, green: colorArray[1].floatValue / 255.0, blue: colorArray[2].floatValue / 255.0, alpha: colorArray[3].floatValue)
+                    mutableGenreName.addAttribute(NSForegroundColorAttributeName, value: genreColor, range: NSMakeRange(0, mutableGenreName.length))
+                }
 
-            itemTitle = (itemTitle as NSString).uppercaseString
-            let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
-            mutableCategoryName.addAttribute(NSFontAttributeName, value: self.titleFont(), range: NSMakeRange(0, mutableCategoryName.length))
-            posterCell.titleLabel!.attributedText = mutableItemTitle
+                posterCell.categoryLabel!.attributedText = mutableGenreName
+            } else {
+                posterCell.categoryLabel!.text = ""
+            }
+            if var itemTitle = contentItem.contentDisplayHeader {
+                itemTitle = (itemTitle as NSString).uppercaseString
+                let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
+                mutableItemTitle.addAttribute(NSFontAttributeName, value: self.titleFont(), range: NSMakeRange(0, mutableItemTitle.length))
+                posterCell.titleLabel!.attributedText = mutableItemTitle
+            }
 
-            let mutableItemSubHeading = NSMutableAttributedString(string: itemSubHeading)
-            mutableItemSubHeading.addAttribute(NSFontAttributeName, value: self.subHeadingFont(), range: NSMakeRange(0, mutableItemSubHeading.length))
-            posterCell.subheadingLabel!.attributedText = mutableItemSubHeading
+            if let itemSubHeading = contentItem.contentDisplaySubheader {
+                let mutableItemSubHeading = NSMutableAttributedString(string: itemSubHeading)
+                mutableItemSubHeading.addAttribute(NSFontAttributeName, value: self.subHeadingFont(), range: NSMakeRange(0, mutableItemSubHeading.length))
+                posterCell.subheadingLabel!.attributedText = mutableItemSubHeading
+            }
 
             guard let posterImageData = contentItem.artwork?.artwork269x152 else { return }
 
