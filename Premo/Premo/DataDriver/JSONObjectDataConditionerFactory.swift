@@ -18,12 +18,12 @@ public class JSONObjectDataConditionerFactory {
     }
 
     static func conditionObjects(JSONObjects:Array<Dictionary<NSObject, AnyObject>>, entity:NSEntityDescription) -> Array<Dictionary<NSObject, AnyObject>> {
+
+        guard let entityName = entity.name, let objectConditioner:JSONObjectConditioner = objectConditioners[entityName] else { return JSONObjects }
         var processedJSONObjects:Array<Dictionary<NSObject, AnyObject>> = Array<Dictionary<NSObject, AnyObject>>()
+
         for object in JSONObjects {
-            guard let entityName = entity.name else { processedJSONObjects.append(object); break }
-            guard let objectConditioner:JSONObjectConditioner = objectConditioners[entityName] else { processedJSONObjects.append(object); break }
-            guard let conditionedObject = objectConditioner.condition(object) else { processedJSONObjects.append(object); break }
-            processedJSONObjects.append(conditionedObject)
+            processedJSONObjects.append(objectConditioner.condition(object) ?? object)
         }
 
         return processedJSONObjects

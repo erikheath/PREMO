@@ -46,7 +46,11 @@ class WelcomeViewController: UIViewController {
     }
 
     @IBAction func skipLogin(sender: AnyObject) {
-        (self.navigationController as? AppRoutingNavigationController)?.transitionToVideoStack(true)
+        if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == .credentialStack {
+            (self.navigationController as? AppRoutingNavigationController)!.transitionToVideoStack(true)
+        } else {
+            self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+        }
     }
 
 }

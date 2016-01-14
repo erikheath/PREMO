@@ -50,7 +50,7 @@
                 <entry key="remotestore.jsonrootkeypath" value="CURRENTROOT"/>
             </userInfo>
         </relationship>
-        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="appConfig" inverseEntity="Genre" syncable="YES">
+        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Genre" inverseName="appConfig" inverseEntity="Genre" syncable="YES">
             <userInfo>
                 <entry key="remotestore.jsonrootkeypath" value="CURRENTROOT"/>
             </userInfo>
@@ -90,6 +90,24 @@
         <userInfo>
             <entry key="localstore.entityid" value="artworkRemoteID"/>
             <entry key="remotestore.entityid" value="artwork.269x152"/>
+        </userInfo>
+    </entity>
+    <entity name="CarouselItem" representedClassName=".CarouselItem" syncable="YES">
+        <attribute name="contentSource" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="remotestore.jsonkeypath" value="source"/>
+            </userInfo>
+        </attribute>
+        <attribute name="contentSourceID" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="remotestore.jsonkeypath" value="source_id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="remoteOrderPosition" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryList" inverseName="carousel" inverseEntity="CategoryList" syncable="YES"/>
+        <userInfo>
+            <entry key="localstore.entityid" value="AUTOGENERATEKEY"/>
+            <entry key="remotestore.jsonrootkeypath" value="carousel"/>
         </userInfo>
     </entity>
     <entity name="Catalog" representedClassName=".Catalog" syncable="YES">
@@ -140,6 +158,12 @@
             </userInfo>
         </attribute>
         <relationship name="appConfig" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AppConfig" inverseName="categories" inverseEntity="AppConfig" syncable="YES"/>
+        <relationship name="carousel" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CarouselItem" inverseName="category" inverseEntity="CarouselItem" syncable="YES">
+            <userInfo>
+                <entry key="remotestore.jsonrootkeypath" value="CURRENTROOT"/>
+                <entry key="remotestore.rerootjsonsource" value="NO"/>
+            </userInfo>
+        </relationship>
         <relationship name="contentItems" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ContentItem" inverseName="categoryMember" inverseEntity="ContentItem" syncable="YES">
             <userInfo>
                 <entry key="remotestore.jsonrootkeypath" value="CURRENTROOT"/>
@@ -351,10 +375,10 @@
     </entity>
     <elements>
         <element name="Actor" positionX="594" positionY="387" width="128" height="90"/>
-        <element name="AppConfig" positionX="-99" positionY="-343" width="128" height="133"/>
+        <element name="AppConfig" positionX="-99" positionY="-343" width="128" height="135"/>
         <element name="Artwork" positionX="619" positionY="23" width="128" height="105"/>
         <element name="Catalog" positionX="-351" positionY="-333" width="128" height="88"/>
-        <element name="CategoryList" positionX="81" positionY="-279" width="164" height="178"/>
+        <element name="CategoryList" positionX="81" positionY="-279" width="164" height="195"/>
         <element name="ContentItem" positionX="279" positionY="-126" width="180" height="510"/>
         <element name="Director" positionX="583" positionY="272" width="128" height="73"/>
         <element name="Genre" positionX="-297" positionY="-171" width="128" height="120"/>
@@ -362,5 +386,6 @@
         <element name="ProgramTrailers" positionX="565" positionY="-90" width="128" height="88"/>
         <element name="Season" positionX="-101" positionY="189" width="128" height="88"/>
         <element name="Series" positionX="-270" positionY="95" width="128" height="103"/>
+        <element name="CarouselItem" positionX="-144" positionY="-189" width="128" height="105"/>
     </elements>
 </model>

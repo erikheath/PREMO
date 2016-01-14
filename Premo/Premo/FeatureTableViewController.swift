@@ -134,6 +134,14 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         }
     }
 
+    @IBAction func updateCredentials(sender: AnyObject) {
+        if (UIApplication.sharedApplication().delegate as! AppDelegate).loggedIn == true {
+            self.performSegueWithIdentifier("ShowSubscribeFromFeature", sender: self)
+        } else {
+            self.performSegueWithIdentifier("ShowWelcomeFromFeature", sender: self)
+        }
+    }
+
     @IBAction func unwindFromSubscribe(unwindSegue: UIStoryboardSegue) {
 
     }
@@ -245,19 +253,19 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         case 2:
             if let description = contentItem?.actors where description.count > 0 {
                 header = self.attributedCreditHeader("Starring")
-                content = self.attributedCreditContent(self.formatCreditedNameList(description))
+                content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
             }
 
         case 3:
             if let description = contentItem?.directors where description.count > 0 {
                 header = self.attributedCreditHeader("Director")
-                content = self.attributedCreditContent(self.formatCreditedNameList(description))
+                content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
             }
 
         case 4:
             if let description = contentItem?.producers where description.count > 0 {
                 header = self.attributedCreditHeader("Producers")
-                content = self.attributedCreditContent(self.formatCreditedNameList(description))
+                content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
             }
 
         default:
@@ -269,7 +277,8 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
     }
 
-    func formatCreditedNameList(description: NSOrderedSet) -> String {
+    func formatCreditedNameList(description: NSOrderedSet, limit: Int) -> String {
+        var count = 0
         var creditedNames: String? = nil
         for object in description where object is NSManagedObject {
             guard let credit = object as? NSManagedObject else { continue }
@@ -279,6 +288,8 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
                 guard let name = credit.valueForKey("creditedName") as? String else { continue }
                 creditedNames = creditedNames! + " and " + name
             }
+            count = count + 1
+            if count == limit { break }
         }
 
         return creditedNames ?? ""
@@ -422,7 +433,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         var height: CGFloat = 0.0
         switch indexPath.section {
         case 0:
-            height = 152.0
+            height = 210.0
         case 1:
             height = 54.0
         case 2:

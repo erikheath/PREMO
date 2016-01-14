@@ -35,14 +35,14 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     }
 
     override func prefersStatusBarHidden() -> Bool {
-        return true
+        return false
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         (self.parentViewController as? UINavigationController)?.setNavigationBarHidden(false, animated: false)
-        (self.parentViewController as? UINavigationController)?.navigationBar.backgroundColor = UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 31.0/255.0, alpha: 1.0)
-        (self.parentViewController as? UINavigationController)?.navigationBar.barTintColor = UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 31.0/255.0, alpha: 1.0)
+        (self.parentViewController as? UINavigationController)?.navigationBar.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        (self.parentViewController as? UINavigationController)?.navigationBar.barTintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
         (self.parentViewController as? UINavigationController)?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
         (self.parentViewController as? UINavigationController)?.navigationBar.shadowImage = UIImage()
 

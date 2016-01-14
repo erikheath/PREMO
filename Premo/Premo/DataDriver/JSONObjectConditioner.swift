@@ -9,6 +9,8 @@ import CoreData
 
 protocol JSONObjectConditioner {
 
+    static var entityName: String { get }
+
     func condition(object:Dictionary<NSObject, AnyObject>) -> Dictionary<NSObject, AnyObject>?
     
 }

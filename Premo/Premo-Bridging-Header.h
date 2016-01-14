@@ -7,3 +7,4 @@
 #import "OOOoyalaError.h"
 #import "OOPlayerDomain.h"
 #import "OOEmbedTokenGenerator.h"
+#import "iCarousel.h"

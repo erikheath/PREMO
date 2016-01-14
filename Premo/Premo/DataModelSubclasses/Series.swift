@@ -2,7 +2,7 @@
 //  Series.swift
 //  Premo
 //
-//  Created by ERIKHEATH A THOMAS on 1/12/16.
+//  Created by ERIKHEATH A THOMAS on 1/13/16.
 //  Copyright © 2016 Premo Network. All rights reserved.
 //
 

@@ -24,6 +24,8 @@ public class JSONEntityProcessor: NSObject {
      - Important: Beginning with this method, a recursive stack is created that traverses the relationships of an entity. One-to-One, One-to-Many, Many-to-One, and Many-to-Many relationships are all supported. When objects refer to one another, infinite loops are prevented by the discrete nature of JSON files (i.e. they are not infinitely long) which are traversed from top to bottom and then are exited, as well as by keeping track of objects that have been created during the current processing run.
 
      However, an infinite loop can be set up by referencing transformable URL attributes that cause the downloading of JSON objects that refer to the object triggering the download. This can happen only if the file(s) that are downloaded describe a value for the transformable URL property in the referenced object. Simply referring to an object will not trigger a download of its transformable URL attributes, nor will setting any of its properties or attributes that do not trigger URL downloads.
+     
+     - Note: The JSON representation of objects are eligible for conditioning within this method. It's important to put in the necessary type and key checks within any JSON Object conditioners to make sure the JSON isn't over-conditioned.
 
      - Parameter managedObject: The managed object that should serve as the root object for applying the values contained in the valueSource dictionary.
 
@@ -45,11 +47,13 @@ public class JSONEntityProcessor: NSObject {
 
         do {
 
+            let conditionedValueSource = JSONObjectDataConditionerFactory.conditionObjects([valueSource as! Dictionary<NSObject, AnyObject>], entity: managedObject.entity)
+
             self.assignRuntimeEntitySettings(managedObject)
 
-            try JSONAttributeProcessor(operationGraphManager: self.operationGraphManager).fulfillManagedObject(managedObject, valueSource: valueSource)
+            try JSONAttributeProcessor(operationGraphManager: self.operationGraphManager).fulfillManagedObject(managedObject, valueSource: conditionedValueSource.first!)
 
-            try self.fullfilManagedObject(managedObject, parentRelationship: parentRelationship, relationshipsValueSource: valueSource)
+            try self.fullfilManagedObject(managedObject, parentRelationship: parentRelationship, relationshipsValueSource: conditionedValueSource.first!)
 
         } catch {
             throw error
@@ -295,11 +299,14 @@ public class JSONEntityProcessor: NSObject {
     func fulfillManagedObject(managedObject: NSManagedObject, toManyRelationship relationship: NSRelationshipDescription, valueSource: NSDictionary) throws -> Void {
 
         do {
-            // If a root key path is absent, there can be no action taken.
+            // If a root key path is absent in the entity, there can be no action taken.
             guard let rootKeyPath = relationship.destinationEntity?.userInfo?[kJSONRootKeyPath] as? String else { return }
 
             guard let dataStructure = valueSource.valueForKeyPath(rootKeyPath) as? [Dictionary<NSObject, AnyObject>] else {
-                // There is no data to process and the root key path is absent.
+                // There is no data to process for the root key path. If the root is null, nullify the relationship.
+                if let _ = valueSource.valueForKeyPath(rootKeyPath) as? NSNull {
+                    managedObject.setValue(nil, forKey: relationship.name)
+                }
                 return
             }
 
@@ -328,6 +335,8 @@ public class JSONEntityProcessor: NSObject {
     /** 
      Processes the objects of a to-many relationship when they are an unordered, unkeyed collection, i.e. a set.
      
+     - Note: The JSON representation of objects are eligible for conditioning within this method. It's important to put in the necessary type and key checks within any JSON Object conditioners to make sure the JSON isn't over-conditioned.
+     
      - Parameter relationship: The to-many relationship that should be processed.
      
      - Parameter managedObject: The managed object containing the to-many relationship.
@@ -349,7 +358,9 @@ public class JSONEntityProcessor: NSObject {
 
         let relationshipSet = NSMutableOrderedSet()
 
-        dataProcessor: for valueSource: NSDictionary in dataStructure {
+        let conditionedValueSource = JSONObjectDataConditionerFactory.conditionObjects(dataStructure, entity: destinationEntity)
+
+        dataProcessor: for valueSource: NSDictionary in conditionedValueSource {
 
             var relationshipObject:NSManagedObject?
 

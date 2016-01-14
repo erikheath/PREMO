@@ -6,7 +6,7 @@ import UIKit
 import CoreData
 import CoreImage
 
-class CategoryTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class CategoryTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, iCarouselDataSource, iCarouselDelegate {
 
     lazy var managedObjectContext: NSManagedObjectContext? = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer?.mainContext
 
@@ -45,6 +45,37 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         return false
     }
 
+    // MARK: - iCarousel Data Source
+
+    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
+        guard let carouselSet = (self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel else { return 0 }
+
+        return carouselSet.count
+    }
+
+    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
+        return UIView()
+    }
+
+    // MARK: - iCarousel Delegate
+
+    func carousel(carousel: iCarousel, shouldSelectItemAtIndex index: Int) -> Bool {
+        return true
+    }
+
+    func carousel(carousel: iCarousel, didSelectItemAtIndex index: Int) {
+        return
+    }
+
+    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+        switch option {
+        case .Wrap:
+            return 1.0
+        default:
+            return value
+        }
+    }
+
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -54,7 +85,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let rowCount: Int
         if section == 0 {
-            rowCount = 0
+            rowCount = 1
         } else {
             rowCount = (self.fetchedResultsController.sections?[section - 1].numberOfObjects)! ?? 0
         }
@@ -77,15 +108,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
-//            let object = self.fetchedResultsController.objectAtIndexPath(indexPath)
-//            guard let objectString = object.valueForKey("categoryName")?.description?.uppercaseString else {
-//                return
-//            }
-//            let mutableString = NSMutableAttributedString(string: objectString)
-//            mutableString.addAttribute(NSFontAttributeName, value: self.categoryFont(), range: NSMakeRange(0, mutableString.length))
-//            mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 5.0), range: NSMakeRange(0, mutableString.length))
-//            cell.textLabel!.attributedText = mutableString
-//            cell.imageView?.image = UIImage(named: object.valueForKey("categoryIcon")!.description)
+
         } else {
             // POSTERCELL
             let modifiedPath = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section - 1)
@@ -97,7 +120,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
                 let mutableGenreName = NSMutableAttributedString(string: genreName)
                 mutableGenreName.addAttribute(NSFontAttributeName, value: self.categoryHeaderFont(), range: NSMakeRange(0, mutableGenreName.length))
 
-                genreColorString = (genreColorString as NSString).substringWithRange(NSMakeRange(5, (genreColorString as NSString).length - 1))
+                let genreStringRange = NSMakeRange(5, (genreColorString as NSString).length - 6)
+                genreColorString = (genreColorString as NSString).substringWithRange(genreStringRange)
                 let colorArray: Array<NSString> = (genreColorString as NSString).componentsSeparatedByString(", ") as Array<NSString>
                 if colorArray.count == 4 {
                     let genreColor = UIColor(colorLiteralRed: colorArray[0].floatValue / 255.0, green: colorArray[1].floatValue / 255.0, blue: colorArray[2].floatValue / 255.0, alpha: colorArray[3].floatValue)
@@ -129,7 +153,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             gradientFilter?.setDefaults()
             gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
             gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
-            gradientFilter?.setValue(CIVector(x: 150, y: 150), forKey: "inputPoint1")
+            gradientFilter?.setValue(CIVector(x: 0, y: 0), forKey: "inputPoint0")
+            gradientFilter?.setValue(CIVector(x: 175, y: 175), forKey: "inputPoint1")
             guard let outputImageRecipe = gradientFilter?.outputImage else { return }
             let outputImage = context.createCGImage(outputImageRecipe, fromRect: cell.bounds)
             let newImage = UIImage(CGImage: outputImage)
@@ -169,7 +194,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 152.0
+        return 211.0
     }
 
 

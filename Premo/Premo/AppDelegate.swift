@@ -80,6 +80,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         navbarProxy.barStyle = UIBarStyle.Black
         navbarProxy.titleTextAttributes = [NSFontAttributeName: self.navBarFont()]
 
+        // Set up Data Layer
+        JSONObjectDataConditionerFactory.registerObjectConditioner(ContentItemJSONObjectConditioner.entityName, objectConditioner: ContentItemJSONObjectConditioner())
         if self.datalayer == nil {
             // This causes the catalog to be loaded. Also, the app can't run without this.
             return false

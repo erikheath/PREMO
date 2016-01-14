@@ -25,8 +25,9 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         super.viewWillAppear(animated)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         guard let navbarController = self.parentViewController as? UINavigationController else { return }
-        navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
-        navbarController.navigationBar.backIndicatorImage = UIImage(named: "menu_fff")
+        navbarController.navigationBar.backIndicatorTransitionMaskImage = nil
+        navbarController.navigationBar.backIndicatorImage = nil
+        navbarController.navigationBarHidden = false
 
         self.updateLoginCellDisplay()
         self.updateSubscribeCellDisplay()
@@ -106,6 +107,14 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+
+    // MARK: - Navigation
+
+    @IBAction func unwindFromSubscribe(unwindSegue: UIStoryboardSegue) {
+
+    }
+
+    // MARK: - Table
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.row {
