@@ -12,6 +12,12 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     var categoryObjectName: String? = nil
 
+    var categoryListImageMask: UIImage? = nil
+
+    var carouselViewDimensions: CGRect = CGRectMake(0.0, 0.0, 0.0, 0.0)
+
+    var carouselImageMask: UIImage? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: self.managedObjectContext)
@@ -54,7 +60,41 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
-        return UIView()
+        guard let carouselView = view as? CarouselView ?? NSBundle.mainBundle().loadNibNamed("CarouselView", owner: self, options: Dictionary<NSObject, AnyObject>())[0] as? CarouselView else { return UIView() }
+        carouselView.frame = self.carouselViewDimensions
+        guard index < (self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel?.count else { return carouselView }
+        guard let contentItemID = ((self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel?[index] as? CarouselItem)?.contentSourceID else {
+            return carouselView }
+        // To get the correct content items, I need to search the currentlist.
+        let contentItemIndex = ((self.fetchedResultsController.fetchedObjects)! as NSArray).indexOfObjectPassingTest({ (object: AnyObject, index: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Bool in
+            if (object as? ContentItem)!.contentSourceID == contentItemID { return true }
+            return false
+        })
+        if contentItemIndex == NSNotFound { return carouselView }
+        guard let contentItem = self.fetchedResultsController.fetchedObjects?[contentItemIndex] as? ContentItem else {return carouselView }
+
+        carouselView.categoryLabel!.attributedText = self.contentItemGenre(contentItem)
+
+        if var itemTitle = contentItem.contentDisplayHeader {
+            itemTitle = (itemTitle as NSString).uppercaseString
+            let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
+            mutableItemTitle.addAttribute(NSFontAttributeName, value: self.carouselTitleFont(), range: NSMakeRange(0, mutableItemTitle.length))
+            carouselView.titleLabel!.attributedText = mutableItemTitle
+        }
+
+        if let itemSubHeading = contentItem.contentDisplaySubheader {
+            let mutableItemSubHeading = NSMutableAttributedString(string: itemSubHeading)
+            mutableItemSubHeading.addAttribute(NSFontAttributeName, value: self.subHeadingFont(), range: NSMakeRange(0, mutableItemSubHeading.length))
+            carouselView.subheadingLabel!.attributedText = mutableItemSubHeading
+        }
+
+        guard let posterImageData = contentItem.artwork?.artwork269x152 else { return carouselView }
+        let posterImage = UIImage(data: posterImageData)
+        let maskImageView = UIImageView(image: self.carouselImageMask(carouselView.poster.bounds))
+        carouselView.poster.image = posterImage
+        carouselView.poster.maskView = maskImageView
+
+        return carouselView
     }
 
     // MARK: - iCarousel Delegate
@@ -65,6 +105,11 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     func carousel(carousel: iCarousel, didSelectItemAtIndex index: Int) {
         return
+    }
+
+    func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
+        guard let carouselCell = carousel.superview?.superview as? CarouselTableViewCell else { return }
+        carouselCell.carouselPageControl.currentPage = carousel.currentItemIndex
     }
 
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
@@ -108,34 +153,24 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
-
+            guard let carouselCell = cell as? CarouselTableViewCell else { return }
+            self.carouselViewDimensions = cell.bounds
+            carouselCell.carousel.delegate = self
+            carouselCell.carousel.dataSource = self
+            carouselCell.carouselPageControl.numberOfPages = carouselCell.carousel.numberOfItems
+            carouselCell.carouselPageControl.currentPage = carouselCell.carousel.currentItemIndex
         } else {
             // POSTERCELL
             let modifiedPath = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section - 1)
             guard let posterCell = cell as? PosterTableViewCell else { return }
             guard let contentItem = self.fetchedResultsController.objectAtIndexPath(modifiedPath) as? ContentItem else { return }
 
-            if let genreObject = contentItem.genres?.firstObject as? Genre, var genreName = genreObject.genreName, var genreColorString = genreObject.genreColor {
-                genreName = (genreName as NSString).uppercaseString
-                let mutableGenreName = NSMutableAttributedString(string: genreName)
-                mutableGenreName.addAttribute(NSFontAttributeName, value: self.categoryHeaderFont(), range: NSMakeRange(0, mutableGenreName.length))
+            posterCell.categoryLabel!.attributedText = self.contentItemGenre(contentItem)
 
-                let genreStringRange = NSMakeRange(5, (genreColorString as NSString).length - 6)
-                genreColorString = (genreColorString as NSString).substringWithRange(genreStringRange)
-                let colorArray: Array<NSString> = (genreColorString as NSString).componentsSeparatedByString(", ") as Array<NSString>
-                if colorArray.count == 4 {
-                    let genreColor = UIColor(colorLiteralRed: colorArray[0].floatValue / 255.0, green: colorArray[1].floatValue / 255.0, blue: colorArray[2].floatValue / 255.0, alpha: colorArray[3].floatValue)
-                    mutableGenreName.addAttribute(NSForegroundColorAttributeName, value: genreColor, range: NSMakeRange(0, mutableGenreName.length))
-                }
-
-                posterCell.categoryLabel!.attributedText = mutableGenreName
-            } else {
-                posterCell.categoryLabel!.text = ""
-            }
             if var itemTitle = contentItem.contentDisplayHeader {
                 itemTitle = (itemTitle as NSString).uppercaseString
                 let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
-                mutableItemTitle.addAttribute(NSFontAttributeName, value: self.titleFont(), range: NSMakeRange(0, mutableItemTitle.length))
+                mutableItemTitle.addAttribute(NSFontAttributeName, value: self.categoryTitleFont(), range: NSMakeRange(0, mutableItemTitle.length))
                 posterCell.titleLabel!.attributedText = mutableItemTitle
             }
 
@@ -146,8 +181,51 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             }
 
             guard let posterImageData = contentItem.artwork?.artwork269x152 else { return }
-
             let posterImage = UIImage(data: posterImageData)
+            let maskImageView = UIImageView(image: self.categoryListImageMask(cell.bounds))
+            posterCell.poster.image = posterImage
+            posterCell.poster.maskView = maskImageView
+
+        }
+    }
+
+    func contentItemGenre(contentItem: ContentItem) -> NSAttributedString {
+        guard let genreObject = contentItem.genres?.firstObject as? Genre, var genreName = genreObject.genreName, var genreColorString = genreObject.genreColor  else { return NSAttributedString() }
+
+        genreName = (genreName as NSString).uppercaseString
+        let mutableGenreName = NSMutableAttributedString(string: genreName)
+        mutableGenreName.addAttribute(NSFontAttributeName, value: self.categoryHeaderFont(), range: NSMakeRange(0, mutableGenreName.length))
+
+        let genreStringRange = NSMakeRange(5, (genreColorString as NSString).length - 6)
+        genreColorString = (genreColorString as NSString).substringWithRange(genreStringRange)
+        let colorArray: Array<NSString> = (genreColorString as NSString).componentsSeparatedByString(", ") as Array<NSString>
+        if colorArray.count == 4 {
+            let genreColor = UIColor(colorLiteralRed: colorArray[0].floatValue / 255.0, green: colorArray[1].floatValue / 255.0, blue: colorArray[2].floatValue / 255.0, alpha: colorArray[3].floatValue)
+            mutableGenreName.addAttribute(NSForegroundColorAttributeName, value: genreColor, range: NSMakeRange(0, mutableGenreName.length))
+        }
+
+        return mutableGenreName
+    }
+
+    func carouselImageMask(rect: CGRect) -> UIImage? {
+        if self.carouselImageMask == nil {
+            let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
+            let gradientFilter = CIFilter(name: "CISmoothLinearGradient")
+            gradientFilter?.setDefaults()
+            gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
+            gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
+            gradientFilter?.setValue(CIVector(x: 0, y: 0), forKey: "inputPoint0")
+            gradientFilter?.setValue(CIVector(x: 0, y: 30), forKey: "inputPoint1")
+            guard let outputImageRecipe = gradientFilter?.outputImage else { return nil }
+            let outputImage = context.createCGImage(outputImageRecipe, fromRect: rect)
+            self.carouselImageMask = UIImage(CGImage: outputImage)
+        }
+
+        return self.carouselImageMask
+    }
+
+    func categoryListImageMask(rect: CGRect) -> UIImage? {
+        if self.categoryListImageMask == nil {
             let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
             let gradientFilter = CIFilter(name: "CISmoothLinearGradient")
             gradientFilter?.setDefaults()
@@ -155,24 +233,32 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
             gradientFilter?.setValue(CIVector(x: 0, y: 0), forKey: "inputPoint0")
             gradientFilter?.setValue(CIVector(x: 175, y: 175), forKey: "inputPoint1")
-            guard let outputImageRecipe = gradientFilter?.outputImage else { return }
-            let outputImage = context.createCGImage(outputImageRecipe, fromRect: cell.bounds)
-            let newImage = UIImage(CGImage: outputImage)
-            let newImageView = UIImageView(image: newImage)
-            posterCell.poster.image = posterImage
-            posterCell.poster.maskView = newImageView
-
+            guard let outputImageRecipe = gradientFilter?.outputImage else { return nil }
+            let outputImage = context.createCGImage(outputImageRecipe, fromRect: rect)
+            self.categoryListImageMask = UIImage(CGImage: outputImage)
         }
+        
+        return self.categoryListImageMask
     }
 
-    func titleFont() -> UIFont {
+    func carouselTitleFont() -> UIFont {
+        //        let newFont = UIFont(name: "Helvetica-Regular", size: 16)
+        let newFont = UIFont.systemFontOfSize(18)
+        let descriptorDict = (newFont.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
+        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
+        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
+        let fontDescriptor = newFont.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
+        return UIFont(descriptor: fontDescriptor, size: 18)
+    }
+
+    func categoryTitleFont() -> UIFont {
 //        let newFont = UIFont(name: "Helvetica-Regular", size: 16)
         let newFont = UIFont.systemFontOfSize(16)
         let descriptorDict = (newFont.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
         newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
-        return UIFont(descriptor: fontDescriptor, size: 12)
+        return UIFont(descriptor: fontDescriptor, size: 16)
     }
 
     func subHeadingFont() -> UIFont {
@@ -185,16 +271,20 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     func categoryHeaderFont() -> UIFont {
-        let newFont = UIFont(name: "Montserrat-Regular", size: 10)
+        let newFont = UIFont(name: "Montserrat-Regular", size: 9)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
         newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
-        return UIFont(descriptor: fontDescriptor!, size: 10)
+        return UIFont(descriptor: fontDescriptor!, size: 9)
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 211.0
+        if indexPath.section == 0 {
+            return 354.0
+        } else {
+            return 211.0
+        }
     }
 
 
@@ -244,6 +334,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         //        let entity = mom?.entitiesByName["CategoryList"]
         let entity = NSEntityDescription.entityForName("ContentItem", inManagedObjectContext: self.managedObjectContext!)
         fetchRequest.entity = entity
+        fetchRequest.includesSubentities = true
+        fetchRequest.returnsObjectsAsFaults = false
 
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20

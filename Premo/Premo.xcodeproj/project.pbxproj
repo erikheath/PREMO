@@ -119,6 +119,8 @@
 		4AFC41E31C474B1F003BDAE1 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41C91C474B1F003BDAE1 /* Season.swift */; };
 		4AFC41E41C474B1F003BDAE1 /* Director+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41CA1C474B1F003BDAE1 /* Director+CoreDataProperties.swift */; };
 		4AFC41E51C474B1F003BDAE1 /* Director.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41CB1C474B1F003BDAE1 /* Director.swift */; };
+		4AFC41E81C480450003BDAE1 /* CarouselView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AFC41E61C480450003BDAE1 /* CarouselView.xib */; };
+		4AFC41EA1C480705003BDAE1 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41E91C480705003BDAE1 /* CarouselView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -259,6 +261,8 @@
 		4AFC41C91C474B1F003BDAE1 /* Season.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Season.swift; path = Premo/DataModelSubclasses/Season.swift; sourceTree = "<group>"; };
 		4AFC41CA1C474B1F003BDAE1 /* Director+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Director+CoreDataProperties.swift"; path = "Premo/DataModelSubclasses/Director+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4AFC41CB1C474B1F003BDAE1 /* Director.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Director.swift; path = Premo/DataModelSubclasses/Director.swift; sourceTree = "<group>"; };
+		4AFC41E71C480450003BDAE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CarouselView.xib; sourceTree = "<group>"; };
+		4AFC41E91C480705003BDAE1 /* CarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -379,6 +383,7 @@
 		4A3D7D951BFE89B300383319 /* Premo */ = {
 			isa = PBXGroup;
 			children = (
+				4AFC41E91C480705003BDAE1 /* CarouselView.swift */,
 				4AC76ED81C20DB2C00CE2E79 /* Interface */,
 				4A3D7D961BFE89B300383319 /* AppDelegate.swift */,
 				4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */,
@@ -484,6 +489,7 @@
 				4A1F2E991C31B42200E3D05C /* FeatureSectionDivider.xib */,
 				4AC76ED51C20D9FC00CE2E79 /* CategorySectionLabel.xib */,
 				4AC76ED91C20DBB800CE2E79 /* AccountSectionLabel.xib */,
+				4AFC41E61C480450003BDAE1 /* CarouselView.xib */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -680,6 +686,7 @@
 				4AF547311C2207CB00AD1703 /* Montserrat-SemiBold.otf in Resources */,
 				4A1F2E9A1C31B42200E3D05C /* FeatureSectionDivider.xib in Resources */,
 				4AC76EDB1C20DBB800CE2E79 /* AccountSectionLabel.xib in Resources */,
+				4AFC41E81C480450003BDAE1 /* CarouselView.xib in Resources */,
 				4A3D7DA11BFE89B300383319 /* Main.storyboard in Resources */,
 				4AF5472B1C2207CB00AD1703 /* Montserrat-Black.otf in Resources */,
 				4AF5472E1C2207CB00AD1703 /* Montserrat-Hairline.otf in Resources */,
@@ -731,6 +738,7 @@
 				4AFC41DE1C474B1F003BDAE1 /* Producer+CoreDataProperties.swift in Sources */,
 				4AC5DC361C1A17F500FF2547 /* NetworkStoreFetchRequest.swift in Sources */,
 				4AEE7EDD1C0188CC009F0004 /* URLProcessor.swift in Sources */,
+				4AFC41EA1C480705003BDAE1 /* CarouselView.swift in Sources */,
 				4A88E32C1C41DC7900BC1543 /* AppRoutingNavigationController.swift in Sources */,
 				4AFC41D31C474B1F003BDAE1 /* AppConfig.swift in Sources */,
 				4AC5DC341C1A17D400FF2547 /* NetworkStoreSaveRequest.swift in Sources */,
@@ -850,6 +858,14 @@
 				4AC76EDA1C20DBB800CE2E79 /* Base */,
 			);
 			name = AccountSectionLabel.xib;
+			sourceTree = "<group>";
+		};
+		4AFC41E61C480450003BDAE1 /* CarouselView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4AFC41E71C480450003BDAE1 /* Base */,
+			);
+			name = CarouselView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

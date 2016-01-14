@@ -136,43 +136,63 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CarouselCell" id="rUh-yf-37V" customClass="CarouselTableViewCell" customModule="Premo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CarouselCell" rowHeight="191" id="rUh-yf-37V" customClass="CarouselTableViewCell" customModule="Premo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="600" height="191"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rUh-yf-37V" id="skg-fB-egh">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="191"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QhU-0f-5HC" customClass="iCarousel">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="113"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pJQ-bE-Gqi">
+                                            <rect key="frame" x="16" y="133" width="568" height="1"/>
+                                            <color key="backgroundColor" red="0.28627450980000002" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="ZqV-JE-Ajc"/>
+                                            </constraints>
+                                        </view>
+                                        <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="q8O-gI-ZVC">
+                                            <rect key="frame" x="16" y="142" width="39" height="37"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="37" id="4Tt-mg-Ti3"/>
+                                            </constraints>
+                                        </pageControl>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="QhU-0f-5HC" firstAttribute="leading" secondItem="skg-fB-egh" secondAttribute="leading" id="17G-Tn-PfZ"/>
-                                        <constraint firstAttribute="trailing" secondItem="QhU-0f-5HC" secondAttribute="trailing" id="Pq1-U4-vbH"/>
-                                        <constraint firstAttribute="bottom" secondItem="QhU-0f-5HC" secondAttribute="bottom" id="W4Z-Vj-rT7"/>
-                                        <constraint firstItem="QhU-0f-5HC" firstAttribute="top" secondItem="skg-fB-egh" secondAttribute="top" id="bwJ-P4-Ktj"/>
+                                        <constraint firstItem="QhU-0f-5HC" firstAttribute="leading" secondItem="skg-fB-egh" secondAttribute="leadingMargin" constant="-8" id="3NY-cA-8jK"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="QhU-0f-5HC" secondAttribute="trailing" constant="-8" id="6Oh-LG-D9O"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="q8O-gI-ZVC" secondAttribute="bottom" constant="4" id="7sa-RZ-EHI"/>
+                                        <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="q8O-gI-ZVC" secondAttribute="trailing" constant="8" id="FHD-yV-BLd"/>
+                                        <constraint firstItem="pJQ-bE-Gqi" firstAttribute="leading" secondItem="skg-fB-egh" secondAttribute="leadingMargin" constant="8" id="M6D-bj-5m3"/>
+                                        <constraint firstItem="q8O-gI-ZVC" firstAttribute="leading" secondItem="skg-fB-egh" secondAttribute="leadingMargin" constant="8" id="XxO-fX-iQr"/>
+                                        <constraint firstItem="pJQ-bE-Gqi" firstAttribute="top" secondItem="QhU-0f-5HC" secondAttribute="bottom" constant="20" id="jDY-Nx-CBR"/>
+                                        <constraint firstItem="q8O-gI-ZVC" firstAttribute="top" secondItem="pJQ-bE-Gqi" secondAttribute="bottom" constant="8" id="ou6-GC-D15"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="pJQ-bE-Gqi" secondAttribute="trailing" constant="8" id="w5f-0k-3FD"/>
+                                        <constraint firstItem="QhU-0f-5HC" firstAttribute="top" secondItem="skg-fB-egh" secondAttribute="topMargin" constant="-8" id="wbM-zv-UgB"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="carousel" destination="QhU-0f-5HC" id="lWY-R6-A9w"/>
+                                    <outlet property="carouselPageControl" destination="q8O-gI-ZVC" id="7mp-GE-NSJ"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PosterCell" rowHeight="152" id="sDi-Eu-B04" customClass="PosterTableViewCell" customModule="Premo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="72" width="600" height="152"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PosterCell" rowHeight="211" id="sDi-Eu-B04" customClass="PosterTableViewCell" customModule="Premo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="219" width="600" height="211"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sDi-Eu-B04" id="nuu-7E-RA8">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="152"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="211"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="actionThrillers" translatesAutoresizingMaskIntoConstraints="NO" id="Pt4-1I-lR7">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="152"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pt4-1I-lR7">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="211"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7my-AP-vyF">
-                                            <rect key="frame" x="16" y="107" width="559" height="19"/>
+                                            <rect key="frame" x="16" y="151" width="559" height="19"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Title">
                                                     <attributes>
@@ -184,7 +204,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3A6-20-kh4">
-                                            <rect key="frame" x="16" y="126" width="559" height="13"/>
+                                            <rect key="frame" x="16" y="171" width="559" height="13"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Subheading">
                                                     <attributes>
@@ -196,7 +216,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbb-nY-3IO">
-                                            <rect key="frame" x="16" y="93" width="559" height="12"/>
+                                            <rect key="frame" x="16" y="135" width="559" height="12"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Category">
                                                     <attributes>
@@ -223,28 +243,17 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="7my-AP-vyF" secondAttribute="trailing" constant="17" id="Dp6-6k-vv9"/>
                                         <constraint firstItem="7my-AP-vyF" firstAttribute="leading" secondItem="nuu-7E-RA8" secondAttribute="leadingMargin" constant="8" id="L7q-jn-S6R"/>
                                         <constraint firstItem="Pt4-1I-lR7" firstAttribute="leading" secondItem="nuu-7E-RA8" secondAttribute="leadingMargin" constant="-8" id="MwB-2k-18y"/>
-                                        <constraint firstItem="7my-AP-vyF" firstAttribute="top" secondItem="sbb-nY-3IO" secondAttribute="bottom" constant="2" id="NgN-3h-Br1"/>
+                                        <constraint firstItem="7my-AP-vyF" firstAttribute="top" secondItem="sbb-nY-3IO" secondAttribute="bottom" constant="4" id="NgN-3h-Br1"/>
                                         <constraint firstItem="sbb-nY-3IO" firstAttribute="leading" secondItem="nuu-7E-RA8" secondAttribute="leadingMargin" constant="8" id="Qm9-cw-f0K"/>
-                                        <constraint firstItem="3A6-20-kh4" firstAttribute="top" secondItem="7my-AP-vyF" secondAttribute="bottom" constant="8" id="VYn-md-ccD"/>
-                                        <constraint firstItem="7my-AP-vyF" firstAttribute="leading" secondItem="nuu-7E-RA8" secondAttribute="leadingMargin" constant="16" id="W8q-hm-Wlo"/>
                                         <constraint firstItem="Pt4-1I-lR7" firstAttribute="top" secondItem="nuu-7E-RA8" secondAttribute="topMargin" constant="-8" id="Who-Jn-NlV"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Oal-qj-mTr" secondAttribute="trailing" constant="-8" id="dsU-Wd-ZRu"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="3A6-20-kh4" secondAttribute="trailing" constant="17" id="e28-ma-N0m"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="3A6-20-kh4" secondAttribute="bottom" constant="5" id="fyY-fZ-wYD"/>
-                                        <constraint firstItem="3A6-20-kh4" firstAttribute="leading" secondItem="nuu-7E-RA8" secondAttribute="leadingMargin" constant="16" id="iqm-GF-0m5"/>
-                                        <constraint firstItem="3A6-20-kh4" firstAttribute="top" secondItem="7my-AP-vyF" secondAttribute="bottom" id="kIS-7R-u17"/>
+                                        <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="3A6-20-kh4" secondAttribute="bottom" constant="5" id="fyY-fZ-wYD"/>
+                                        <constraint firstItem="3A6-20-kh4" firstAttribute="top" secondItem="7my-AP-vyF" secondAttribute="bottom" constant="1" id="kIS-7R-u17"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Pt4-1I-lR7" secondAttribute="trailing" constant="-8" id="nwg-Li-N9X"/>
-                                        <constraint firstItem="sbb-nY-3IO" firstAttribute="leading" secondItem="nuu-7E-RA8" secondAttribute="leadingMargin" constant="16" id="okT-Vz-yix"/>
+                                        <constraint firstItem="sbb-nY-3IO" firstAttribute="top" secondItem="Oal-qj-mTr" secondAttribute="bottom" constant="134" id="t36-hy-9L1"/>
                                         <constraint firstItem="Oal-qj-mTr" firstAttribute="leading" secondItem="nuu-7E-RA8" secondAttribute="leadingMargin" constant="-8" id="xKq-yH-0nJ"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="okT-Vz-yix"/>
-                                            <exclude reference="W8q-hm-Wlo"/>
-                                            <exclude reference="VYn-md-ccD"/>
-                                            <exclude reference="iqm-GF-0m5"/>
-                                        </mask>
-                                    </variation>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -2596,7 +2605,6 @@ Cg
     <resources>
         <image name="PREMO_" width="133" height="23"/>
         <image name="account" width="18" height="18"/>
-        <image name="actionThrillers" width="20" height="18"/>
         <image name="comedy" width="18" height="18"/>
         <image name="intro_bg_v1" width="375" height="667"/>
         <image name="playTrailer" width="16" height="18"/>
