@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49l-em-lfw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="wEi-g7-NHc">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -50,7 +50,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="MenuTableViewController" id="rhG-vi-hCC" userLabel="Menu Table View Controller" customClass="MenuTableViewController" customModule="Premo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fl5-eQ-kZY">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -83,7 +83,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.98578202719999997" green="0.98578202719999997" blue="0.98578202719999997" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <segue destination="vhc-Pv-Ecf" kind="show" identifier="showCategory" id="0vt-s1-g68"/>
+                                    <segue destination="49l-em-lfw" kind="custom" identifier="showCategory" customClass="SWRevealViewControllerSeguePushController" id="uhl-wZ-eii"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AccountCell" textLabel="TV9-nf-odl" imageView="VSL-uy-Zo1" style="IBUITableViewCellStyleDefault" id="FiQ-dT-3Eb">
@@ -114,7 +114,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.98578202719999997" green="0.98578202719999997" blue="0.98578202719999997" alpha="0.0" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <segue destination="wHT-1y-1ru" kind="show" identifier="showAccount" id="d1I-dQ-l8m"/>
+                                    <segue destination="49l-em-lfw" kind="custom" identifier="showAccount" customClass="SWRevealViewControllerSeguePushController" id="VM2-DT-Dyq"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -127,14 +127,36 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ahz-NG-JDE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2026" y="-1251"/>
+            <point key="canvasLocation" x="-2762" y="-1087"/>
+        </scene>
+        <!--Reveal View Controller-->
+        <scene sceneID="WUO-AY-AoJ">
+            <objects>
+                <viewController id="wEi-g7-NHc" customClass="SWRevealViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2pW-aK-eqq"/>
+                        <viewControllerLayoutGuide type="bottom" id="bRW-Aa-bkZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8e1-Gb-Oc9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="49l-em-lfw" kind="custom" identifier="sw_front" customClass="SWRevealViewControllerSegueSetController" id="ONC-dj-StM"/>
+                        <segue destination="rhG-vi-hCC" kind="custom" identifier="sw_rear" customClass="SWRevealViewControllerSegueSetController" id="lxt-0T-hOz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EqK-pV-PIY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3620" y="-380"/>
         </scene>
         <!--Category Table View Controller-->
         <scene sceneID="0kX-0L-GaM">
             <objects>
                 <tableViewController storyboardIdentifier="CategoryTableViewController" id="vhc-Pv-Ecf" userLabel="Category Table View Controller" customClass="CategoryTableViewController" customModule="Premo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="3dh-V7-ypO">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -285,7 +307,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="FeatureTableViewController" id="KYg-Zj-GpN" userLabel="Feature Table View Controller" customClass="FeatureTableViewController" customModule="Premo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="153" sectionHeaderHeight="28" sectionFooterHeight="28" id="5P7-oh-LlP">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
@@ -521,10 +543,10 @@
                         <viewControllerLayoutGuide type="bottom" id="6AN-aW-QTs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="psr-wU-FcA">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cAh-fL-CMa">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cAh-fL-CMa">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -548,9 +570,9 @@
         <!--Account Table View Controller-->
         <scene sceneID="08B-sj-CjF">
             <objects>
-                <tableViewController title="Account" id="wHT-1y-1ru" userLabel="Account Table View Controller" customClass="AccountTableViewController" customModule="Premo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AccountTableViewController" title="Account" id="wHT-1y-1ru" userLabel="Account Table View Controller" customClass="AccountTableViewController" customModule="Premo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ULe-o4-V8Q">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="separatorColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
@@ -1130,6 +1152,7 @@
                         <outlet property="passwordTextField" destination="Rl8-lQ-kS4" id="8PX-ZZ-RI8"/>
                         <outlet property="skipLoginButton" destination="sUC-bH-yH8" id="fr5-eh-k64"/>
                         <segue destination="HNi-fl-roM" kind="unwind" identifier="unwindToCreateAccountFromLogin" unwindAction="unwindToCreateAccountFromLogin:" id="t5R-33-vQV"/>
+                        <segue destination="HNi-fl-roM" kind="unwind" identifier="unwindFromSubscribe" unwindAction="unwindFromSubscribe:" id="mJ5-8E-xyk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OJP-bw-FUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1151,10 +1174,10 @@
                         <viewControllerLayoutGuide type="bottom" id="kEX-Q8-dWX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mnh-RT-TPf">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HN0-sw-uJQ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HN0-sw-uJQ">
                                 <rect key="frame" x="20" y="88" width="560" height="512"/>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -1286,7 +1309,7 @@ CgoKCgoKCgoKCgoKCgo
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwQ-rL-EWj">
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwQ-rL-EWj">
                                 <rect key="frame" x="20" y="88" width="560" height="512"/>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -4129,7 +4152,7 @@ CgoKCgoKCgoKCg
                                 </attributedString>
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3HH-8a-PZu">
+                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3HH-8a-PZu">
                                 <rect key="frame" x="0.0" y="20" width="300" height="60"/>
                                 <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.12156862745098039" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -4146,7 +4169,7 @@ CgoKCgoKCgoKCg
                                     <action selector="showTermsOfUse:" destination="78B-aw-mg3" eventType="touchUpInside" id="4ht-Xw-ZCT"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4y-cz-jVO">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E4y-cz-jVO">
                                 <rect key="frame" x="300" y="20" width="300" height="60"/>
                                 <color key="backgroundColor" red="0.1176470588" green="0.1176470588" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -4202,14 +4225,14 @@ CgoKCgoKCgoKCg
                         <viewControllerLayoutGuide type="bottom" id="pxH-x7-Gjn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hw2-SH-4ZM">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg_v1" translatesAutoresizingMaskIntoConstraints="NO" id="yeY-EC-ezn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faK-mG-vnb">
-                                <rect key="frame" x="40" y="257" width="520" height="44"/>
+                                <rect key="frame" x="40" y="321" width="520" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Iwj-RN-tSg"/>
                                 </constraints>
@@ -4223,7 +4246,7 @@ CgoKCgoKCgoKCg
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6I-Cf-GZQ">
-                                <rect key="frame" x="40" y="334" width="520" height="44"/>
+                                <rect key="frame" x="40" y="398" width="520" height="44"/>
                                 <color key="backgroundColor" cyan="0.0" magenta="0.0" yellow="0.0" black="1" alpha="1" colorSpace="custom" customColorSpace="genericCMYKColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="vu4-o4-V0v"/>
@@ -4237,7 +4260,7 @@ CgoKCgoKCgoKCg
                                     <segue destination="P7d-hz-6X9" kind="show" identifier="showCreateAccount" id="J9c-NV-ZkF"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PREMO_" translatesAutoresizingMaskIntoConstraints="NO" id="372-6c-KY6">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="PREMO_" translatesAutoresizingMaskIntoConstraints="NO" id="372-6c-KY6">
                                 <rect key="frame" x="234" y="116" width="133" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="KZl-Eu-8bq"/>
@@ -4245,7 +4268,7 @@ CgoKCgoKCgoKCg
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Hu-xd-2Na">
-                                <rect key="frame" x="171" y="432" width="259" height="28"/>
+                                <rect key="frame" x="171" y="496" width="259" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="LAF-GQ-iRR"/>
                                 </constraints>
@@ -4298,13 +4321,10 @@ CgoKCgoKCgoKCg
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="barTintColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
-                    <connections>
-                        <segue destination="rhG-vi-hCC" kind="relationship" relationship="rootViewController" id="5L8-9G-vWB"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zMF-SG-RHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1800" y="374"/>
+            <point key="canvasLocation" x="-2684" y="494"/>
         </scene>
         <!--Subscribe-->
         <scene sceneID="BuT-iV-x14">
@@ -4315,19 +4335,19 @@ CgoKCgoKCgoKCg
                         <viewControllerLayoutGuide type="bottom" id="atC-mG-Xx3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pQd-E9-Ldr">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg_v1" translatesAutoresizingMaskIntoConstraints="NO" id="V4r-xV-uDo">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PREMO_" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="PREMO_" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
                                 <rect key="frame" x="234" y="116" width="133" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="133" id="Rnz-og-kEa"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7k-7C-YaT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7k-7C-YaT">
                                 <rect key="frame" x="20" y="131" width="560" height="117"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="117" id="Oba-Cb-j6U"/>
@@ -4364,7 +4384,7 @@ Cg
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscribe &amp; get 30 days free" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZo-hS-a8n">
-                                <rect key="frame" x="20" y="261" width="560" height="21"/>
+                                <rect key="frame" x="20" y="325" width="560" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="kTn-E5-B9l"/>
                                 </constraints>
@@ -4373,7 +4393,7 @@ Cg
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-4e-oZa">
-                                <rect key="frame" x="40" y="334" width="520" height="44"/>
+                                <rect key="frame" x="40" y="398" width="520" height="44"/>
                                 <color key="backgroundColor" red="0.90980392160000001" green="0.1058823529" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="BBr-mR-iyF"/>
@@ -4387,7 +4407,7 @@ Cg
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xq1-cj-m9c">
-                                <rect key="frame" x="171" y="416" width="259" height="44"/>
+                                <rect key="frame" x="171" y="480" width="259" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="4qI-k0-ZoN"/>
                                     <constraint firstAttribute="height" constant="44" id="H7l-BH-S2X"/>
@@ -4780,9 +4800,10 @@ Cg
         <image name="share" width="15" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="VM2-DT-Dyq"/>
+        <segue reference="MUU-m2-zco"/>
         <segue reference="zHm-oe-vCR"/>
         <segue reference="J5c-2G-Igz"/>
-        <segue reference="zrf-8E-psn"/>
         <segue reference="HeX-iT-EiB"/>
         <segue reference="ue3-he-1aD"/>
     </inferredMetricsTieBreakers>

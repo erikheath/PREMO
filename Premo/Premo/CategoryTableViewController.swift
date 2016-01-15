@@ -28,11 +28,16 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         super.viewWillAppear(animated)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         guard let navbarController = self.parentViewController as? UINavigationController else { return }
-        navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
-        navbarController.navigationBar.backIndicatorImage = UIImage(named: "menu_fff")
+//        navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
+//        navbarController.navigationBar.backIndicatorImage = UIImage(named: "menu_fff")
         self.navigationItem.title = "PREMO"
         navbarController.navigationBarHidden = false
-
+        guard let revealController = self.revealViewController() else {
+            return
+        }
+        let toggleButton = UIBarButtonItem(title: "toggle", style: .Plain, target: revealController, action: "revealToggle:")
+        toggleButton.image = UIImage(named: "menu_fff")
+        self.navigationItem.leftBarButtonItem = toggleButton
 
         self.setNeedsStatusBarAppearanceUpdate()
 

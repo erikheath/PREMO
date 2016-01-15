@@ -123,6 +123,7 @@
 		4AFC41E81C480450003BDAE1 /* CarouselView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AFC41E61C480450003BDAE1 /* CarouselView.xib */; };
 		4AFC41EA1C480705003BDAE1 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41E91C480705003BDAE1 /* CarouselView.swift */; };
 		4AFC41EC1C485895003BDAE1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AFC41EB1C485895003BDAE1 /* FBSDKLoginKit.framework */; };
+		4AFD45541C4961FF002DA7AE /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFD45531C4961FF002DA7AE /* SWRevealViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -267,6 +268,8 @@
 		4AFC41E71C480450003BDAE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CarouselView.xib; sourceTree = "<group>"; };
 		4AFC41E91C480705003BDAE1 /* CarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
 		4AFC41EB1C485895003BDAE1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Premo/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		4AFD45521C4961FF002DA7AE /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		4AFD45531C4961FF002DA7AE /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -408,6 +411,7 @@
 				4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */,
 				4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */,
 				4A6AF9711C371A52009F6C71 /* SubscribeViewController.swift */,
+				4AFD45551C496208002DA7AE /* SWRevealController */,
 				4AFC41AF1C47381A003BDAE1 /* iCarousel */,
 				4AEE7EE01C0188D8009F0004 /* DataDriver */,
 				4A3D7DA21BFE89B300383319 /* Assets.xcassets */,
@@ -571,6 +575,15 @@
 				4AFC41AD1C4737BA003BDAE1 /* iCarousel.m */,
 			);
 			name = iCarousel;
+			sourceTree = "<group>";
+		};
+		4AFD45551C496208002DA7AE /* SWRevealController */ = {
+			isa = PBXGroup;
+			children = (
+				4AFD45521C4961FF002DA7AE /* SWRevealViewController.h */,
+				4AFD45531C4961FF002DA7AE /* SWRevealViewController.m */,
+			);
+			name = SWRevealController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -756,6 +769,7 @@
 				4AD7DB2F1C45E292008A339F /* JSONObjectDataConditionerFactory.swift in Sources */,
 				4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */,
 				4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */,
+				4AFD45541C4961FF002DA7AE /* SWRevealViewController.m in Sources */,
 				4A3D12231C1F711F000D6D85 /* CategoryTableViewController.swift in Sources */,
 				4A7634F41C02858D002DFB50 /* DataConditionerOperation.swift in Sources */,
 				4AFC41D21C474B1F003BDAE1 /* AppConfig+CoreDataProperties.swift in Sources */,

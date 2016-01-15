@@ -43,15 +43,22 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showCategory" {
+        guard let identifier = segue.identifier else { return }
+        switch identifier {
+            case "showCategory":
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 guard let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as? CategoryList else {
                     return
                 }
-                guard let controller = segue.destinationViewController as? CategoryTableViewController else { return }
-                controller.managedObjectContext = self.managedObjectContext
-                controller.categoryObjectName = object.categoryName
+                guard let controller = segue.destinationViewController as? AppRoutingNavigationController else { return }
+                controller.currentNavigationStack = AppRoutingNavigationController.NavigationStack.videoStack
+                controller.currentCategoryName = object.categoryName
             }
+        case "showAccount":
+            guard let controller = segue.destinationViewController as? AppRoutingNavigationController else { return }
+            controller.currentNavigationStack = AppRoutingNavigationController.NavigationStack.accountStack
+        default:
+            return // Add Error handling
         }
         guard let navbarController = self.parentViewController as? UINavigationController else { return }
         navbarController.navigationBarHidden = false

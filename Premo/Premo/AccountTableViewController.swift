@@ -29,6 +29,14 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         navbarController.navigationBar.backIndicatorImage = nil
         navbarController.navigationBarHidden = false
 
+        guard let revealController = self.revealViewController() else {
+            return
+        }
+        let toggleButton = UIBarButtonItem(title: "toggle", style: .Plain, target: revealController, action: "revealToggle:")
+        toggleButton.image = UIImage(named: "menu_fff")
+        self.navigationItem.leftBarButtonItem = toggleButton
+
+
         self.updateLoginCellDisplay()
         self.updateSubscribeCellDisplay()
     }
