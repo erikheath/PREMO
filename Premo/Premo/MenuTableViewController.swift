@@ -36,6 +36,10 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
         // Dispose of any resources that can be recreated.
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

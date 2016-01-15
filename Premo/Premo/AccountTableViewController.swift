@@ -33,6 +33,11 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         self.updateSubscribeCellDisplay()
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
+
     func updateLoginCellDisplay() {
         guard let _ = NSUserDefaults.standardUserDefaults().stringForKey("jwt"), let userName = NSUserDefaults.standardUserDefaults().stringForKey("userName") else {
             // The user is not logged in.

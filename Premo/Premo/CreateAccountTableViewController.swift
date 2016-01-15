@@ -55,6 +55,11 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
+
     @IBAction func unwindToCreateAccountFromLogin(sender: UIStoryboardSegue) {
 
     }

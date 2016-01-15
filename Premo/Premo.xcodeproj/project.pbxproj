@@ -41,6 +41,7 @@
 		4A76ECEE1C272362005C6F83 /* NotificationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECED1C272362005C6F83 /* NotificationProcessor.swift */; };
 		4A76ECF01C28B43E005C6F83 /* JSONAttributeProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECEF1C28B43E005C6F83 /* JSONAttributeProcessor.swift */; };
 		4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */; };
+		4A7A66911C489B53007B86F2 /* FeatureDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */; };
 		4A88E32C1C41DC7900BC1543 /* AppRoutingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */; };
 		4AC3F8631C3CAB08002464A7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AC3F8621C3CAB08002464A7 /* StoreKit.framework */; };
 		4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */; };
@@ -183,6 +184,7 @@
 		4A76ECED1C272362005C6F83 /* NotificationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationProcessor.swift; path = DataDriver/NotificationProcessor.swift; sourceTree = "<group>"; };
 		4A76ECEF1C28B43E005C6F83 /* JSONAttributeProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONAttributeProcessor.swift; path = DataDriver/JSONAttributeProcessor.swift; sourceTree = "<group>"; };
 		4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONEntityProcessor.swift; path = DataDriver/JSONEntityProcessor.swift; sourceTree = "<group>"; };
+		4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDetailTableViewCell.swift; sourceTree = "<group>"; };
 		4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoutingNavigationController.swift; sourceTree = "<group>"; };
 		4AC3F8621C3CAB08002464A7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkStoreRequest.swift; path = DataDriver/NetworkStoreRequest.swift; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 				4AFC41E91C480705003BDAE1 /* CarouselView.swift */,
 				4A1F2E151C2F51FC00E3D05C /* PosterTableViewCell.swift */,
 				4A1F2E471C30C76100E3D05C /* FeatureTableViewController.swift */,
+				4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */,
 				4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */,
 				4A1F2E3F1C30C62100E3D05C /* DetailPosterTableViewCell.swift */,
 				4A1F2E411C30C65300E3D05C /* ControllerTableViewCell.swift */,
@@ -729,6 +732,7 @@
 				4AFC41DA1C474B1F003BDAE1 /* Genre+CoreDataProperties.swift in Sources */,
 				4AEE7ED91C0188CC009F0004 /* RemoteStoreRequest.swift in Sources */,
 				4AFC41D81C474B1F003BDAE1 /* Series+CoreDataProperties.swift in Sources */,
+				4A7A66911C489B53007B86F2 /* FeatureDetailTableViewCell.swift in Sources */,
 				4AFC41DD1C474B1F003BDAE1 /* CategoryList.swift in Sources */,
 				4A76ECF01C28B43E005C6F83 /* JSONAttributeProcessor.swift in Sources */,
 				4A2A81CA1C44B5BE0032A8F4 /* VideoPlaybackViewController.swift in Sources */,

@@ -58,6 +58,11 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         super.didReceiveMemoryWarning()
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
+
     @IBOutlet weak var emailTextField: UITextField!
 
     @IBOutlet weak var passwordTextField: UITextField!

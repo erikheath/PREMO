@@ -86,6 +86,11 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         return false
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
+
     // MARK: - Navigation
 
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
@@ -240,40 +245,46 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
         switch indexPath.row {
         case 0:
-            if let description = contentItem?.contentDetailDisplayTitle {
-                header = self.attributedFeatureTitle(description)
-                content = self.attributedFeatureDetails(formatFeatureDetailsList())
+            if let description = contentItem?.contentDetailDisplayTitle, cell = cell as? FeatureDetailTableViewCell {
+                cell.featureTitle.attributedText = self.attributedFeatureTitle(description)
+                cell.featureDetailsSubtitle.attributedText = self.attributedFeatureDetails(formatFeatureDetailsList())
+
             }
         case 1:
             if let description = contentItem?.contentSynopsis {
                 header = self.attributedCreditHeader("Synopsis")
                 content = self.attributedCreditContent(description)
+                cell.textLabel?.attributedText = header
+                cell.detailTextLabel?.attributedText = content
             }
 
         case 2:
             if let description = contentItem?.actors where description.count > 0 {
                 header = self.attributedCreditHeader("Starring")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
+                cell.textLabel?.attributedText = header
+                cell.detailTextLabel?.attributedText = content
             }
 
         case 3:
             if let description = contentItem?.directors where description.count > 0 {
                 header = self.attributedCreditHeader("Director")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
+                cell.textLabel?.attributedText = header
+                cell.detailTextLabel?.attributedText = content
             }
 
         case 4:
             if let description = contentItem?.producers where description.count > 0 {
                 header = self.attributedCreditHeader("Producers")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
+                cell.textLabel?.attributedText = header
+                cell.detailTextLabel?.attributedText = content
             }
 
         default:
             break
         }
-
-        cell.textLabel?.attributedText = header
-        cell.detailTextLabel?.attributedText = content
 
     }
 
@@ -323,12 +334,18 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         let creditHeader = (inputString as NSString).uppercaseString
         let mutableCreditHeader = NSMutableAttributedString(string: creditHeader)
         mutableCreditHeader.addAttribute(NSFontAttributeName, value: self.creditHeaderFont(), range: NSMakeRange(0, mutableCreditHeader.length))
+        mutableCreditHeader.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableCreditHeader.length))
         return mutableCreditHeader
     }
 
     func attributedCreditContent(inputString: String) -> NSAttributedString {
         let mutableCreditContent = NSMutableAttributedString(string: inputString)
         mutableCreditContent.addAttribute(NSFontAttributeName, value: self.creditContentFont(), range: NSMakeRange(0, mutableCreditContent.length))
+        mutableCreditContent.addAttribute(NSKernAttributeName, value: NSNumber(float: 0.55), range: NSMakeRange(0, mutableCreditContent.length))
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.setParagraphStyle(NSParagraphStyle.defaultParagraphStyle())
+        paragraphStyle.lineHeightMultiple = 1.20
+        mutableCreditContent.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, mutableCreditContent.length))
         return mutableCreditContent
     }
 
@@ -337,6 +354,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         let mutableFeatureTitle = NSMutableAttributedString(string: featureTitle)
         mutableFeatureTitle.addAttribute(NSFontAttributeName, value: self.featureTitleFont(), range: NSMakeRange(0, mutableFeatureTitle.length))
         mutableFeatureTitle.addAttribute(NSBaselineOffsetAttributeName, value: NSNumber(float: 2.0), range: NSMakeRange(0, mutableFeatureTitle.length))
+        mutableFeatureTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableFeatureTitle.length))
 
         return mutableFeatureTitle
     }
@@ -344,6 +362,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     func attributedFeatureDetails(inputString: String) -> NSAttributedString {
         let mutableFeatureSubtitle = NSMutableAttributedString(string: inputString)
         mutableFeatureSubtitle.addAttribute(NSFontAttributeName, value: self.featureDetailsFont(), range: NSMakeRange(0, mutableFeatureSubtitle.length))
+        mutableFeatureSubtitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableFeatureSubtitle.length))
 
         return mutableFeatureSubtitle
     }
@@ -353,6 +372,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         let mutableButtonTitle = NSMutableAttributedString(string: buttonTitle)
         mutableButtonTitle.addAttribute(NSFontAttributeName, value: self.buttonTitleFont(), range: NSMakeRange(0, mutableButtonTitle.length))
         mutableButtonTitle.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range: NSMakeRange(0, mutableButtonTitle.length))
+        mutableButtonTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableButtonTitle.length))
         return mutableButtonTitle
     }
 
@@ -360,7 +380,6 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         let newFont = UIFont(name: "Montserrat-Regular", size: 12.0)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor!, size: 12.0)
     }
@@ -369,25 +388,22 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         let newFont = UIFont(name: "Helvetica-Light", size: 11)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor!, size: 11)
     }
 
     func creditContentFont() -> UIFont {
-        let newFont = UIFont(name: "Helvetica-Light", size: 15)
+        let newFont = UIFont(name: "Helvetica-Light", size: 14)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
-        return UIFont(descriptor: fontDescriptor!, size: 15)
+        return UIFont(descriptor: fontDescriptor!, size: 14)
     }
 
     func featureTitleFont() -> UIFont {
         let newFont = UIFont(name: "Montserrat-Light", size: 18.0)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor!, size: 18.0)
     }
@@ -396,7 +412,6 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         let newFont = UIFont(name: "Montserrat-Regular", size: 11.0)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor!, size: 11)
     }
@@ -433,13 +448,13 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         var height: CGFloat = 0.0
         switch indexPath.section {
         case 0:
-            height = 210.0
+            height = 208.0
         case 1:
-            height = 54.0
+            height = 52.0
         case 2:
             switch indexPath.row {
             case 0:
-                height = 66.0
+                height = 82.0
 
             case 1:
                 let constraintWidth = tableView.bounds.size.width - tableView.layoutMargins.left - tableView.layoutMargins.right

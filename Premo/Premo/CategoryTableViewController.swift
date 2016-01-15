@@ -51,6 +51,10 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         return false
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
     // MARK: - iCarousel Data Source
 
     func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
@@ -104,6 +108,22 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     func carousel(carousel: iCarousel, didSelectItemAtIndex index: Int) {
+
+        guard index < (self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel?.count else { return }
+        guard let contentItemID = ((self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel?[index] as? CarouselItem)?.contentSourceID else {
+            return }
+        // To get the correct content items, I need to search the currentlist.
+        let contentItemIndex = ((self.fetchedResultsController.fetchedObjects)! as NSArray).indexOfObjectPassingTest({ (object: AnyObject, index: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Bool in
+            if (object as? ContentItem)!.contentSourceID == contentItemID { return true }
+            return false
+        })
+        if contentItemIndex == NSNotFound { return }
+        guard let contentItem = self.fetchedResultsController.fetchedObjects?[contentItemIndex] as? ContentItem else {return }
+        guard let featureDetailController = self.storyboard?.instantiateViewControllerWithIdentifier("FeatureTableViewController") as? FeatureTableViewController else { return }
+        featureDetailController.contentItem = contentItem
+        featureDetailController.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
+        featureDetailController.navigationItem.leftItemsSupplementBackButton = true
+        self.navigationController?.pushViewController(featureDetailController, animated: true)
         return
     }
 

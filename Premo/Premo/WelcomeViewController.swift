@@ -45,6 +45,11 @@ class WelcomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
+
     @IBAction func skipLogin(sender: AnyObject) {
         if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == .credentialStack {
             (self.navigationController as? AppRoutingNavigationController)!.transitionToVideoStack(true)

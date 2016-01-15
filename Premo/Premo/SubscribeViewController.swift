@@ -53,6 +53,11 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
+    }
+
+
     @IBAction func skipSubscribe(sender: AnyObject) {
         if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == .credentialStack {
             (self.navigationController as? AppRoutingNavigationController)!.transitionToVideoStack(true)

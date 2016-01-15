@@ -26,7 +26,15 @@ class AppRoutingNavigationController: UINavigationController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if self.viewControllers.last is VideoPlaybackViewController {
+            return UIInterfaceOrientationMask.AllButUpsideDown
+        } else {
+            return UIInterfaceOrientationMask.Portrait
+        }
+    }
+
 
     // MARK: - Navigation
 

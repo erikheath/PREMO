@@ -68,6 +68,11 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
         // Dispose of any resources that can be recreated.
     }
 
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.AllButUpsideDown
+    }
+
+
     // MARK: - Embed Token Generator
     func tokenForEmbedCodes(embedCodes: [AnyObject]!, callback: OOEmbedTokenCallback!) {
         do {
