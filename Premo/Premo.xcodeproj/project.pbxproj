@@ -121,6 +121,7 @@
 		4AFC41E51C474B1F003BDAE1 /* Director.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41CB1C474B1F003BDAE1 /* Director.swift */; };
 		4AFC41E81C480450003BDAE1 /* CarouselView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AFC41E61C480450003BDAE1 /* CarouselView.xib */; };
 		4AFC41EA1C480705003BDAE1 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41E91C480705003BDAE1 /* CarouselView.swift */; };
+		4AFC41EC1C485895003BDAE1 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AFC41EB1C485895003BDAE1 /* FBSDKLoginKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -263,6 +264,7 @@
 		4AFC41CB1C474B1F003BDAE1 /* Director.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Director.swift; path = Premo/DataModelSubclasses/Director.swift; sourceTree = "<group>"; };
 		4AFC41E71C480450003BDAE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CarouselView.xib; sourceTree = "<group>"; };
 		4AFC41E91C480705003BDAE1 /* CarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
+		4AFC41EB1C485895003BDAE1 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Premo/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AFC41EC1C485895003BDAE1 /* FBSDKLoginKit.framework in Frameworks */,
 				4AE318711C32F64A00963C80 /* QuartzCore.framework in Frameworks */,
 				4AE318771C32F66900963C80 /* UIKit.framework in Frameworks */,
 				4AE318751C32F66200963C80 /* SystemConfiguration.framework in Frameworks */,
@@ -383,13 +386,13 @@
 		4A3D7D951BFE89B300383319 /* Premo */ = {
 			isa = PBXGroup;
 			children = (
-				4AFC41E91C480705003BDAE1 /* CarouselView.swift */,
 				4AC76ED81C20DB2C00CE2E79 /* Interface */,
 				4A3D7D961BFE89B300383319 /* AppDelegate.swift */,
 				4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */,
 				4A3D11DC1C1F4215000D6D85 /* MenuTableViewController.swift */,
 				4A3D12221C1F711F000D6D85 /* CategoryTableViewController.swift */,
 				4AFC41B01C473992003BDAE1 /* CarouselTableViewCell.swift */,
+				4AFC41E91C480705003BDAE1 /* CarouselView.swift */,
 				4A1F2E151C2F51FC00E3D05C /* PosterTableViewCell.swift */,
 				4A1F2E471C30C76100E3D05C /* FeatureTableViewController.swift */,
 				4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */,
@@ -553,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				4AFC41AA1C473118003BDAE1 /* FBSDKCoreKit.framework */,
+				4AFC41EB1C485895003BDAE1 /* FBSDKLoginKit.framework */,
 			);
 			name = Facebook;
 			sourceTree = "<group>";

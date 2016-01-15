@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionDataDelegate {
 
@@ -27,9 +28,15 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let buttonLayer = loginButton.layer
+        var buttonLayer = loginButton.layer
         buttonLayer.masksToBounds = true
         buttonLayer.cornerRadius = 5.0
+
+        buttonLayer = facebookLoginButton.layer
+        buttonLayer.masksToBounds = true
+        buttonLayer.cornerRadius = 5.0
+
+
 
     }
 
@@ -61,6 +68,8 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
 
     @IBOutlet weak var loginActivityIndicator: UIActivityIndicatorView!
 
+    @IBOutlet weak var facebookLoginButton: UIButton!
+
     @IBOutlet weak var needAnAccountButton: UIButton!
 
     @IBOutlet weak var skipLoginButton: UIButton!
@@ -83,24 +92,67 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         }
     }
 
+
+    @IBAction func facebookLogin(sender: AnyObject) {
+
+        func processFacebookLogin() {
+            guard let loginURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/connect/facebook") else { self.presentUnknownFailure(); return }
+            let HTTPBodyDictionary: NSDictionary = ["userID": FBSDKAccessToken.currentAccessToken().userID, "accessToken": FBSDKAccessToken.currentAccessToken().tokenString, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
+            self.sendLoginRequest(loginURL, HTTPBodyDictionary: HTTPBodyDictionary)
+        }
+
+        self.manageUserInteractions(false)
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            processFacebookLogin()
+            return
+        }
+
+        let loginManager = FBSDKLoginManager()
+        loginManager.logInWithReadPermissions(["public_profile, email"], fromViewController: self) { (result:FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if error != nil {
+                self.presentServerFailure()
+            }
+            if result.isCancelled == true {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.manageUserInteractions(true)
+                })
+            }
+            if result.token != nil {
+                processFacebookLogin()
+            }
+        }
+    }
+
     @IBAction func login(sender: AnyObject) {
         // Manual check to see if the fields are full - or don't make the button pushable until the fields have something in them.
         // Put up timer and disable navigation buttons. Should there be a cancel?
         self.view.endEditing(true)
         self.manageUserInteractions(false)
+
+        guard let userName = emailTextField.text where userName != "", let password = passwordTextField.text where password != "" else { self.presentMissingCredentialError(); return }
+
+        let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
+
+        guard let loginURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/login") else { self.presentUnknownFailure(); return }
+
+        self.sendLoginRequest(loginURL, HTTPBodyDictionary: HTTPBodyDictionary)
+
+    }
+
+    func sendLoginRequest(loginURL: NSURL, HTTPBodyDictionary: NSDictionary) {
+        let lock = NSLock()
+        lock.lock()
         if self.currentLoginTask != nil && self.currentLoginTask?.state == NSURLSessionTaskState.Running {
             self.currentLoginTask?.cancel()
             self.currentLoginTask = nil
         }
-        self.loginResponse = nil
-        guard let userName = emailTextField.text where userName != "", let password = passwordTextField.text where password != "" else { self.presentMissingCredentialError(); return }
 
-        guard let loginURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/login") else { self.presentUnknownFailure(); return }
+        self.loginResponse = nil
 
         let loginRequest = NSMutableURLRequest(URL: loginURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 45.0)
         loginRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
+
         do {
-            let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
             guard NSJSONSerialization.isValidJSONObject(HTTPBodyDictionary) == true else { throw LoginError.credentialError }
             let JSONBodyData: NSData = try NSJSONSerialization.dataWithJSONObject(HTTPBodyDictionary, options: NSJSONWritingOptions.init(rawValue: 0))
             loginRequest.HTTPBody = JSONBodyData
@@ -110,9 +162,13 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
             loginTask.resume()
 
         } catch {
-
+            self.presentUnknownFailure()
         }
 
+        defer {
+            lock.unlock()
+        }
+        
     }
 
 
@@ -257,8 +313,10 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
             var code:Int? = nil
             if errorCode is String { code = Int(errorCode as! String) } else if errorCode is NSNumber { code = (errorCode as! NSNumber).integerValue }
             guard let resolvedCode = code else { throw LoginError.unknownError }
-            if resolvedCode == 100 || resolvedCode == 103 {
+            if resolvedCode == 100 || resolvedCode == 102 || resolvedCode == 103 {
                 self.presentCustomFailure(errorMessage)
+            } else {
+                self.presentUnknownFailure()
             }
         } catch {
             self.presentUnknownFailure()

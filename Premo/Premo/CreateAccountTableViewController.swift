@@ -3,11 +3,14 @@
 //
 
 import UIKit
+import FBSDKLoginKit
 
 class CreateAccountTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionDataDelegate {
 
     @IBOutlet weak var signupButton: UIButton!
 
+    @IBOutlet weak var facebookSignupButton: UIButton!
+    
     enum SignUpError: Int, ErrorType {
         case unknownError = 5000
         case credentialError = 5001
@@ -29,7 +32,11 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let buttonLayer = signupButton.layer
+        var buttonLayer = signupButton.layer
+        buttonLayer.masksToBounds = true
+        buttonLayer.cornerRadius = 5.0
+
+        buttonLayer = facebookSignupButton.layer
         buttonLayer.masksToBounds = true
         buttonLayer.cornerRadius = 5.0
     }
@@ -79,28 +86,66 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
     @IBOutlet weak var signupActivityIndicator: UIActivityIndicatorView!
 
+
+    @IBAction func facebookSignup(sender: AnyObject) {
+        func processFacebookLogin() {
+            guard let loginURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/connect/facebook") else { self.presentUnknownFailure(); return }
+            let HTTPBodyDictionary: NSDictionary = ["userID": FBSDKAccessToken.currentAccessToken().userID, "accessToken": FBSDKAccessToken.currentAccessToken().tokenString, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
+            self.sendSignupRequest(loginURL, HTTPBodyDictionary: HTTPBodyDictionary)
+        }
+
+        self.manageUserInteractions(false)
+        if FBSDKAccessToken.currentAccessToken() != nil {
+            processFacebookLogin()
+            return
+        }
+
+        let loginManager = FBSDKLoginManager()
+        loginManager.logInWithReadPermissions(["public_profile, email"], fromViewController: self) { (result:FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if error != nil {
+                self.presentServerFailure()
+            }
+            if result.isCancelled == true {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.manageUserInteractions(true)
+                })
+            }
+            if result.token != nil {
+                processFacebookLogin()
+            }
+        }
+
+    }
+
     @IBAction func signUp(sender: AnyObject) {
         // Manual check to see if the fields are full - or don't make the button pushable until the fields have something in them.
         // Put up timer and disable navigation buttons. Should there be a cancel?
         self.view.endEditing(true)
         self.manageUserInteractions(false)
-        if self.currentSignUpTask != nil && self.currentSignUpTask?.state == NSURLSessionTaskState.Running {
-            self.currentSignUpTask?.cancel()
-            self.currentSignUpTask = nil
-        }
-        self.signUpResponse = nil
         guard let userName = emailTextField.text where userName != "",
             let password = passwordTextField.text where password != "",
             let firstName = firstNameTextField.text where firstName != "",
             let lastName = lastNameTextField.text where lastName != ""
             else { self.presentMissingCredentialError(); return }
 
+        let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "firstName": firstName, "lastName": lastName, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
+
         guard let signUpURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/signup") else { self.presentUnknownFailure(); return }
+
+        self.sendSignupRequest(signUpURL, HTTPBodyDictionary: HTTPBodyDictionary)
+
+    }
+
+    func sendSignupRequest(signUpURL: NSURL, HTTPBodyDictionary: NSDictionary) {
+        if self.currentSignUpTask != nil && self.currentSignUpTask?.state == NSURLSessionTaskState.Running {
+            self.currentSignUpTask?.cancel()
+            self.currentSignUpTask = nil
+        }
+        self.signUpResponse = nil
 
         let signUpRequest = NSMutableURLRequest(URL: signUpURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
         signUpRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
         do {
-            let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "firstName": firstName, "lastName": lastName, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
             guard NSJSONSerialization.isValidJSONObject(HTTPBodyDictionary) == true else { throw SignUpError.credentialError }
             let JSONBodyData: NSData = try NSJSONSerialization.dataWithJSONObject(HTTPBodyDictionary, options: NSJSONWritingOptions.init(rawValue: 0))
             signUpRequest.HTTPBody = JSONBodyData
@@ -109,7 +154,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             self.currentSignUpTask = signUpTask
             signUpTask.resume()
         } catch {
-                self.presentMissingCredentialError()
+            self.presentMissingCredentialError()
         }
 
     }
@@ -265,8 +310,10 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             var code:Int? = nil
             if errorCode is String { code = Int(errorCode as! String) } else if errorCode is NSNumber { code = (errorCode as! NSNumber).integerValue }
             guard let resolvedCode = code else { throw SignUpError.unknownError }
-            if resolvedCode == 100 || resolvedCode == 103 {
+            if resolvedCode == 100 || resolvedCode == 102 || resolvedCode == 103 {
                 self.presentCustomFailure(errorMessage)
+            } else {
+                throw SignUpError.unknownError
             }
         } catch {
             self.presentUnknownFailure()

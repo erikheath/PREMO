@@ -5,6 +5,7 @@
 import UIKit
 import CoreData
 import StoreKit
+import FBSDKCoreKit
 
 @UIApplicationMain
 
@@ -90,10 +91,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
         SKPaymentQueue.defaultQueue().addTransactionObserver(self)
 
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
         return true
     }
 
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+
+    }
+    
     func navBarFont() -> UIFont {
         let newFont = UIFont(name: "Montserrat-Light", size: 17)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()

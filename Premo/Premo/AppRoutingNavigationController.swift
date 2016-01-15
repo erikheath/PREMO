@@ -10,26 +10,6 @@ import UIKit
 
 class AppRoutingNavigationController: UINavigationController {
 
-//    override init(rootViewController: UIViewController) {
-//        super.init(rootViewController: rootViewController)
-//        self.transitionToInitialStack()
-//    }
-//
-//    override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
-//        super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
-//        self.transitionToInitialStack()
-//    }
-//
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        self.transitionToInitialStack()
-//    }
-//
-//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-//        self.transitionToInitialStack()
-//
-
     enum NavigationStack: String {
         case videoStack = "videoStack"
         case credentialStack = "credentialStack"
