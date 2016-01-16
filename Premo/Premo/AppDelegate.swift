@@ -43,6 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     }
 
+    var subscribed: Bool {
+        if let validUntil = NSUserDefaults.standardUserDefaults().objectForKey(subscription.subscriptionValidUntilDate.rawValue) as? NSDate where validUntil.compare(NSDate()) == NSComparisonResult.OrderedDescending  {
+            return true
+        }
+        return false
+    }
+
     enum TransactionStatusNotification: String {
         case purchasing = "PurchaseProcessingNotification"
         case purchased = "PurchaseCompleteNotification"

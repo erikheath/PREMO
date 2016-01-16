@@ -992,6 +992,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Premo/OoyalaSDK.framework/Headers/**";
 				INFOPLIST_FILE = Premo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.premonetwork.PREMO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1017,6 +1018,7 @@
 				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Premo/OoyalaSDK.framework/Headers/**";
 				INFOPLIST_FILE = Premo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.premonetwork.PREMO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

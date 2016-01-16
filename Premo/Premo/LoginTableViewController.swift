@@ -350,10 +350,10 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
                 NSUserDefaults.standardUserDefaults().setObject(subscriptionValidUntilDate, forKey: "subscriptionValidUntilDate")
                 NSUserDefaults.standardUserDefaults().setBool(subscriptionAutoRenew.boolValue, forKey: "subscriptionAutoRenew")
             }
-
-            NSUserDefaults.standardUserDefaults().synchronize()
-
         }
+        
+        NSUserDefaults.standardUserDefaults().synchronize()
+
 
         self.displaySuccessAlert()
     }
@@ -362,7 +362,15 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: "You Are Now Logged In", message: "You have successfully logged into your PREMO account.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-                (self.navigationController as? AppRoutingNavigationController)?.transitionToVideoStack(true)
+                guard let appRouter = self.navigationController as? AppRoutingNavigationController else { return } // There is some error to handle here
+                switch appRouter.currentNavigationStack {
+                case .accountStack:
+                    self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                case .credentialStack:
+                    appRouter.transitionToVideoStack(true)
+                case .videoStack:
+                    self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                }
             }))
 
             self.loginActivityIndicator.stopAnimating()

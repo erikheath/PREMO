@@ -127,6 +127,53 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
     }
 
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        switch identifier {
+        case "showLoginFromAccount":
+            // is the user already logged in?
+            guard (UIApplication.sharedApplication().delegate as? AppDelegate)?.loggedIn == true else {
+                break
+            }
+            // log the user out?
+            let alert = UIAlertController(title: "Log Out of Account?", message: "This will decrease the number of playback items associated with your account.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alertDefaultAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                // remove the users credentials and update the table.
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("jwt")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("userName")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("firstName")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("lastName")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscription")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionSource")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionCreatedDate")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionExpiresDate")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionValidUntilDate")
+                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionAutoRenew")
+
+                self.updateLoginCellDisplay()
+                self.updateSubscribeCellDisplay()
+
+            })
+            let alertCancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+            alert.addAction(alertDefaultAction)
+            alert.addAction(alertCancelAction)
+            self.presentViewController(alert, animated: true, completion: nil)
+            return false
+
+        case "showSubscribe":
+            if (UIApplication.sharedApplication().delegate as? AppDelegate)?.loggedIn == false {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    guard let welcomeController = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeViewController") else { return }
+                    self.navigationController?.pushViewController(welcomeController, animated: true)
+                })
+                return false
+            }
+        default:
+            break
+        }
+        return true
+    }
+
+
     // MARK: - Table
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -181,41 +228,5 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        switch identifier {
-        case "showLoginFromAccount":
-            // is the user already logged in?
-            guard let _ = NSUserDefaults.standardUserDefaults().stringForKey("jwt") else {
-                break
-            }
-            // log the user out?
-            let alert = UIAlertController(title: "Log Out of Account?", message: "This will decrease the number of playback items associated with your account.", preferredStyle: UIAlertControllerStyle.Alert)
-            let alertDefaultAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
-                // remove the users credentials and update the table.
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("jwt")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("userName")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("firstName")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("lastName")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscription")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionSource")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionCreatedDate")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionExpiresDate")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionValidUntilDate")
-                NSUserDefaults.standardUserDefaults().removeObjectForKey("subscriptionAutoRenew")
 
-                self.updateLoginCellDisplay()
-                self.updateSubscribeCellDisplay()
-
-            })
-            let alertCancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
-            alert.addAction(alertDefaultAction)
-            alert.addAction(alertCancelAction)
-            self.presentViewController(alert, animated: true, completion: nil)
-            return false
-        default:
-            break
-        }
-        return true
-    }
-    
 }

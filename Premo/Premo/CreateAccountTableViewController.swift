@@ -333,6 +333,8 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         NSUserDefaults.standardUserDefaults().setObject(lastName, forKey: "lastName")
         NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "subscription")
 
+        NSUserDefaults.standardUserDefaults().synchronize()
+
         self.displaySuccessAlert()
     }
 

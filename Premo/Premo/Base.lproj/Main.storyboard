@@ -646,6 +646,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <segue destination="foo-1l-Tz4" kind="show" identifier="showSubscribe" id="xYC-yI-QF3"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" shouldIndentWhileEditing="NO" rowHeight="1" id="HuV-Sh-gyf" userLabel="Divider">
                                         <rect key="frame" x="0.0" y="137" width="600" height="1"/>
@@ -4420,6 +4423,10 @@ Cg
                                     <action selector="skipSubscribe:" destination="foo-1l-Tz4" eventType="touchUpInside" id="wZD-Ww-3Ba"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="n9X-G3-pSi">
+                                <rect key="frame" x="282" y="401" width="37" height="37"/>
+                                <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -4432,6 +4439,8 @@ Cg
                             <constraint firstItem="c7k-7C-YaT" firstAttribute="top" secondItem="S2B-g4-oNZ" secondAttribute="bottom" constant="131" id="NsW-Qx-2q1"/>
                             <constraint firstItem="V4r-xV-uDo" firstAttribute="top" secondItem="pQd-E9-Ldr" secondAttribute="topMargin" id="ScH-6d-qMC"/>
                             <constraint firstItem="xq1-cj-m9c" firstAttribute="top" secondItem="HdC-4e-oZa" secondAttribute="bottom" constant="38" id="T73-cl-ERF"/>
+                            <constraint firstItem="n9X-G3-pSi" firstAttribute="centerY" secondItem="HdC-4e-oZa" secondAttribute="centerY" id="WMV-CD-bZ5"/>
+                            <constraint firstItem="n9X-G3-pSi" firstAttribute="centerX" secondItem="HdC-4e-oZa" secondAttribute="centerX" id="a3w-e4-qHD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HdC-4e-oZa" secondAttribute="trailing" constant="20" id="etI-7k-zlW"/>
                             <constraint firstItem="c7k-7C-YaT" firstAttribute="leading" secondItem="pQd-E9-Ldr" secondAttribute="leadingMargin" id="iXy-uF-FA4"/>
                             <constraint firstItem="atC-mG-Xx3" firstAttribute="top" secondItem="V4r-xV-uDo" secondAttribute="bottom" id="iyJ-Xa-iD9"/>
@@ -4444,6 +4453,8 @@ Cg
                     </view>
                     <connections>
                         <outlet property="callToActionLabel" destination="c7k-7C-YaT" id="uaH-RM-a0V"/>
+                        <outlet property="skipSubscribeButton" destination="xq1-cj-m9c" id="eGh-AF-9mq"/>
+                        <outlet property="subscribeActivityIndicator" destination="n9X-G3-pSi" id="5L9-kI-SCe"/>
                         <outlet property="subscribeButton" destination="HdC-4e-oZa" id="BE1-5m-ZpQ"/>
                         <outlet property="subscribeOfferLabel" destination="uZo-hS-a8n" id="1wb-El-3i0"/>
                         <segue destination="tsP-kg-9SU" kind="unwind" identifier="unwindFromSubscribe" unwindAction="unwindFromSubscribe:" id="eeG-TJ-pcc"/>
@@ -4801,10 +4812,10 @@ Cg
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="VM2-DT-Dyq"/>
+        <segue reference="xYC-yI-QF3"/>
         <segue reference="MUU-m2-zco"/>
+        <segue reference="xcy-pX-Ytk"/>
+        <segue reference="J9c-NV-ZkF"/>
         <segue reference="zHm-oe-vCR"/>
-        <segue reference="J5c-2G-Igz"/>
-        <segue reference="HeX-iT-EiB"/>
-        <segue reference="ue3-he-1aD"/>
     </inferredMetricsTieBreakers>
 </document>
