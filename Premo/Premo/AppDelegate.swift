@@ -9,11 +9,17 @@ import FBSDKCoreKit
 
 @UIApplicationMain
 
-class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate, SKPaymentTransactionObserver, NSURLSessionDelegate, NSURLSessionDataDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    /**
+     Application Window reference
+     */
     var window: UIWindow?
 
-    var appDeviceID: String = {
+    /**
+    Provides a semi-static reference to the device. Used for limiting the number of devices that a user can use at the same time.
+     */
+    static var appDeviceID: String = {
         let defaults = NSUserDefaults.standardUserDefaults()
         if let premoID = defaults.stringForKey("PREMOID") {
             return premoID
@@ -24,49 +30,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         }
     }()
 
-    enum subscription: String {
-        case JSONWebToken = "jwt"
-        case userName = "username"
-        case firstName = "firstName"
-        case lastName = "lastName"
-        case subscriptionCreatedDate = "subscriptionCreatedDate"
-        case subscriptionExpiresDate = "subscriptionExpiresDate"
-        case subscriptionValidUntilDate = "subscriptionValidUntilDate"
-        case subscriptionAutoRenew = "subscriptionAutoRenew"
-    }
+    /**
+     The base URL used for all requests to the premo servers.
+     */
+    static var PREMOURL: NSURL? = {
+        let components = NSURLComponents()
+        components.scheme = "http"
+        components.host = "lava-dev.premonetwork.com"
+        components.port = 3000
+        return components.URL
+    }()
 
-    var loggedIn: Bool {
-        if NSUserDefaults.standardUserDefaults().stringForKey(subscription.JSONWebToken.rawValue) != nil {
-            return true
-        }
-        return false
-
-    }
-
-    var subscribed: Bool {
-        if let validUntil = NSUserDefaults.standardUserDefaults().objectForKey(subscription.subscriptionValidUntilDate.rawValue) as? NSDate where validUntil.compare(NSDate()) == NSComparisonResult.OrderedDescending  {
-            return true
-        }
-        return false
-    }
-
-    enum TransactionStatusNotification: String {
-        case purchasing = "PurchaseProcessingNotification"
-        case purchased = "PurchaseCompleteNotification"
-        case deferred = "PurchaseDeferredNotification"
-        case failed = "PurchaseFailedNotification"
-        case restored = "PurchaseRestoredNotification"
-    }
-
-    lazy var transactionSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: nil)
-
+    /**
+     The data layer contains the currently available content. The data layer is refreshed:
+     - on application launch
+     - at a configured interval set in the app configuration file (see the app configuration object in the Managed Object Model).
+     
+     The data layer is kept in memory, but may be configured to write to disk if needed. See commented "let store = ..." line in the datalayer property for a pre-configured on-disk example.
+     
+     - Warning: If the data layer can't be constructed, the application can not run. As such, the application must terminate. Because property initializers can not throw error messages, the current reporting strategy is to print to standard out. Notifiying the user of the error / program state is the responsibility of the calling method / object.
+     */
     lazy var datalayer: DataLayer? = {
 
         do {
             let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("PREMOCatalog.sqlite")
             print(storeURL)
             let store = StoreReference(storeType: NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
-//            let store = StoreReference(storeType: NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+//          let store = StoreReference(storeType: NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
             guard let modelURL = NSBundle.mainBundle().URLForResource("Premo", withExtension: "momd") else { throw DataLayerError.genericError }
             guard let model = NSManagedObjectModel(contentsOfURL: modelURL) else { throw DataLayerError.genericError }
             let preloadRequest = NetworkStoreFetchRequest(entityName: "AppConfig")
@@ -80,42 +70,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         }
     }()
 
+    /**
+     The transaction processor provides a unified object for handling user initiated store kit transactions as well as store kit driven transactions (e.g. auto-renew subscriptions). It must be instantiated no later than application:didFinishLaunchingWithOptions, but can also be part of the app delegate construction cycle.
+     */
+    let transactionProcessor: TransactionProcessor = TransactionProcessor()
+
+    /**
+     The registration processor provides a unified object for handling user initiated registration as well as store kit initiated registration (e.g. auto-renew subscriptions). It must be instantiated no later than application:didFinishLaunchingWithOptions, but can also be part of the app delegate construction cycle.
+     */
+    let registrationProcessor: RegistrationProcessor = RegistrationProcessor()
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // UI Customization
-        let navbarProxy = UINavigationBar.appearance()
-        navbarProxy.barTintColor = UIColor.blackColor()
-        navbarProxy.tintColor = UIColor.whiteColor()
-        navbarProxy.barStyle = UIBarStyle.Black
-        navbarProxy.titleTextAttributes = [NSFontAttributeName: self.navBarFont()]
+        PremoStyleTemplate.styleApp()
 
         // Set up Data Layer
         JSONObjectDataConditionerFactory.registerObjectConditioner(ContentItemJSONObjectConditioner.entityName, objectConditioner: ContentItemJSONObjectConditioner())
         if self.datalayer == nil {
-            // This causes the catalog to be loaded. Also, the app can't run without this.
             return false
+            /*
+            TODO: Notify user of Failure
+            This causes the catalog to be loaded. Also, the app can't run without this. This would be an appropriate time to notify the user of the error.
+            */
+
         }
 
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
-
+        // Set up Facebook SDK
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
+        // Refresh the user's account.
+        do { try Account.refreshAccount() } catch { return true }
 
         return true
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
+        // Enable Facebook SDK to open the facebook app or web site.
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
 
-    }
-    
-    func navBarFont() -> UIFont {
-        let newFont = UIFont(name: "Montserrat-Light", size: 17)
-        let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
-        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
-        let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
-        return UIFont(descriptor: fontDescriptor!, size: 17)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -146,91 +140,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         //        }
     }
 
-    // MARK: - Purchase Management
 
-    func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            switch transaction.transactionState {
-
-            case SKPaymentTransactionState.Purchasing:
-                let notification = NSNotification(name: TransactionStatusNotification.purchasing.rawValue, object: transaction, userInfo: nil)
-                NSNotificationCenter.defaultCenter().postNotification(notification)
-
-            case SKPaymentTransactionState.Deferred:
-                let notification = NSNotification(name: TransactionStatusNotification.deferred.rawValue, object: transaction, userInfo: nil)
-                NSNotificationCenter.defaultCenter().postNotification(notification)
-
-            case SKPaymentTransactionState.Failed:
-                let notification = NSNotification(name: TransactionStatusNotification.failed.rawValue, object: transaction, userInfo: nil)
-                NSNotificationCenter.defaultCenter().postNotification(notification)
-
-            case SKPaymentTransactionState.Purchased:
-                let notification = NSNotification(name: TransactionStatusNotification.purchased.rawValue, object: transaction, userInfo: nil)
-                NSNotificationCenter.defaultCenter().postNotification(notification)
-                self.processPurchasedTransaction(transaction)
-
-            case SKPaymentTransactionState.Restored:
-                let notification = NSNotification(name: TransactionStatusNotification.restored.rawValue, object: transaction, userInfo: nil)
-                NSNotificationCenter.defaultCenter().postNotification(notification)
-
-            }
-        }
-    }
-
-    func processPurchasedTransaction(transaction: SKPaymentTransaction) {
-        do {
-            guard let subscriptionURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/subscription/create") else { return } // There needs to be error handling
-            let subscriptionRequest = NSMutableURLRequest(URL: subscriptionURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 45.0)
-            subscriptionRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
-            subscriptionRequest.setValue(NSUserDefaults.standardUserDefaults().stringForKey("jwt"), forHTTPHeaderField: "Authorization")
-            guard let receiptURL = NSBundle.mainBundle().appStoreReceiptURL, let receiptData = NSData(contentsOfURL: receiptURL) else { return } // throw an error
-            subscriptionRequest.HTTPBody = try NSJSONSerialization.dataWithJSONObject(["recurlyToken":receiptData], options: NSJSONWritingOptions.init(rawValue: 0))
-            let subscriptionRequestTask = self.transactionSession.dataTaskWithRequest(subscriptionRequest, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
-                do {
-                    if error != nil || data == nil { return } // There should be some error handling.
-                    // TODO: Ensure that all of the subscription stuff is here.
-                    guard let JSONObject = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.init(rawValue: 0)) as? NSDictionary, let success = JSONObject.objectForKey("success") where (success as? NSNumber)!.boolValue == true, let subscription = (JSONObject.objectForKey("payload") as? NSDictionary)!.objectForKey("subscription") as? NSDictionary, let subscriptionCreatedString = subscription.objectForKey("created") as? String, let subscriptionExpiresString = subscription.objectForKey("expires") as? String, let subscriptionValidUntilString = subscription.objectForKey("validUntil") as? String, let autoRenewBool = subscription.objectForKey("autoRenew") as? NSNumber, let subscriptionSourceString = subscription.objectForKey("source") else { return } // Error handling
-                    NSUserDefaults.standardUserDefaults().setObject(subscriptionSourceString, forKey: "subscriptionSource")
-
-                    let enUSPOSIXLocale = NSLocale(localeIdentifier: "en_US_POSIX")
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.locale = enUSPOSIXLocale
-                    dateFormatter.dateFormat = "yyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
-                    dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
-                    if let subscriptionCreatedDate = dateFormatter.dateFromString(subscriptionCreatedString), let subscriptionExpiresDate = dateFormatter.dateFromString(subscriptionExpiresString), let subscriptionValidUntilDate = dateFormatter.dateFromString(subscriptionValidUntilString) {
-                        NSUserDefaults.standardUserDefaults().setObject(subscriptionCreatedDate, forKey: "subscriptionCreatedDate")
-                        NSUserDefaults.standardUserDefaults().setObject(subscriptionExpiresDate, forKey: "subscriptionExpiresDate")
-                        NSUserDefaults.standardUserDefaults().setObject(subscriptionValidUntilDate, forKey: "subscriptionValidUntilDate")
-                        NSUserDefaults.standardUserDefaults().setBool(autoRenewBool.boolValue, forKey: "subscriptionAutoRenew")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                    }
-
-
-                } catch {  }
-            })
-
-            subscriptionRequestTask.resume()
-
-        } catch {}
-
-    }
 
     // MARK: - Core Data stack
 
+    /**
+    The managed object model for the application.
+    
+    - Warning: It is a fatal error for the application not to be able to find and load its model.
+    */
     lazy var managedObjectModel: NSManagedObjectModel = {
-        // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
+        //
         let modelURL = NSBundle.mainBundle().URLForResource("Premo", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelURL)!
     }()
 
-    // MARK: - Core Data stack
-
+    /**
+     The directory the application uses to store the Core Data store file. This code uses a directory named "com.movesalesinc.FoundationsSwiftTestApp" in the application's documents Application Support directory.
+     */
     lazy var applicationDocumentsDirectory: NSURL = {
-        // The directory the application uses to store the Core Data store file. This code uses a directory named "com.movesalesinc.FoundationsSwiftTestApp" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
         return urls[urls.count-1]
     }()
-    
+
+    /**
+     The main thread managed object context. For access to other contexts, query the app delegate's datalayer property.
+     */
     lazy var managedObjectContext: NSManagedObjectContext? = {
         return self.datalayer?.mainContext
     }()

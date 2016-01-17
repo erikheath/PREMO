@@ -70,6 +70,11 @@
 		4AE318771C32F66900963C80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE318761C32F66900963C80 /* UIKit.framework */; };
 		4AE3187A1C335D9400963C80 /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE318791C335D9400963C80 /* TermsViewController.swift */; };
 		4AE3187C1C336D8C00963C80 /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */; };
+		4AED71C11C4AEDBC0083A9F9 /* TransactionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C01C4AEDBC0083A9F9 /* TransactionProcessor.swift */; };
+		4AED71C31C4AEDC90083A9F9 /* RegistrationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C21C4AEDC90083A9F9 /* RegistrationProcessor.swift */; };
+		4AED71C51C4AEEC80083A9F9 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C41C4AEEC80083A9F9 /* Account.swift */; };
+		4AED71C71C4AF7EB0083A9F9 /* StyleTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C61C4AF7EB0083A9F9 /* StyleTemplate.swift */; };
+		4AED71C91C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C81C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift */; };
 		4AEE7ED31C0188CC009F0004 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE7EC61C0188CC009F0004 /* Constants.swift */; };
 		4AEE7ED41C0188CC009F0004 /* DataRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE7EC71C0188CC009F0004 /* DataRequestOperation.swift */; };
 		4AEE7ED51C0188CC009F0004 /* DeletionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEE7EC81C0188CC009F0004 /* DeletionFactory.swift */; };
@@ -214,6 +219,11 @@
 		4AE318761C32F66900963C80 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4AE318791C335D9400963C80 /* TermsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
+		4AED71C01C4AEDBC0083A9F9 /* TransactionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionProcessor.swift; sourceTree = "<group>"; };
+		4AED71C21C4AEDC90083A9F9 /* RegistrationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationProcessor.swift; sourceTree = "<group>"; };
+		4AED71C41C4AEEC80083A9F9 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		4AED71C61C4AF7EB0083A9F9 /* StyleTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleTemplate.swift; sourceTree = "<group>"; };
+		4AED71C81C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURL+PREMOUtilities.swift"; sourceTree = "<group>"; };
 		4AEE7EC61C0188CC009F0004 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = DataDriver/Constants.swift; sourceTree = "<group>"; };
 		4AEE7EC71C0188CC009F0004 /* DataRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataRequestOperation.swift; path = DataDriver/DataRequestOperation.swift; sourceTree = "<group>"; };
 		4AEE7EC81C0188CC009F0004 /* DeletionFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeletionFactory.swift; path = DataDriver/DeletionFactory.swift; sourceTree = "<group>"; };
@@ -411,6 +421,11 @@
 				4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */,
 				4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */,
 				4A6AF9711C371A52009F6C71 /* SubscribeViewController.swift */,
+				4AED71C01C4AEDBC0083A9F9 /* TransactionProcessor.swift */,
+				4AED71C21C4AEDC90083A9F9 /* RegistrationProcessor.swift */,
+				4AED71C81C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift */,
+				4AED71C41C4AEEC80083A9F9 /* Account.swift */,
+				4AED71C61C4AF7EB0083A9F9 /* StyleTemplate.swift */,
 				4AFD45551C496208002DA7AE /* SWRevealController */,
 				4AFC41AF1C47381A003BDAE1 /* iCarousel */,
 				4AEE7EE01C0188D8009F0004 /* DataDriver */,
@@ -748,6 +763,7 @@
 				4A7A66911C489B53007B86F2 /* FeatureDetailTableViewCell.swift in Sources */,
 				4AFC41DD1C474B1F003BDAE1 /* CategoryList.swift in Sources */,
 				4A76ECF01C28B43E005C6F83 /* JSONAttributeProcessor.swift in Sources */,
+				4AED71C11C4AEDBC0083A9F9 /* TransactionProcessor.swift in Sources */,
 				4A2A81CA1C44B5BE0032A8F4 /* VideoPlaybackViewController.swift in Sources */,
 				4AEE7EDA1C0188CC009F0004 /* OperationGraphManager.swift in Sources */,
 				4AEE7ED31C0188CC009F0004 /* Constants.swift in Sources */,
@@ -760,6 +776,7 @@
 				4AC5DC361C1A17F500FF2547 /* NetworkStoreFetchRequest.swift in Sources */,
 				4AEE7EDD1C0188CC009F0004 /* URLProcessor.swift in Sources */,
 				4AFC41EA1C480705003BDAE1 /* CarouselView.swift in Sources */,
+				4AED71C31C4AEDC90083A9F9 /* RegistrationProcessor.swift in Sources */,
 				4A88E32C1C41DC7900BC1543 /* AppRoutingNavigationController.swift in Sources */,
 				4AFC41D31C474B1F003BDAE1 /* AppConfig.swift in Sources */,
 				4AC5DC341C1A17D400FF2547 /* NetworkStoreSaveRequest.swift in Sources */,
@@ -768,6 +785,7 @@
 				4AFC41DC1C474B1F003BDAE1 /* CategoryList+CoreDataProperties.swift in Sources */,
 				4AD7DB2F1C45E292008A339F /* JSONObjectDataConditionerFactory.swift in Sources */,
 				4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */,
+				4AED71C51C4AEEC80083A9F9 /* Account.swift in Sources */,
 				4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */,
 				4AFD45541C4961FF002DA7AE /* SWRevealViewController.m in Sources */,
 				4A3D12231C1F711F000D6D85 /* CategoryTableViewController.swift in Sources */,
@@ -780,6 +798,7 @@
 				4A6AF9721C371A52009F6C71 /* SubscribeViewController.swift in Sources */,
 				4A76ECEE1C272362005C6F83 /* NotificationProcessor.swift in Sources */,
 				4A6AF96C1C3489D5009F6C71 /* LoginTableViewController.swift in Sources */,
+				4AED71C71C4AF7EB0083A9F9 /* StyleTemplate.swift in Sources */,
 				4A76ECEC1C272185005C6F83 /* ImageDataProcessor.swift in Sources */,
 				4AFC41E41C474B1F003BDAE1 /* Director+CoreDataProperties.swift in Sources */,
 				4AFC41D51C474B1F003BDAE1 /* ContentItem.swift in Sources */,
@@ -800,6 +819,7 @@
 				4A76ECEA1C2720F5005C6F83 /* JSONCollectionProcessor.swift in Sources */,
 				4AFC419B1C46E142003BDAE1 /* ContentItemJSONObjectConditioner.swift in Sources */,
 				4AFC41CD1C474B1F003BDAE1 /* CarouselItem.swift in Sources */,
+				4AED71C91C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift in Sources */,
 				4AFC41B11C473992003BDAE1 /* CarouselTableViewCell.swift in Sources */,
 				4AEE7ED61C0188CC009F0004 /* EntityProcessor.swift in Sources */,
 				4AFC41E31C474B1F003BDAE1 /* Season.swift in Sources */,

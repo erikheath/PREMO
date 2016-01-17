@@ -1,9 +1,5 @@
 //
 //  WelcomeViewController.swift
-//  Premo
-//
-//  Created by ERIKHEATH A THOMAS on 1/1/16.
-//  Copyright © 2016 Premo Network. All rights reserved.
 //
 
 import UIKit
