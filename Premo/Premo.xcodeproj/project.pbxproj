@@ -403,6 +403,7 @@
 			children = (
 				4AC76ED81C20DB2C00CE2E79 /* Interface */,
 				4A3D7D961BFE89B300383319 /* AppDelegate.swift */,
+				4A9264541C4C48BC0029B12E /* Account State Management */,
 				4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */,
 				4A3D11DC1C1F4215000D6D85 /* MenuTableViewController.swift */,
 				4A3D12221C1F711F000D6D85 /* CategoryTableViewController.swift */,
@@ -417,14 +418,7 @@
 				4A1F2E431C30C67600E3D05C /* CreditsTableViewCell.swift */,
 				4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */,
 				4AE318791C335D9400963C80 /* TermsViewController.swift */,
-				4A6AF96B1C3489D5009F6C71 /* LoginTableViewController.swift */,
-				4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */,
 				4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */,
-				4A6AF9711C371A52009F6C71 /* SubscribeViewController.swift */,
-				4AED71C01C4AEDBC0083A9F9 /* TransactionProcessor.swift */,
-				4AED71C21C4AEDC90083A9F9 /* RegistrationProcessor.swift */,
-				4AED71C81C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift */,
-				4AED71C41C4AEEC80083A9F9 /* Account.swift */,
 				4AED71C61C4AF7EB0083A9F9 /* StyleTemplate.swift */,
 				4AFD45551C496208002DA7AE /* SWRevealController */,
 				4AFC41AF1C47381A003BDAE1 /* iCarousel */,
@@ -503,6 +497,20 @@
 				4AEE7EC71C0188CC009F0004 /* DataRequestOperation.swift */,
 			);
 			name = "Data Requesting";
+			sourceTree = "<group>";
+		};
+		4A9264541C4C48BC0029B12E /* Account State Management */ = {
+			isa = PBXGroup;
+			children = (
+				4A6AF96B1C3489D5009F6C71 /* LoginTableViewController.swift */,
+				4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */,
+				4A6AF9711C371A52009F6C71 /* SubscribeViewController.swift */,
+				4AED71C01C4AEDBC0083A9F9 /* TransactionProcessor.swift */,
+				4AED71C21C4AEDC90083A9F9 /* RegistrationProcessor.swift */,
+				4AED71C81C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift */,
+				4AED71C41C4AEEC80083A9F9 /* Account.swift */,
+			);
+			name = "Account State Management";
 			sourceTree = "<group>";
 		};
 		4AC76ED81C20DB2C00CE2E79 /* Interface */ = {

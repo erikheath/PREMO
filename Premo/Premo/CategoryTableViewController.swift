@@ -18,29 +18,72 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     var carouselImageMask: UIImage? = nil
 
+
+    // MARK: - OBJECT LIFECYCLE
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.configureNavigationItemAppearance()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.configureNavigationItemAppearance()
+    }
+
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+        self.configureNavigationItemAppearance()
+    }
+
+    func configureNavigationItemAppearance() {
+        navigationItemSetup: do {
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.title = ""
+            self.navigationItem.hidesBackButton = true
+            let titleViewImageView = UIImageView(image: UIImage(named: "PREMO_titlebar"))
+            titleViewImageView.contentMode = .ScaleAspectFit
+            self.navigationItem.titleView = titleViewImageView
+        }
+    }
+
+    func configureNavigationBarAppearance() {
+        navbarControllerSetup: do {
+            guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
+            navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")
+            navbarController.navigationBar.backIndicatorImage = UIImage(named: "back")
+            navbarController.navigationBarHidden = false
+        }
+
+        revealControllerSetup: do {
+            guard let revealController = self.revealViewController() else {
+                break revealControllerSetup
+            }
+            let toggleButton = UIBarButtonItem(title: "toggle", style: .Plain, target: revealController, action: "revealToggle:")
+            toggleButton.image = UIImage(named: "menu_fff")
+            self.navigationItem.leftBarButtonItem = toggleButton
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: self.managedObjectContext)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextDidSaveNotification, object: self.managedObjectContext)
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
+        self.setNeedsStatusBarAppearanceUpdate()
+
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        guard let navbarController = self.parentViewController as? UINavigationController else { return }
-//        navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
-//        navbarController.navigationBar.backIndicatorImage = UIImage(named: "menu_fff")
-        self.navigationItem.title = "PREMO"
-        navbarController.navigationBarHidden = false
-        guard let revealController = self.revealViewController() else {
-            return
-        }
-        let toggleButton = UIBarButtonItem(title: "toggle", style: .Plain, target: revealController, action: "revealToggle:")
-        toggleButton.image = UIImage(named: "menu_fff")
-        self.navigationItem.leftBarButtonItem = toggleButton
-
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
         self.setNeedsStatusBarAppearanceUpdate()
-
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -154,16 +197,20 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let rowCount: Int
-        if section == 0 {
+        if section == 0 && self.categoryObjectName == AppDelegate.defaultCategory {
             rowCount = 1
+        } else if section == 0 {
+            rowCount = (self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel?.count > 0 ? 1 : 0
         } else {
             rowCount = (self.fetchedResultsController.sections?[section - 1].numberOfObjects)! ?? 0
         }
         return rowCount
+
+
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+
         let cell: UITableViewCell
         if indexPath.section == 0 {
             cell = tableView.dequeueReusableCellWithIdentifier("CarouselCell", forIndexPath: indexPath)
@@ -262,7 +309,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             let outputImage = context.createCGImage(outputImageRecipe, fromRect: rect)
             self.categoryListImageMask = UIImage(CGImage: outputImage)
         }
-        
+
         return self.categoryListImageMask
     }
 
@@ -277,7 +324,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     }
 
     func categoryTitleFont() -> UIFont {
-//        let newFont = UIFont(name: "Helvetica-Regular", size: 16)
+        //        let newFont = UIFont(name: "Helvetica-Regular", size: 16)
         let newFont = UIFont.systemFontOfSize(16)
         let descriptorDict = (newFont.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
@@ -433,10 +480,10 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             tableView.insertRowsAtIndexPaths([modifiedNewPath!], withRowAnimation: .Fade)
         }
     }
-
+    
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         self.tableView.endUpdates()
     }
-
-
+    
+    
 }

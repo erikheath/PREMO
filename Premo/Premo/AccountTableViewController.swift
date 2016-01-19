@@ -17,28 +17,62 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
     @IBOutlet weak var subscribeCell: UITableViewCell!
 
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.configureNavigationItemAppearance()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.configureNavigationItemAppearance()
+    }
+
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+        self.configureNavigationItemAppearance()
+    }
+
+    func configureNavigationItemAppearance() {
+        navigationItemSetup: do {
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.title = "Account"
+            self.navigationItem.hidesBackButton = true
+
+        }
+    }
+
+    func configureNavigationBarAppearance() {
+        navbarControllerSetup: do {
+            guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
+            navbarController.navigationBarHidden = false
+        }
+
+        revealControllerSetup: do {
+            guard let revealController = self.revealViewController() else {
+                break revealControllerSetup
+            }
+            let toggleButton = UIBarButtonItem(title: "toggle", style: .Plain, target: revealController, action: "revealToggle:")
+            toggleButton.image = UIImage(named: "menu_fff")
+            self.navigationItem.leftBarButtonItem = toggleButton
+        }
+
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
+        self.updateLoginCellDisplay()
+        self.updateSubscribeCellDisplay()
     }
 
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        guard let navbarController = self.parentViewController as? UINavigationController else { return }
-        navbarController.navigationBar.backIndicatorTransitionMaskImage = nil
-        navbarController.navigationBar.backIndicatorImage = nil
-        navbarController.navigationBarHidden = false
-
-        guard let revealController = self.revealViewController() else {
-            return
-        }
-        let toggleButton = UIBarButtonItem(title: "toggle", style: .Plain, target: revealController, action: "revealToggle:")
-        toggleButton.image = UIImage(named: "menu_fff")
-        self.navigationItem.leftBarButtonItem = toggleButton
-
-
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
         self.updateLoginCellDisplay()
         self.updateSubscribeCellDisplay()
+        super.viewWillAppear(animated)
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -131,7 +165,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         switch identifier {
         case "showLoginFromAccount":
             // is the user already logged in?
-            guard (UIApplication.sharedApplication().delegate as? AppDelegate)?.loggedIn == true else {
+            guard Account.loggedIn == true else {
                 break
             }
             // log the user out?
@@ -160,7 +194,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
             return false
 
         case "showSubscribe":
-            if (UIApplication.sharedApplication().delegate as? AppDelegate)?.loggedIn == false {
+            if Account.loggedIn == false {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     guard let welcomeController = self.storyboard?.instantiateViewControllerWithIdentifier("WelcomeViewController") else { return }
                     self.navigationController?.pushViewController(welcomeController, animated: true)

@@ -6,24 +6,38 @@ import UIKit
 
 class TermsViewController: UIViewController  {
 
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.configureNavigationItemAppearance()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.configureNavigationItemAppearance()
+    }
+
+
+    func configureNavigationItemAppearance() {
+        navigationItemSetup: do {
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.title = "Privacy Policy & Terms"
+            self.navigationItem.hidesBackButton = false
+
+        }
+    }
+
+    func configureNavigationBarAppearance() {
+        navbarControllerSetup: do {
+            guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
+            navbarController.navigationBarHidden = false
+        }
+    }
+
+
     override func viewDidLoad() {
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
         super.viewDidLoad()
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        guard let navbarController = self.parentViewController as? UINavigationController else { return }
-        navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")
-        navbarController.navigationBar.backIndicatorImage = UIImage(named: "back")
-        self.navigationItem.title = "Privacy Policy & Terms"
-
-
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
     }
 
     override func viewDidLayoutSubviews() {

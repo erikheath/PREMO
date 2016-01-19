@@ -17,6 +17,18 @@ class AppRoutingNavigationController: UINavigationController {
         case accountStack = "accountStack"
     }
 
+    // MARK: - Errors
+    enum AppRoutingError: Int, ErrorType {
+        case missingManagedObject = 5000
+
+        var objectType : NSError {
+            get {
+                return NSError(domain: "LoginError", code: self.rawValue, userInfo: nil)
+            }
+        }
+    }
+
+
     var currentNavigationStack: NavigationStack = NavigationStack.credentialStack
 
     var currentCategoryName: String? = nil
@@ -33,7 +45,7 @@ class AppRoutingNavigationController: UINavigationController {
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if self.viewControllers.last is VideoPlaybackViewController {
-            return UIInterfaceOrientationMask.AllButUpsideDown
+            return UIInterfaceOrientationMask.Landscape
         } else {
             return UIInterfaceOrientationMask.Portrait
         }
@@ -50,7 +62,7 @@ class AppRoutingNavigationController: UINavigationController {
             self.transitionToVideoStack(false)
 
         case .credentialStack:
-            if (UIApplication.sharedApplication().delegate as? AppDelegate)!.loggedIn == true {
+            if Account.loggedIn == true {
                 // take the user to features
                 self.transitionToVideoStack(false)
             } else {
@@ -107,10 +119,10 @@ class AppRoutingNavigationController: UINavigationController {
 
             do {
                 let objects = try managedObjectContext.executeFetchRequest(fetchRequest)
-                guard let managedObject = objects.first as? CategoryList else { return } // Add Error Handling
+                guard let managedObject = objects.first as? CategoryList else { throw AppRoutingError.missingManagedObject }
                 self.currentCategoryName = managedObject.categoryName
             } catch {
-                return // Add Error Handling
+                self.currentCategoryName = AppDelegate.defaultCategory
             }
         }
         rootController.categoryObjectName = self.currentCategoryName!

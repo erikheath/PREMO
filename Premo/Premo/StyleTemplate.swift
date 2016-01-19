@@ -21,6 +21,12 @@ class PremoStyleTemplate: NSObject {
         navbarProxy.tintColor = UIColor.whiteColor()
         navbarProxy.barStyle = UIBarStyle.Black
         navbarProxy.titleTextAttributes = [NSFontAttributeName: self.navBarFont()]
+        navbarProxy.backIndicatorImage = UIImage(named: "back")
+        navbarProxy.backIndicatorTransitionMaskImage = UIImage(named: "back")
+        navbarProxy.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        navbarProxy.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        navbarProxy.shadowImage = UIImage()
+
     }
 
     static func styleApp() -> Void {

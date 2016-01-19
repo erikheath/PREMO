@@ -17,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     /**
+     The default category that should be used when nothing is available.
+     */
+    static let defaultCategory = "Featured"
+
+    /**
     Provides a semi-static reference to the device. Used for limiting the number of devices that a user can use at the same time.
      */
     static var appDeviceID: String = {

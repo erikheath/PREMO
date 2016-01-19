@@ -7,10 +7,7 @@ import FBSDKLoginKit
 
 class CreateAccountTableViewController: UITableViewController, NSURLSessionDelegate, NSURLSessionDataDelegate {
 
-    @IBOutlet weak var signupButton: UIButton!
 
-    @IBOutlet weak var facebookSignupButton: UIButton!
-    
     enum SignUpError: Int, ErrorType {
         case unknownError = 5000
         case credentialError = 5001
@@ -27,6 +24,33 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
     weak var currentSignUpTask: NSURLSessionDataTask? = nil
     var signUpResponse: NSMutableData? = nil
+
+    /**
+     The url path used for all premo facebook signup requests
+     */
+    let facebookSignupPath = "/api/v1/connect/facebook"
+
+    /**
+     The url path used for all premo signup requests
+     */
+    let PREMOSignupPath = "/api/v1/signup"
+
+
+    @IBOutlet weak var signupButton: UIButton!
+
+    @IBOutlet weak var facebookSignupButton: UIButton!
+
+    @IBOutlet weak var firstNameTextField: UITextField!
+
+    @IBOutlet weak var lastNameTextField: UITextField!
+
+    @IBOutlet weak var emailTextField: UITextField!
+
+    @IBOutlet weak var passwordTextField: UITextField!
+
+    @IBOutlet weak var gotoLoginButton: UIButton!
+
+    @IBOutlet weak var signupActivityIndicator: UIActivityIndicatorView!
 
 
     override func viewDidLoad() {
@@ -47,16 +71,31 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        (self.parentViewController as? UINavigationController)?.setNavigationBarHidden(false, animated: false)
-        (self.parentViewController as? UINavigationController)?.navigationBar.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-        (self.parentViewController as? UINavigationController)?.navigationBar.barTintColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-        (self.parentViewController as? UINavigationController)?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        (self.parentViewController as? UINavigationController)?.navigationBar.shadowImage = UIImage()
-
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Portrait
+    func configureNavigationItemAppearance() {
+        navigationItemSetup: do {
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.title = ""
+            self.navigationItem.hidesBackButton = false
+            let titleViewImageView = UIImageView(image: UIImage(named: "PREMO_titlebar"))
+            titleViewImageView.contentMode = .ScaleAspectFit
+            self.navigationItem.titleView = titleViewImageView
+        }
+    }
+
+    func configureNavigationBarAppearance() {
+        navbarControllerSetup: do {
+            guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
+            navbarController.navigationBarHidden = false
+        }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 
 
@@ -74,29 +113,17 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         return true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @IBOutlet weak var firstNameTextField: UITextField!
-
-    @IBOutlet weak var lastNameTextField: UITextField!
-
-    @IBOutlet weak var emailTextField: UITextField!
-
-    @IBOutlet weak var passwordTextField: UITextField!
-
-    @IBOutlet weak var gotoLoginButton: UIButton!
-
-    @IBOutlet weak var signupActivityIndicator: UIActivityIndicatorView!
 
 
     @IBAction func facebookSignup(sender: AnyObject) {
         func processFacebookLogin() {
-            guard let loginURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/connect/facebook") else { self.presentUnknownFailure(); return }
-            let HTTPBodyDictionary: NSDictionary = ["userID": FBSDKAccessToken.currentAccessToken().userID, "accessToken": FBSDKAccessToken.currentAccessToken().tokenString, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
-            self.sendSignupRequest(loginURL, HTTPBodyDictionary: HTTPBodyDictionary)
+            do {
+                let HTTPBodyDictionary: NSDictionary = ["userID": FBSDKAccessToken.currentAccessToken().userID, "accessToken": FBSDKAccessToken.currentAccessToken().tokenString, "deviceID": AppDelegate.appDeviceID, "platform": "ios"]
+                let signupRequest = try NSMutableURLRequest.PREMOURLRequest(self.facebookSignupPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: true)
+                self.sendSignupRequest(signupRequest)
+            } catch {
+                self.presentSignUpError()
+            }
         }
 
         self.manageUserInteractions(false)
@@ -123,8 +150,6 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     }
 
     @IBAction func signUp(sender: AnyObject) {
-        // Manual check to see if the fields are full - or don't make the button pushable until the fields have something in them.
-        // Put up timer and disable navigation buttons. Should there be a cancel?
         self.view.endEditing(true)
         self.manageUserInteractions(false)
         guard let userName = emailTextField.text where userName != "",
@@ -132,35 +157,67 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             let firstName = firstNameTextField.text where firstName != "",
             let lastName = lastNameTextField.text where lastName != ""
             else { self.presentMissingCredentialError(); return }
+        do {
+            let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "firstName": firstName, "lastName": lastName, "deviceID": AppDelegate.appDeviceID, "platform": "ios"]
+            let signupRequest = try NSMutableURLRequest.PREMOURLRequest(self.PREMOSignupPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: true)
+            self.sendSignupRequest(signupRequest)
+        } catch {
+            self.presentSignUpError()
+        }
+    }
 
-        let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "firstName": firstName, "lastName": lastName, "deviceID": ((UIApplication.sharedApplication().delegate as? AppDelegate)?.appDeviceID)!, "platform": "ios"]
+    @IBAction func endEditingInView(sender: AnyObject) {
+        self.view.endEditing(true)
+    }
 
-        guard let signUpURL = NSURL(string: "http://lava-dev.premonetwork.com:3000/api/v1/signup") else { self.presentUnknownFailure(); return }
+    @IBAction func firstNameEditingEnded(sender: AnyObject) {
+        lastNameTextField.becomeFirstResponder()
+        firstNameTextField.resignFirstResponder()
+    }
 
-        self.sendSignupRequest(signUpURL, HTTPBodyDictionary: HTTPBodyDictionary)
+    @IBAction func lastNameEditingEnded(sender: AnyObject) {
+        emailTextField.becomeFirstResponder()
+        lastNameTextField.resignFirstResponder()
+    }
+
+    @IBAction func emailEditingEnded(sender: AnyObject) {
+        passwordTextField.becomeFirstResponder()
+        emailTextField.resignFirstResponder()
+    }
+
+    func manageUserInteractions(enabled: Bool) {
+
+        if enabled == true {
+            self.signupActivityIndicator.stopAnimating()
+        } else {
+            self.signupActivityIndicator.startAnimating()
+        }
+
+        firstNameTextField.userInteractionEnabled = enabled
+        lastNameTextField.userInteractionEnabled = enabled
+        emailTextField.userInteractionEnabled = enabled
+        passwordTextField.userInteractionEnabled = enabled
+        signupButton.userInteractionEnabled = enabled
+        gotoLoginButton.userInteractionEnabled = enabled
+        self.navigationItem.backBarButtonItem?.enabled = enabled
 
     }
 
-    func sendSignupRequest(signUpURL: NSURL, HTTPBodyDictionary: NSDictionary) {
+
+    func sendSignupRequest(signupRequest: NSMutableURLRequest) {
+        let lock = NSLock()
+        lock.lock()
         if self.currentSignUpTask != nil && self.currentSignUpTask?.state == NSURLSessionTaskState.Running {
             self.currentSignUpTask?.cancel()
             self.currentSignUpTask = nil
         }
         self.signUpResponse = nil
 
-        let signUpRequest = NSMutableURLRequest(URL: signUpURL, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30.0)
-        signUpRequest.setValue("application/JSON", forHTTPHeaderField: "Content-Type")
-        do {
-            guard NSJSONSerialization.isValidJSONObject(HTTPBodyDictionary) == true else { throw SignUpError.credentialError }
-            let JSONBodyData: NSData = try NSJSONSerialization.dataWithJSONObject(HTTPBodyDictionary, options: NSJSONWritingOptions.init(rawValue: 0))
-            signUpRequest.HTTPBody = JSONBodyData
-            signUpRequest.HTTPMethod = "POST"
-            let signUpTask = self.signUpSession.dataTaskWithRequest(signUpRequest)
-            self.currentSignUpTask = signUpTask
-            signUpTask.resume()
-        } catch {
-            self.presentMissingCredentialError()
-        }
+        let signUpTask = self.signUpSession.dataTaskWithRequest(signupRequest)
+        self.currentSignUpTask = signUpTask
+        signUpTask.resume()
+
+        defer { lock.unlock() }
 
     }
 
@@ -232,6 +289,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         }
     }
 
+
     func presentMissingCredentialError() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: "Login Failed", message: "Your first name, last name, an email address, and a password at least six(6) characters long are required. Please try again or contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -242,7 +300,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             self.signupActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
-        
+
     }
 
     func presentSignUpError() {
@@ -348,42 +406,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
-
-    @IBAction func endEditingInView(sender: AnyObject) {
-            self.view.endEditing(true)
-    }
-
-    @IBAction func firstNameEditingEnded(sender: AnyObject) {
-        lastNameTextField.becomeFirstResponder()
-        firstNameTextField.resignFirstResponder()
-    }
-
-    @IBAction func lastNameEditingEnded(sender: AnyObject) {
-        emailTextField.becomeFirstResponder()
-        lastNameTextField.resignFirstResponder()
-    }
-
-    @IBAction func emailEditingEnded(sender: AnyObject) {
-        passwordTextField.becomeFirstResponder()
-        emailTextField.resignFirstResponder()
-    }
-
-    func manageUserInteractions(enabled: Bool) {
-
-        if enabled == true {
-            self.signupActivityIndicator.stopAnimating()
-        } else {
-            self.signupActivityIndicator.startAnimating()
-        }
-
-        firstNameTextField.userInteractionEnabled = enabled
-        lastNameTextField.userInteractionEnabled = enabled
-        emailTextField.userInteractionEnabled = enabled
-        passwordTextField.userInteractionEnabled = enabled
-        signupButton.userInteractionEnabled = enabled
-        gotoLoginButton.userInteractionEnabled = enabled
-        self.navigationItem.backBarButtonItem?.enabled = enabled
-        
-    }
-
+    
+    
+    
 }

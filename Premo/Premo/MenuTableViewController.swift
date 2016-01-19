@@ -9,22 +9,47 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
 
     lazy var managedObjectContext: NSManagedObjectContext? = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer?.mainContext
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.configureNavigation()
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.configureNavigationItemAppearance()
     }
 
-    func configureNavigation() {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-        guard let navbarController = self.parentViewController as? UINavigationController else { return }
-        navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "menu_fff")
-        navbarController.navigationBar.backIndicatorImage = UIImage(named: "menu_fff")
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.configureNavigationItemAppearance()
+    }
+
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+        self.configureNavigationItemAppearance()
+    }
+
+
+    func configureNavigationItemAppearance() {
+        navigationItemSetup: do {
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.title = ""
+            self.navigationItem.hidesBackButton = true
+        }
+    }
+
+    func configureNavigationBarAppearance() {
+        navbarControllerSetup: do {
+            guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
+            navbarController.navigationBarHidden = true
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
     }
 
     override func viewWillAppear(animated: Bool) {
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
         super.viewWillAppear(animated)
-        (self.parentViewController as? UINavigationController)?.setNavigationBarHidden(true, animated: true)
-
     }
 
     override func prefersStatusBarHidden() -> Bool {
