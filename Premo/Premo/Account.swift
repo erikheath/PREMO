@@ -1,9 +1,5 @@
 //
 //  Account.swift
-//  Premo
-//
-//  Created by ERIKHEATH A THOMAS on 1/16/16.
-//  Copyright © 2016 Premo Network. All rights reserved.
 //
 
 import Foundation
@@ -58,6 +54,15 @@ class Account: NSObject {
             return errorString
         }
     }
+
+    static let supportSite = NSURL(string: "http://www.premonetwork.com/support")
+    static let iTunesSubscriptionManagement = NSURL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")
+    static let premoAccoutManagementSite = NSURL(string: "http://www.premonetwork.com")
+    /**
+     The url path used for all premo member info requests
+     */
+    static let memberPath = "/api/v1/member"
+    static let logoutPath = "/api/v1/logout"
 
 
     /**
@@ -123,23 +128,113 @@ class Account: NSObject {
      Removes the user's device from being counted by the PREMO service as an active device. Called as part of the logout process.
      */
     static func removeDeviceFromService() {
-        
+        if self.loggedIn == true {
+            do {
+                let logoutRequest = try NSMutableURLRequest.PREMOURLRequest(self.memberPath, method: NSMutableURLRequest.PREMORequestMethod.GET, HTTPBody: nil, authorizationRequired: true)
+                self.sendLogoutRequest(logoutRequest)
+            } catch { self.clearAccountSettings() }
+        } else {
+            self.clearAccountSettings()
+        }
+    }
+
+    private static func sendLogoutRequest(logoutRequest: NSMutableURLRequest) -> Void {
+        let logoutRequestTask = NSURLSession.sharedSession().dataTaskWithRequest(logoutRequest, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+
+            guard error == nil else { return }
+
+            guard let httpResponse = response as? NSHTTPURLResponse else { return }
+
+            // Placeholder for more advanced response error handling.
+            switch httpResponse.statusCode {
+
+            default:
+                break
+
+            }
+        })
+
+        logoutRequestTask.resume()
     }
 
     /**
      Clears all account settings, effectively logging the user out on the device. This method is always called by removeDeviceFromService after it completes.
      */
     static func clearAccountSettings() {
-
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.JSONWebToken.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.userName.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.firstName.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.lastName.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.source.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.creationDate.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.expirationDate.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.validUntilDate.rawValue)
+        NSUserDefaults.standardUserDefaults().removeObjectForKey(AccountInfo.autoRenews.rawValue)
     }
 
-
     /**
-     Triggers a series of checks for login and subscription, getting the most current status of the user.
+     Triggers a series of checks for login and subscription, getting the most current status of the user or clearing the current stale account data.
      
      - Throws: In the event of an error - for example a lack of internet connectivity.
      */
     static func refreshAccount() throws -> Void {
+        if self.loggedIn == true {
+            do {
+                let refreshRequest = try NSMutableURLRequest.PREMOURLRequest(self.memberPath, method: NSMutableURLRequest.PREMORequestMethod.GET, HTTPBody: nil, authorizationRequired: true)
+                self.sendRefreshRequest(refreshRequest)
+            } catch { self.clearAccountSettings() }
+        } else {
+            self.clearAccountSettings()
+        }
+    }
+
+    private static func sendRefreshRequest(refreshRequest: NSMutableURLRequest) -> Void {
+            let registrationRequestTask = NSURLSession.sharedSession().dataTaskWithRequest(refreshRequest, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+
+                guard error == nil else { return }
+
+                guard let httpResponse = response as? NSHTTPURLResponse else { return }
+
+                guard let responseData = data else { return }
+
+                switch httpResponse.statusCode {
+                case 200...299:
+                    self.processRefreshResponse(responseData)
+
+                case 401:
+                    self.clearAccountSettings() // The JSON Web token was expired and the user is not logged in.
+
+                default:
+                    break
+                    
+                }
+            })
+            
+            registrationRequestTask.resume()
+    }
+
+    /**
+     Processes the response data from a refresh request.
+     */
+    private static func processRefreshResponse(refreshData: NSData) {
+        do {
+            guard let JSONObject = try NSJSONSerialization.JSONObjectWithData(refreshData, options: NSJSONReadingOptions.init(rawValue: 0)) as? NSDictionary else { return }
+
+            guard let success = JSONObject.objectForKey("success") where (success as? NSNumber)!.boolValue == true else {
+                self.clearAccountSettings()
+                return
+            }
+
+            guard let _ = JSONObject.objectForKey("payload") as? NSDictionary else {
+                return
+            }
+
+            try self.processAccountPayload(JSONObject)
+
+        } catch {
+            self.clearAccountSettings()
+            return
+        }
 
     }
 

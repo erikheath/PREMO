@@ -12,6 +12,6 @@ class CarouselTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         carousel.type = .Linear
+        carousel.pagingEnabled = true
     }
-
 }

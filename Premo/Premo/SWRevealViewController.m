@@ -28,7 +28,6 @@
 
 #import "SWRevealViewController.h"
 
-
 #pragma mark - StatusBar Helper Function
 
 // computes the required offset adjustment due to the status bar for the passed in view,
@@ -761,13 +760,12 @@ const int FrontViewPositionNone = 0xff;
     _userInteractionStore = _contentView.userInteractionEnabled;
 }
 
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    // we could have simply not implemented this, but we choose to call super to make explicit that we
-    // want the default behavior.
-    return [super supportedInterfaceOrientations];
-}
+//- (NSUInteger)supportedInterfaceOrientations
+//{
+//    // we could have simply not implemented this, but we choose to call super to make explicit that we
+//    // want the default behavior.
+//    return [super supportedInterfaceOrientations];
+//}
 
 
 #pragma mark - Public methods and property accessors

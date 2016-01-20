@@ -117,6 +117,13 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         return UIInterfaceOrientationMask.Portrait
     }
 
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+
+    override func shouldAutomaticallyForwardRotationMethods() -> Bool {
+        return true
+    }
 
     // MARK: - Navigation
 

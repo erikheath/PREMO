@@ -29,7 +29,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
     
     @IBOutlet weak var playerView: UIView!
     weak var playerController: OOOoyalaPlayerViewController? = nil
-    var player: OOOoyalaPlayer? = nil
+    weak var player: OOOoyalaPlayer? = nil
     var pCode: String? = nil
     var embedCode: String? = nil
     var playbackType: PlaybackType? = nil
@@ -53,7 +53,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
             self.player = player
             player.setEmbedCode(embedCode)
-            player.actionAtEnd = OOOoyalaPlayerActionAtEndReset
+            player.actionAtEnd = OOOoyalaPlayerActionAtEndStop
             player.allowsExternalPlayback = true
 
 
@@ -62,8 +62,9 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             self.playerController?.setFullscreen(true)
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "fullscreenExit:", name: OOOoyalaPlayerViewControllerFullscreenExit, object: self.playerController)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver", name: OOOoyalaPlayerErrorNotification, object: self.player)
-//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.playerController)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playCompleted:", name: OOOoyalaPlayerPlayCompletedNotification, object: self.player)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.player)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.playerController)
 
             self.addChildViewController(playerController)
             self.playerView.addSubview(playerController.view)
@@ -71,7 +72,6 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             playerController.player.play()
         }
     }
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -90,11 +90,6 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
         return true
     }
 
-
-//    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-//        return UIInterfaceOrientation.LandscapeLeft
-//    }
-
     //MARK: Process Observations
 
     // MARK: Process Notifications
@@ -102,7 +97,14 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
         print(notification)
     }
 
+    func playCompleted(notification: NSNotification) {
+//        self.fullscreenExit(notification)
+    }
+
     func fullscreenExit(notification: NSNotification) {
+        self.playerView.removeFromSuperview()
+        self.playerController?.removeFromParentViewController()
+        self.playerController?.player = nil
         self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
     }
 
@@ -153,6 +155,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             tokenRequestTask.resume()
         } catch {
             self.presentPlaybackError()
+            return
         }
     }
 

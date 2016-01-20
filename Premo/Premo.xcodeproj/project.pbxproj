@@ -43,6 +43,9 @@
 		4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */; };
 		4A7A66911C489B53007B86F2 /* FeatureDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */; };
 		4A88E32C1C41DC7900BC1543 /* AppRoutingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */; };
+		4A9264561C4F0D3A0029B12E /* SlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9264551C4F0D3A0029B12E /* SlideController.swift */; };
+		4A9264581C4F18A80029B12E /* Carousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9264571C4F18A80029B12E /* Carousel.swift */; };
+		4A92645A1C4F3EAE0029B12E /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9264591C4F3EAE0029B12E /* PlayerViewController.swift */; };
 		4AC3F8631C3CAB08002464A7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AC3F8621C3CAB08002464A7 /* StoreKit.framework */; };
 		4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */; };
 		4AC5DC341C1A17D400FF2547 /* NetworkStoreSaveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DC331C1A17D400FF2547 /* NetworkStoreSaveRequest.swift */; };
@@ -192,6 +195,9 @@
 		4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONEntityProcessor.swift; path = DataDriver/JSONEntityProcessor.swift; sourceTree = "<group>"; };
 		4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDetailTableViewCell.swift; sourceTree = "<group>"; };
 		4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoutingNavigationController.swift; sourceTree = "<group>"; };
+		4A9264551C4F0D3A0029B12E /* SlideController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideController.swift; sourceTree = "<group>"; };
+		4A9264571C4F18A80029B12E /* Carousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Carousel.swift; sourceTree = "<group>"; };
+		4A9264591C4F3EAE0029B12E /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		4AC3F8621C3CAB08002464A7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkStoreRequest.swift; path = DataDriver/NetworkStoreRequest.swift; sourceTree = "<group>"; };
 		4AC5DC331C1A17D400FF2547 /* NetworkStoreSaveRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkStoreSaveRequest.swift; path = DataDriver/NetworkStoreSaveRequest.swift; sourceTree = "<group>"; };
@@ -405,6 +411,7 @@
 				4A3D7D961BFE89B300383319 /* AppDelegate.swift */,
 				4A9264541C4C48BC0029B12E /* Account State Management */,
 				4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */,
+				4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */,
 				4A3D11DC1C1F4215000D6D85 /* MenuTableViewController.swift */,
 				4A3D12221C1F711F000D6D85 /* CategoryTableViewController.swift */,
 				4AFC41B01C473992003BDAE1 /* CarouselTableViewCell.swift */,
@@ -413,10 +420,10 @@
 				4A1F2E471C30C76100E3D05C /* FeatureTableViewController.swift */,
 				4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */,
 				4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */,
+				4A9264591C4F3EAE0029B12E /* PlayerViewController.swift */,
 				4A1F2E3F1C30C62100E3D05C /* DetailPosterTableViewCell.swift */,
 				4A1F2E411C30C65300E3D05C /* ControllerTableViewCell.swift */,
 				4A1F2E431C30C67600E3D05C /* CreditsTableViewCell.swift */,
-				4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */,
 				4AE318791C335D9400963C80 /* TermsViewController.swift */,
 				4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */,
 				4AED71C61C4AF7EB0083A9F9 /* StyleTemplate.swift */,
@@ -596,6 +603,7 @@
 			children = (
 				4AFC41AC1C4737BA003BDAE1 /* iCarousel.h */,
 				4AFC41AD1C4737BA003BDAE1 /* iCarousel.m */,
+				4A9264571C4F18A80029B12E /* Carousel.swift */,
 			);
 			name = iCarousel;
 			sourceTree = "<group>";
@@ -605,6 +613,7 @@
 			children = (
 				4AFD45521C4961FF002DA7AE /* SWRevealViewController.h */,
 				4AFD45531C4961FF002DA7AE /* SWRevealViewController.m */,
+				4A9264551C4F0D3A0029B12E /* SlideController.swift */,
 			);
 			name = SWRevealController;
 			sourceTree = "<group>";
@@ -796,6 +805,7 @@
 				4AED71C51C4AEEC80083A9F9 /* Account.swift in Sources */,
 				4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */,
 				4AFD45541C4961FF002DA7AE /* SWRevealViewController.m in Sources */,
+				4A9264561C4F0D3A0029B12E /* SlideController.swift in Sources */,
 				4A3D12231C1F711F000D6D85 /* CategoryTableViewController.swift in Sources */,
 				4A7634F41C02858D002DFB50 /* DataConditionerOperation.swift in Sources */,
 				4AFC41D21C474B1F003BDAE1 /* AppConfig+CoreDataProperties.swift in Sources */,
@@ -809,9 +819,11 @@
 				4AED71C71C4AF7EB0083A9F9 /* StyleTemplate.swift in Sources */,
 				4A76ECEC1C272185005C6F83 /* ImageDataProcessor.swift in Sources */,
 				4AFC41E41C474B1F003BDAE1 /* Director+CoreDataProperties.swift in Sources */,
+				4A9264581C4F18A80029B12E /* Carousel.swift in Sources */,
 				4AFC41D51C474B1F003BDAE1 /* ContentItem.swift in Sources */,
 				4AFC41D11C474B1F003BDAE1 /* Catalog.swift in Sources */,
 				4A1F2E401C30C62100E3D05C /* DetailPosterTableViewCell.swift in Sources */,
+				4A92645A1C4F3EAE0029B12E /* PlayerViewController.swift in Sources */,
 				4A1F2E161C2F51FC00E3D05C /* PosterTableViewCell.swift in Sources */,
 				4AFC41CE1C474B1F003BDAE1 /* Artwork+CoreDataProperties.swift in Sources */,
 				4AEE7EDB1C0188CC009F0004 /* PersistentStoreCoordinator.swift in Sources */,

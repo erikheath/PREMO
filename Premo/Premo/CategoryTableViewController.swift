@@ -6,7 +6,7 @@ import UIKit
 import CoreData
 import CoreImage
 
-class CategoryTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, iCarouselDataSource, iCarouselDelegate {
+class CategoryTableViewController: UITableViewController, NSFetchedResultsControllerDelegate, iCarouselDataSource, CarouselDelegate {
 
     lazy var managedObjectContext: NSManagedObjectContext? = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer?.mainContext
 
@@ -18,11 +18,17 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     var carouselImageMask: UIImage? = nil
 
+    weak var carouselTimer: NSTimer? = nil
+
 
     // MARK: - OBJECT LIFECYCLE
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        if self.carouselTimer != nil {
+            self.carouselTimer?.invalidate()
+            self.carouselTimer = nil
+        }
     }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -169,8 +175,6 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         guard let contentItem = self.fetchedResultsController.fetchedObjects?[contentItemIndex] as? ContentItem else {return }
         guard let featureDetailController = self.storyboard?.instantiateViewControllerWithIdentifier("FeatureTableViewController") as? FeatureTableViewController else { return }
         featureDetailController.contentItem = contentItem
-        featureDetailController.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-        featureDetailController.navigationItem.leftItemsSupplementBackButton = true
         self.navigationController?.pushViewController(featureDetailController, animated: true)
         return
     }
@@ -178,6 +182,13 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
         guard let carouselCell = carousel.superview?.superview as? CarouselTableViewCell else { return }
         carouselCell.carouselPageControl.currentPage = carousel.currentItemIndex
+        if self.carouselTimer != nil {
+            self.carouselTimer?.invalidate()
+            self.carouselTimer = nil
+
+        }
+        self.carouselTimer = NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showNextCarouselItem:", userInfo: nil, repeats: false)
+
     }
 
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
@@ -187,6 +198,45 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         default:
             return value
         }
+    }
+
+    func carouselShouldReloadData(carousel: iCarousel) -> Bool {
+        guard let carouselSet = (self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel where carouselSet.count > 0 else { return false }
+        for item in carouselSet {
+            guard let carouselItem = item as? CarouselItem, let carouselSourceID = carouselItem.contentSourceID else { return false }
+            let contentObjects = (fetchedResultsController.fetchedObjects as NSArray!).filteredArrayUsingPredicate(NSPredicate(format: "contentSourceID == %@", argumentArray: [carouselSourceID]))
+            guard let contentItem = contentObjects.first as? ContentItem else { return false }
+            if contentItem.artwork?.artwork269x152 == nil {
+                return false
+            }
+        }
+        return true
+    }
+
+    func carouselWillReloadData(carousel: iCarousel) {
+        if self.carouselTimer != nil {
+            self.carouselTimer?.invalidate()
+            self.carouselTimer = nil
+        }
+    }
+
+    func carouselDidReloadData(carousel: iCarousel) {
+        if carousel.numberOfItems == 0 { return }
+        self.carouselTimer = NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showNextCarouselItem:", userInfo: nil, repeats: false)
+        guard let carouselCell = carousel.superview?.superview as? CarouselTableViewCell else { return }
+        carouselCell.carouselPageControl.numberOfPages = carouselCell.carousel.numberOfItems
+        carouselCell.carouselPageControl.currentPage = carouselCell.carousel.currentItemIndex
+    }
+
+    func showNextCarouselItem(timer: NSTimer) {
+        let targetIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+        guard ((self.tableView.indexPathsForVisibleRows as NSArray!).contains { (object: AnyObject) -> Bool in
+            guard let indexPath = object as? NSIndexPath else { return false }
+            if indexPath == targetIndexPath { return true }
+            return false
+        }) == true else { return }
+        guard let cell = self.tableView.cellForRowAtIndexPath(targetIndexPath) as? CarouselTableViewCell else { return }
+        cell.carousel.scrollByNumberOfItems(1, duration: 1.5)
     }
 
     // MARK: - Table view data source
@@ -229,8 +279,6 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             self.carouselViewDimensions = cell.bounds
             carouselCell.carousel.delegate = self
             carouselCell.carousel.dataSource = self
-            carouselCell.carouselPageControl.numberOfPages = carouselCell.carousel.numberOfItems
-            carouselCell.carouselPageControl.currentPage = carouselCell.carousel.currentItemIndex
         } else {
             // POSTERCELL
             let modifiedPath = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section - 1)
@@ -369,8 +417,6 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
                 guard let object = self.fetchedResultsController.objectAtIndexPath(modifiedPath) as? ContentItem else { return }
                 let controller = segue.destinationViewController as! FeatureTableViewController
                 controller.contentItem = object
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                controller.navigationItem.leftItemsSupplementBackButton = true
             }
         }
     }
@@ -381,6 +427,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
             for managedObject in updatedObjects {
                 if managedObject is Artwork {
+                    // Main table update
                     guard let paths = self.tableView.indexPathsForVisibleRows else { continue }
                     for indexPath in paths {
                         if (self.fetchedResultsController.sections?[0].objects?[indexPath.row] as? ContentItem)!.artwork?.objectID == managedObject.objectID {
@@ -388,8 +435,30 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
                             self.tableView.reloadData()
                         }
                     }
+                    // Carousel update
+                    guard let carouselSet = (self.fetchedResultsController.fetchedObjects?.first as? ContentItem)?.categoryMember?.carousel else { continue }
+                    for item in carouselSet {
+                        guard let carouselItem = item as? CarouselItem, let managedObjectsArray = self.fetchedResultsController.fetchedObjects as NSArray!, let carouselSourceID = carouselItem.contentSourceID else { break }
+                        let object = managedObjectsArray.filteredArrayUsingPredicate(NSPredicate(format: "contentSourceID == %@", argumentArray: [carouselSourceID]))
+                        guard let contentItem = object.first as? ContentItem else { break }
+                        if contentItem.artwork?.objectID == managedObject.objectID {
+                            guard let carouselCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? CarouselTableViewCell else { continue }
+                            carouselCell.carousel.reloadData()
+                        }
+                    }
                 }
             }
+        }
+
+        if let insertedObjects = notification.userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> {
+            for managedObject in insertedObjects {
+                if managedObject is CarouselItem {
+                    if let carouselCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? CarouselTableViewCell {
+                        carouselCell.carousel.reloadData()
+                    }
+                }
+            }
+
         }
     }
 

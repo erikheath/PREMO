@@ -51,6 +51,13 @@ class AppRoutingNavigationController: UINavigationController {
         }
     }
 
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+
+    override func shouldAutomaticallyForwardRotationMethods() -> Bool {
+        return true
+    }
 
     // MARK: - Navigation
 

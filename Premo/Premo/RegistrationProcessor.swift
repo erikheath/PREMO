@@ -111,11 +111,14 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
         return registrationRequest
     }
 
-    func processRestoreRequest() -> Void {
+    func processRestoreRequest() throws -> Void {
         /*
         TODO: Implement this abstract method if necessary
         This would support restoring by querying the receipt and then sending that to the server. This may be part of refreshing the account.
         */
+        let receipt = try processOnBoardReceipt()
+        let restoreRequest = try constructRegistrationRequest(receipt)
+        sendRegistrationRequest(restoreRequest, transaction: nil)
     }
 
     func processTransactionNotification(notification: NSNotification) -> Void {
@@ -213,13 +216,13 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
                 return
             }
 
-            guard let subscription = (JSONObject.objectForKey("payload") as? NSDictionary)!.objectForKey("subscription") as? NSDictionary else {
+            guard let _ = (JSONObject.objectForKey("payload") as? NSDictionary)!.objectForKey("subscription") as? NSDictionary else {
                 let notification = NSNotification(name: RegistrationStatusNotification.registrationResponseError.rawValue, object: nil, userInfo: nil)
                 NSNotificationCenter.defaultCenter().postNotification(notification)
                 return
             }
 
-            try Account.processAccountPayload(subscription)
+            try Account.processAccountPayload(JSONObject)
 
         } catch {
             let notification = NSNotification(name: RegistrationStatusNotification.registrationResponseError.rawValue, object: nil, userInfo: nil)

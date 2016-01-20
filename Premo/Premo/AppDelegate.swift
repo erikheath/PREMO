@@ -58,8 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var datalayer: DataLayer? = {
 
         do {
-            let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("PREMOCatalog.sqlite")
-            print(storeURL)
+//            let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("PREMOCatalog.sqlite")
+//            print(storeURL)
             let store = StoreReference(storeType: NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
 //          let store = StoreReference(storeType: NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
             guard let modelURL = NSBundle.mainBundle().URLForResource("Premo", withExtension: "momd") else { throw DataLayerError.genericError }
@@ -104,8 +104,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set up Facebook SDK
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
-        // Refresh the user's account.
-        do { try Account.refreshAccount() } catch { return true }
+        // Refresh the user's account if they are marked as logged in.
+        do {
+            if Account.loggedIn == true { try Account.refreshAccount() }
+        } catch { return true }
 
         return true
     }

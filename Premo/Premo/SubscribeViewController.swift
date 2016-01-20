@@ -32,8 +32,6 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
 
     var products: Array<SKProduct>? = nil
 
-    let iTunesSubscriptionManagement = NSURL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")
-
     var subscribeOffer = 0
 
 
@@ -353,11 +351,11 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             SKPaymentQueue.defaultQueue().addPayment(payment)
 
         case 1:
-            guard let _ = self.iTunesSubscriptionManagement else {
+            guard let _ = Account.iTunesSubscriptionManagement else {
                 self.presentiTunesAccessFailure()
                 return
             }
-            UIApplication.sharedApplication().openURL(self.iTunesSubscriptionManagement!)
+            UIApplication.sharedApplication().openURL(Account.iTunesSubscriptionManagement!)
             self.manageUserInteractions(true)
 
         default:

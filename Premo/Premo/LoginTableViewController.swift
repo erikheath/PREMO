@@ -142,6 +142,7 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
                 self.sendLoginRequest(loginRequest)
             } catch {
                 self.presentLoginError()
+                return
             }
         }
 
@@ -182,6 +183,7 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
             self.sendLoginRequest(loginRequest)
         } catch {
             self.presentLoginError()
+            return
         }
 
     }

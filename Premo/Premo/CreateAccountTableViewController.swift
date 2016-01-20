@@ -123,6 +123,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
                 self.sendSignupRequest(signupRequest)
             } catch {
                 self.presentSignUpError()
+                return
             }
         }
 
@@ -163,6 +164,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             self.sendSignupRequest(signupRequest)
         } catch {
             self.presentSignUpError()
+            return
         }
     }
 
