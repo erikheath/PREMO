@@ -153,7 +153,7 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         }
 
         let loginManager = FBSDKLoginManager()
-        loginManager.logInWithReadPermissions(["public_profile, email"], fromViewController: self) { (result:FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+        loginManager.logInWithReadPermissions(["public_profile", "email"], fromViewController: self) { (result:FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             if error != nil {
                 self.presentServerFailure()
             }

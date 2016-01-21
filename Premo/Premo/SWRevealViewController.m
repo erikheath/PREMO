@@ -28,6 +28,8 @@
 
 #import "SWRevealViewController.h"
 
+#import "Premo-Swift.h"
+
 #pragma mark - StatusBar Helper Function
 
 // computes the required offset adjustment due to the status bar for the passed in view,
@@ -1522,6 +1524,8 @@ const int FrontViewPositionNone = 0xff;
         if ( [_delegate respondsToSelector:@selector(revealController:willMoveToPosition:)] )
             [_delegate revealController:self willMoveToPosition:newPosition];
     }
+
+    
     
     _frontViewPosition = newPosition;
     
@@ -1617,7 +1621,7 @@ const int FrontViewPositionNone = 0xff;
 {
     if ( !controller || !view )
         return ^(void){};
-    
+
     CGRect frame = view.bounds;
     
     UIView *controllerView = controller.view;

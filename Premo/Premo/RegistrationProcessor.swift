@@ -82,7 +82,7 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
 
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processTransactionNotification", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processTransactionNotification:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
     }
 
     deinit {

@@ -160,7 +160,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
             else { self.presentMissingCredentialError(); return }
         do {
             let HTTPBodyDictionary: NSDictionary = ["username": userName, "password": password, "firstName": firstName, "lastName": lastName, "deviceID": AppDelegate.appDeviceID, "platform": "ios"]
-            let signupRequest = try NSMutableURLRequest.PREMOURLRequest(self.PREMOSignupPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: true)
+            let signupRequest = try NSMutableURLRequest.PREMOURLRequest(self.PREMOSignupPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: false)
             self.sendSignupRequest(signupRequest)
         } catch {
             self.presentSignUpError()

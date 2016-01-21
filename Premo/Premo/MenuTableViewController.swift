@@ -44,12 +44,17 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
         super.viewDidLoad()
         self.configureNavigationItemAppearance()
         self.configureNavigationBarAppearance()
+        self.tableView.clipsToBounds = true
+        self.tableView.superview?.clipsToBounds = true
+
     }
 
     override func viewWillAppear(animated: Bool) {
         self.configureNavigationItemAppearance()
         self.configureNavigationBarAppearance()
         super.viewWillAppear(animated)
+
+
     }
 
     override func prefersStatusBarHidden() -> Bool {
@@ -132,14 +137,16 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
             }
             let mutableString = NSMutableAttributedString(string: objectString)
             mutableString.addAttribute(NSFontAttributeName, value: self.categoryFont(), range: NSMakeRange(0, mutableString.length))
-            mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 5.0), range: NSMakeRange(0, mutableString.length))
+            mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableString.length))
             cell.textLabel!.attributedText = mutableString
             cell.imageView?.image = UIImage(named: object.valueForKey("categoryIcon")!.description)
+            cell.imageView?.frame = CGRect(x: (cell.imageView?.frame.origin.x)! + 4.0, y: (cell.imageView?.frame.origin.y)!, width: (cell.imageView?.frame.size.width)!, height: (cell.imageView?.frame.size.height)!)
+
         } else {
             cell.imageView?.image = UIImage(named: "account")
             let mutableString = NSMutableAttributedString(string: "ACCOUNT")
             mutableString.addAttribute(NSFontAttributeName, value: self.categoryFont(), range: NSMakeRange(0, mutableString.length))
-            mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 5.0), range: NSMakeRange(0, mutableString.length))
+            mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableString.length))
             cell.textLabel!.attributedText = mutableString
         }
     }
@@ -148,13 +155,12 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
         let newFont = UIFont(name: "Montserrat-Regular", size: 12)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 250.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor!, size: 12)
     }
 
     func categoryHeaderFont() -> UIFont {
-        let newFont = UIFont(name: "Montserrat-Regular", size: 12)
+        let newFont = UIFont(name: "Montserrat-Regular", size: 10)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
@@ -171,9 +177,16 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
             (categoryView as! UILabel).font = self.categoryHeaderFont()
             guard let attributedString = (categoryView as! UILabel).attributedText else { return categoryView }
             let mutableString = NSMutableAttributedString(attributedString: attributedString)
-            mutableString.addAttribute(NSBaselineOffsetAttributeName, value: NSNumber(float: -10.0), range: NSMakeRange(0, mutableString.length))
-            mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 2.5), range: NSMakeRange(0, mutableString.length))
+            mutableString.addAttribute(NSBaselineOffsetAttributeName, value: NSNumber(float: -2.75), range: NSMakeRange(0, mutableString.length))
+            mutableString.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableString.length))
+//            let paragraphStyle = NSMutableParagraphStyle()
+//            paragraphStyle.setParagraphStyle(NSParagraphStyle.defaultParagraphStyle())
+//            paragraphStyle.firstLineHeadIndent = 16.0
+//            mutableString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, mutableString.length))
             (categoryView as! UILabel).attributedText = NSAttributedString(attributedString: mutableString)
+            let coverview = UIView(frame: CGRect(x: 0.0, y: -160.0, width: self.tableView.frame.width, height: 160.0))
+            coverview.backgroundColor = categoryView.backgroundColor
+            categoryView.addSubview(coverview)
         } else {
             categoryView = NSBundle.mainBundle().loadNibNamed("AccountSectionLabel", owner: self, options: nil)[0] as! UIView
         }
@@ -183,7 +196,7 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let height: CGFloat
         if section == 0 {
-            height = 54.0
+            height = 27.0
         } else {
             height = 1.0
         }
@@ -191,7 +204,7 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 70.0
+        return 63.0
     }
 
     // MARK: - Fetched results controller

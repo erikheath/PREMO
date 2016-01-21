@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class AppRoutingNavigationController: UINavigationController {
+class AppRoutingNavigationController: UINavigationController, SWRevealViewControllerDelegate {
 
     enum NavigationStack: String {
         case videoStack = "videoStack"
@@ -28,6 +28,8 @@ class AppRoutingNavigationController: UINavigationController {
         }
     }
 
+    var backgroundView: UIView? = nil
+    var foregroundView: UIView? = nil
 
     var currentNavigationStack: NavigationStack = NavigationStack.credentialStack
 
@@ -35,7 +37,13 @@ class AppRoutingNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let revealController = self.revealViewController() {
+            revealController.delegate = self
+        }
+
         self.transitionToInitialStack()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -152,5 +160,50 @@ class AppRoutingNavigationController: UINavigationController {
         self.currentNavigationStack = .credentialStack
 
     }
+
+    // MARK: - SWREVEAL CONTROLLER DELEGATE
+
+    func revealController(revealController: SWRevealViewController!, willMoveToPosition position: FrontViewPosition) {
+        if position != FrontViewPosition.Left {
+            let currentScreenshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+
+            let backgroundView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
+            backgroundView.backgroundColor = UIColor.blackColor()
+            revealController.frontViewController.view.insertSubview(backgroundView, atIndex: 0)
+            self.backgroundView = backgroundView
+
+            let foregroundView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
+            foregroundView.backgroundColor = UIColor.clearColor()
+            revealController.frontViewController.view.addSubview(foregroundView)
+            foregroundView.addGestureRecognizer(revealController.tapGestureRecognizer())
+            self.foregroundView = foregroundView
+        }
+    }
+
+
+    func revealController(revealController: SWRevealViewController!, animateToPosition position: FrontViewPosition) {
+        guard let currentScreenshot = self.foregroundView else { return }
+        if position != FrontViewPosition.Left {
+            currentScreenshot.backgroundColor = UIColor(colorLiteralRed: 0.0, green: 0.0, blue: 0.0, alpha: 0.5)
+            print(revealController.frontViewController.view.subviews)
+            for view in revealController.frontViewController.view.subviews {
+                if view is UINavigationBar {
+                    view.frame = CGRect(x: 0.0, y: 22.0, width: view.frame.size.width, height: view.frame.size.height)
+                }
+            }
+        } else {
+            currentScreenshot.backgroundColor = UIColor.clearColor()
+        }
+    }
+
+    func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
+        if position == FrontViewPosition.Left {
+            self.backgroundView?.removeFromSuperview()
+            self.foregroundView?.removeFromSuperview()
+            self.backgroundView = nil
+            self.foregroundView = nil
+        }
+    }
+
 
 }

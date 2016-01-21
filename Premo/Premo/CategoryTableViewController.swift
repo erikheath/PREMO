@@ -20,7 +20,6 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     weak var carouselTimer: NSTimer? = nil
 
-
     // MARK: - OBJECT LIFECYCLE
 
     deinit {
@@ -279,6 +278,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             self.carouselViewDimensions = cell.bounds
             carouselCell.carousel.delegate = self
             carouselCell.carousel.dataSource = self
+            carouselCell.backgroundGradient.backgroundColor = nil
+
         } else {
             // POSTERCELL
             let modifiedPath = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section - 1)
@@ -334,8 +335,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             gradientFilter?.setDefaults()
             gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
             gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
-            gradientFilter?.setValue(CIVector(x: 0, y: 0), forKey: "inputPoint0")
-            gradientFilter?.setValue(CIVector(x: 0, y: 30), forKey: "inputPoint1")
+            gradientFilter?.setValue(CIVector(x: 0, y: -20), forKey: "inputPoint0")
+            gradientFilter?.setValue(CIVector(x: 0, y: 220), forKey: "inputPoint1")
             guard let outputImageRecipe = gradientFilter?.outputImage else { return nil }
             let outputImage = context.createCGImage(outputImageRecipe, fromRect: rect)
             self.carouselImageMask = UIImage(CGImage: outputImage)

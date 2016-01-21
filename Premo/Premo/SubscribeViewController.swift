@@ -28,7 +28,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
 
     // MARK: Purchase & Subscription Management
 
-    let request = SKProductsRequest(productIdentifiers: ["30DayFreeTrialVideoSubscription"])
+    let request = SKProductsRequest(productIdentifiers: ["30DayFreeTrial"])
 
     var products: Array<SKProduct>? = nil
 

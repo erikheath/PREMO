@@ -75,7 +75,7 @@ class WelcomeViewController: UIViewController {
 
 
     @IBAction func skipLogin(sender: AnyObject) {
-        if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == .credentialStack {
+        if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == AppRoutingNavigationController.NavigationStack.credentialStack {
             (self.navigationController as? AppRoutingNavigationController)!.transitionToVideoStack(true)
         } else {
             self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)

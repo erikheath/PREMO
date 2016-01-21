@@ -16,12 +16,20 @@
                     <attributes>
                         <color key="NSColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                         <font key="NSFont" metaFont="controlContent" size="11"/>
-                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="16" tighteningFactorForTruncation="0.0"/>
+                        <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" firstLineHeadIndent="18" tighteningFactorForTruncation="0.0"/>
                     </attributes>
                 </fragment>
             </attributedString>
             <nil key="highlightedColor"/>
             <point key="canvasLocation" x="413" y="298.5"/>
         </label>
+        <view contentMode="scaleToFill" id="IXo-cG-ZEU">
+            <rect key="frame" x="0.0" y="0.0" width="584" height="89"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-74" y="176.5"/>
+        </view>
     </objects>
 </document>

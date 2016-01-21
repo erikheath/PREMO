@@ -249,7 +249,8 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         gradientFilter?.setDefaults()
         gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor1")
         gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor0")
-        gradientFilter?.setValue(CIVector(x: 0, y: 100), forKey: "inputPoint1")
+        gradientFilter?.setValue(CIVector(x: 0, y: -20), forKey: "inputPoint0")
+        gradientFilter?.setValue(CIVector(x: 0, y: 220), forKey: "inputPoint1")
         guard let gradientImageRecipe = gradientFilter?.outputImage else { return }
 
         guard let posterCoreImage = CIImage(data: posterImageData) else { return }
