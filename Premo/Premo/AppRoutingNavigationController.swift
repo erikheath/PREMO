@@ -165,12 +165,9 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
 
     func revealController(revealController: SWRevealViewController!, willMoveToPosition position: FrontViewPosition) {
         if position != FrontViewPosition.Left {
-            let currentScreenshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
-
-            let backgroundView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
-            backgroundView.backgroundColor = UIColor.blackColor()
-            revealController.frontViewController.view.insertSubview(backgroundView, atIndex: 0)
-            self.backgroundView = backgroundView
+            let currentScreenshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
+            revealController.frontViewController.view.addSubview(currentScreenshot)
+            self.backgroundView = currentScreenshot
 
             let foregroundView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
             foregroundView.backgroundColor = UIColor.clearColor()
@@ -180,17 +177,10 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
         }
     }
 
-
     func revealController(revealController: SWRevealViewController!, animateToPosition position: FrontViewPosition) {
         guard let currentScreenshot = self.foregroundView else { return }
         if position != FrontViewPosition.Left {
             currentScreenshot.backgroundColor = UIColor(colorLiteralRed: 0.0, green: 0.0, blue: 0.0, alpha: 0.5)
-            print(revealController.frontViewController.view.subviews)
-            for view in revealController.frontViewController.view.subviews {
-                if view is UINavigationBar {
-                    view.frame = CGRect(x: 0.0, y: 22.0, width: view.frame.size.width, height: view.frame.size.height)
-                }
-            }
         } else {
             currentScreenshot.backgroundColor = UIColor.clearColor()
         }

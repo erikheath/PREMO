@@ -74,6 +74,10 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         self.configureNavigationItemAppearance()
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     func configureNavigationItemAppearance() {
         navigationItemSetup: do {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -99,6 +103,9 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         super.viewDidLoad()
         self.configureNavigationBarAppearance()
         self.configureNavigationItemAppearance()
+        guard let contentItem = self.contentItem else { return }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: contentItem.managedObjectContext)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextDidSaveNotification, object: contentItem.managedObjectContext)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -536,6 +543,21 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
             break
         }
         return height
+    }
+
+    // MARK: - Core Data
+
+    func processCoreDataNotification(notification: NSNotification) {
+        if let updatedObjects = notification.userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> {
+            for managedObject in updatedObjects {
+                if managedObject is Artwork {
+                    // Main table update
+                    if self.contentItem?.artwork?.objectID == managedObject.objectID {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
 
 

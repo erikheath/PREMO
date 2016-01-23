@@ -80,7 +80,7 @@
             <userInfo>
                 <entry key="localstore.targetentity" value="Artwork"/>
                 <entry key="localstore.targetproperty" value="artwork269x152"/>
-                <entry key="remotestore.jsonkeypath" value="artwork.269x152"/>
+                <entry key="remotestore.jsonkeypath" value="artwork.1920x1080"/>
                 <entry key="remotestore.resourceRequestOption" value="downloadOnCreate"/>
                 <entry key="remotestore.resourcetype" value="URL"/>
                 <entry key="remotestore.urltype" value="IMAGE"/>
@@ -89,7 +89,7 @@
         <relationship name="contentItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ContentItem" inverseName="artwork" inverseEntity="ContentItem" syncable="YES"/>
         <userInfo>
             <entry key="localstore.entityid" value="artworkRemoteID"/>
-            <entry key="remotestore.entityid" value="artwork.269x152"/>
+            <entry key="remotestore.entityid" value="artwork.1920x1080"/>
         </userInfo>
     </entity>
     <entity name="CarouselItem" representedClassName=".CarouselItem" syncable="YES">

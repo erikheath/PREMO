@@ -188,13 +188,16 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     func carouselCurrentItemIndexDidChange(carousel: iCarousel) {
         guard let carouselCell = carousel.superview?.superview as? CarouselTableViewCell else { return }
         carouselCell.carouselPageControl.currentPage = carousel.currentItemIndex
+        self.animateCarousel(true)
+    }
+
+    func animateCarousel(animate: Bool) -> Void {
         if self.carouselTimer != nil {
             self.carouselTimer?.invalidate()
             self.carouselTimer = nil
-
         }
+        guard animate == true else { return }
         self.carouselTimer = NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showNextCarouselItem:", userInfo: nil, repeats: false)
-
     }
 
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
@@ -228,7 +231,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     func carouselDidReloadData(carousel: iCarousel) {
         if carousel.numberOfItems == 0 { return }
-        self.carouselTimer = NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showNextCarouselItem:", userInfo: nil, repeats: false)
+        self.animateCarousel(true)
         guard let carouselCell = carousel.superview?.superview as? CarouselTableViewCell else { return }
         carouselCell.carouselPageControl.numberOfPages = carouselCell.carousel.numberOfItems
         carouselCell.carouselPageControl.currentPage = carouselCell.carousel.currentItemIndex
@@ -245,7 +248,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         cell.carousel.scrollByNumberOfItems(1, duration: 1.5)
     }
 
-    // MARK: - Table view data source
+    // MARK: - TABLE VIEW DATA SOURCE
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2

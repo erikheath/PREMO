@@ -57,14 +57,6 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var buttonLayer = signupButton.layer
-        buttonLayer.masksToBounds = true
-        buttonLayer.cornerRadius = 5.0
-
-        buttonLayer = facebookSignupButton.layer
-        buttonLayer.masksToBounds = true
-        buttonLayer.cornerRadius = 5.0
-
         PremoStyleTemplate.styleCallToActionButton(self.signupButton)
         PremoStyleTemplate.styleCallToActionButton(self.facebookSignupButton)
         PremoStyleTemplate.styleTextButton(self.gotoLoginButton)
