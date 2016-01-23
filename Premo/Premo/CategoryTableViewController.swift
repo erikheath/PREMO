@@ -48,17 +48,23 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
     func configureNavigationItemAppearance() {
         navigationItemSetup: do {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-            self.navigationItem.title = ""
+            self.navigationItem.title = self.categoryObjectName
+            if let title = self.categoryObjectName where self.categoryObjectName != "Featured" {
+                self.navigationItem.titleView = PremoStyleTemplate.styledTitleLabel(title)
+            } else {
+                let titleViewImageView = UIImageView(image: UIImage(named: "PREMO_titlebar"))
+                titleViewImageView.contentMode = .ScaleAspectFit
+                self.navigationItem.titleView = titleViewImageView
+            }
             self.navigationItem.hidesBackButton = true
-            let titleViewImageView = UIImageView(image: UIImage(named: "PREMO_titlebar"))
-            titleViewImageView.contentMode = .ScaleAspectFit
-            self.navigationItem.titleView = titleViewImageView
+
         }
     }
 
     func configureNavigationBarAppearance() {
         navbarControllerSetup: do {
             guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
+            PremoStyleTemplate.styleVisibleNavBar(navbarController.navigationBar)
             navbarController.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "back")
             navbarController.navigationBar.backIndicatorImage = UIImage(named: "back")
             navbarController.navigationBarHidden = false
@@ -136,6 +142,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             itemTitle = (itemTitle as NSString).uppercaseString
             let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
             mutableItemTitle.addAttribute(NSFontAttributeName, value: self.carouselTitleFont(), range: NSMakeRange(0, mutableItemTitle.length))
+            mutableItemTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableItemTitle.length))
             carouselView.titleLabel!.attributedText = mutableItemTitle
         }
 
@@ -292,6 +299,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
                 itemTitle = (itemTitle as NSString).uppercaseString
                 let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
                 mutableItemTitle.addAttribute(NSFontAttributeName, value: self.categoryTitleFont(), range: NSMakeRange(0, mutableItemTitle.length))
+                mutableItemTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableItemTitle.length))
                 posterCell.titleLabel!.attributedText = mutableItemTitle
             }
 
@@ -353,7 +361,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
             gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
             gradientFilter?.setValue(CIVector(x: 0, y: 0), forKey: "inputPoint0")
-            gradientFilter?.setValue(CIVector(x: 175, y: 175), forKey: "inputPoint1")
+            gradientFilter?.setValue(CIVector(x: 300, y: 300), forKey: "inputPoint1")
             guard let outputImageRecipe = gradientFilter?.outputImage else { return nil }
             let outputImage = context.createCGImage(outputImageRecipe, fromRect: rect)
             self.categoryListImageMask = UIImage(CGImage: outputImage)
@@ -364,12 +372,11 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     func carouselTitleFont() -> UIFont {
         //        let newFont = UIFont(name: "Helvetica-Regular", size: 16)
-        let newFont = UIFont.systemFontOfSize(18)
+        let newFont = UIFont.systemFontOfSize(16)
         let descriptorDict = (newFont.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
-        return UIFont(descriptor: fontDescriptor, size: 18)
+        return UIFont(descriptor: fontDescriptor, size: 16)
     }
 
     func categoryTitleFont() -> UIFont {
@@ -377,7 +384,6 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         let newFont = UIFont.systemFontOfSize(16)
         let descriptorDict = (newFont.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor, size: 16)
     }
@@ -386,7 +392,6 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         let newFont = UIFont(name: "Montserrat-Light", size: 11)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 50.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor!, size: 12)
     }
@@ -395,14 +400,13 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         let newFont = UIFont(name: "Montserrat-Regular", size: 9)
         let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
-        newFontAttributes.setValue(NSNumber(float: 100.0), forKey: NSKernAttributeName)
         let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor!, size: 9)
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 354.0
+            return 357.0
         } else {
             return 211.0
         }

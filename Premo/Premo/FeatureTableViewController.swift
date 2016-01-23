@@ -79,6 +79,9 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
             self.navigationItem.hidesBackButton = false
             self.navigationItem.title = contentItem?.contentDetailDisplayTitle
+            if let _ = self.navigationItem.title {
+            self.navigationItem.titleView = PremoStyleTemplate.styledTitleLabel(self.navigationItem.title!)
+            }
         }
         
     }
@@ -87,6 +90,8 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         navbarControllerSetup: do {
             guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
             navbarController.navigationBarHidden = false
+            PremoStyleTemplate.styleVisibleNavBar(navbarController.navigationBar)
+
         }
     }
 
@@ -175,9 +180,21 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
     @IBAction func updateCredentials(sender: AnyObject) {
         if Account.loggedIn == true {
-            self.performSegueWithIdentifier("ShowSubscribeFromFeature", sender: self)
+            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please subscribe to PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Subscribe Now", style: .Default, handler: { (action: UIAlertAction) -> Void in
+                self.performSegueWithIdentifier("ShowSubscribeFromFeature", sender: self)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+
         } else {
-            self.performSegueWithIdentifier("ShowWelcomeFromFeature", sender: self)
+            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please subscribe to PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Subscribe Now", style: .Default, handler: { (action: UIAlertAction) -> Void in
+                self.performSegueWithIdentifier("ShowWelcomeFromFeature", sender: self)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+
         }
     }
 
@@ -354,16 +371,21 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
             if featureDetails == "" {
                 return inputString
             } else {
-                return featureDetails + "    |    " + inputString
+                return featureDetails + "   |   " + inputString
             }
         }
 
         featureDetails = detailString(self.contentItem?.contentReleaseYear, featureDetails: featureDetails)
         featureDetails = detailString(self.contentItem?.contentRating, featureDetails: featureDetails)
         if let seconds = self.contentItem?.contentRuntime {
-            let minuteString = String(seconds.integerValue / 60) + "MIN"
+            let minuteString = String(seconds.integerValue / 60) + " Min"
             featureDetails = detailString(minuteString, featureDetails: featureDetails)
         }
+        guard let genreName = (contentItem?.genres?.firstObject as? Genre)!.genreName  else { return featureDetails ?? "" }
+        featureDetails = detailString((genreName as NSString).uppercaseString , featureDetails: featureDetails)
+
+        guard let cc = contentItem?.contentCaptionsIncluded else { return featureDetails ?? "" }
+        if cc == true { featureDetails = detailString("CC", featureDetails: featureDetails) }
 
         return featureDetails ?? ""
     }

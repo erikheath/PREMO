@@ -183,6 +183,11 @@
         </userInfo>
     </entity>
     <entity name="ContentItem" representedClassName="ContentItem" syncable="YES">
+        <attribute name="contentCaptionsIncluded" optional="YES" attributeType="Boolean" syncable="YES">
+            <userInfo>
+                <entry key="remotestore.jsonkeypath" value="captions_included"/>
+            </userInfo>
+        </attribute>
         <attribute name="contentCaptionsURL" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="remotestore.jsonkeypath" value="captions_url"/>
@@ -377,15 +382,15 @@
         <element name="Actor" positionX="594" positionY="387" width="128" height="90"/>
         <element name="AppConfig" positionX="-99" positionY="-343" width="128" height="135"/>
         <element name="Artwork" positionX="619" positionY="23" width="128" height="105"/>
+        <element name="CarouselItem" positionX="-144" positionY="-189" width="128" height="105"/>
         <element name="Catalog" positionX="-351" positionY="-333" width="128" height="88"/>
         <element name="CategoryList" positionX="81" positionY="-279" width="164" height="195"/>
-        <element name="ContentItem" positionX="279" positionY="-126" width="180" height="510"/>
+        <element name="ContentItem" positionX="279" positionY="-126" width="180" height="525"/>
         <element name="Director" positionX="583" positionY="272" width="128" height="73"/>
         <element name="Genre" positionX="-297" positionY="-171" width="128" height="120"/>
         <element name="Producer" positionX="628" positionY="159" width="128" height="75"/>
         <element name="ProgramTrailers" positionX="565" positionY="-90" width="128" height="88"/>
         <element name="Season" positionX="-101" positionY="189" width="128" height="88"/>
         <element name="Series" positionX="-270" positionY="95" width="128" height="103"/>
-        <element name="CarouselItem" positionX="-144" positionY="-189" width="128" height="105"/>
     </elements>
 </model>

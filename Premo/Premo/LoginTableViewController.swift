@@ -66,13 +66,11 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var buttonLayer = loginButton.layer
-        buttonLayer.masksToBounds = true
-        buttonLayer.cornerRadius = 5.0
-
-        buttonLayer = facebookLoginButton.layer
-        buttonLayer.masksToBounds = true
-        buttonLayer.cornerRadius = 5.0
+        PremoStyleTemplate.styleCallToActionButton(self.loginButton)
+        PremoStyleTemplate.styleCallToActionButton(self.facebookLoginButton)
+        PremoStyleTemplate.styleTextButton(self.forgotPasswordButton)
+        PremoStyleTemplate.styleTextButton(self.needAnAccountButton)
+        PremoStyleTemplate.styleTextButton(self.skipLoginButton)
     }
 
     override func prefersStatusBarHidden() -> Bool {
@@ -100,6 +98,8 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         navbarControllerSetup: do {
             guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
             navbarController.navigationBarHidden = false
+            PremoStyleTemplate.styleVisibleNavBar(navbarController.navigationBar)
+
         }
     }
 
@@ -115,7 +115,9 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
     // MARK: System Interaction
 
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if identifier == "showCreateAccountFromLogin" && self.navigationController?.childViewControllers.count == 3 {
+        if identifier == "showCreateAccountFromLogin" && self.navigationController?.childViewControllers.contains({ (controller: UIViewController) -> Bool in
+            return controller.dynamicType == CreateAccountTableViewController.self
+        }) == true {
             // Perform an unwind instead
             self.performSegueWithIdentifier("unwindToCreateAccountFromLogin", sender: self)
             return false
@@ -123,6 +125,11 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
 
         return true
     }
+
+    @IBAction func unwindToLoginFromCreateAccount(sender: UIStoryboardSegue) {
+
+    }
+
 
     @IBAction func skipLogin(sender: AnyObject) {
         if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == .credentialStack {
@@ -189,7 +196,7 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
     }
 
     @IBAction func showForgotPassword(sender: AnyObject) {
-        guard let supportSite = NSURL(string: "http://www.premonetwork.com/support") else { return }
+        guard let supportSite = Account.premoForgotPasswordSite else { return }
         UIApplication.sharedApplication().openURL(supportSite)
     }
 
@@ -414,11 +421,23 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
                 guard let appRouter = self.navigationController as? AppRoutingNavigationController else { return } // There is some error to handle here
                 switch appRouter.currentNavigationStack {
                 case .accountStack:
+                    if Account.subscribed == true {
                     self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                    } else {
+                        self.performSegueWithIdentifier("showSubscribeFromLogin", sender: self)
+                    }
                 case .credentialStack:
-                    appRouter.transitionToVideoStack(true)
+                    if Account.subscribed == true {
+                        appRouter.transitionToVideoStack(true)
+                    } else {
+                        self.performSegueWithIdentifier("showSubscribeFromLogin", sender: self)
+                    }
                 case .videoStack:
-                    self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                    if Account.subscribed == true {
+                        self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                    } else {
+                        self.performSegueWithIdentifier("showSubscribeFromLogin", sender: self)
+                    }
                 }
             }))
 

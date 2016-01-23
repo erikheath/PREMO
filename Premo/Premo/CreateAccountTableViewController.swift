@@ -52,6 +52,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
     @IBOutlet weak var signupActivityIndicator: UIActivityIndicatorView!
 
+    @IBOutlet weak var skipButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +64,11 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         buttonLayer = facebookSignupButton.layer
         buttonLayer.masksToBounds = true
         buttonLayer.cornerRadius = 5.0
+
+        PremoStyleTemplate.styleCallToActionButton(self.signupButton)
+        PremoStyleTemplate.styleCallToActionButton(self.facebookSignupButton)
+        PremoStyleTemplate.styleTextButton(self.gotoLoginButton)
+        PremoStyleTemplate.styleTextButton(self.skipButton)
     }
 
     override func prefersStatusBarHidden() -> Bool {
@@ -90,6 +96,8 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         navbarControllerSetup: do {
             guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
             navbarController.navigationBarHidden = false
+            PremoStyleTemplate.styleVisibleNavBar(navbarController.navigationBar)
+
         }
     }
 
@@ -104,7 +112,9 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     }
 
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if identifier == "showLoginFromCreateAccount" && self.navigationController?.childViewControllers.count == 3 {
+        if identifier == "showLoginFromCreateAccount" && self.navigationController?.childViewControllers.contains({ (controller: UIViewController) -> Bool in
+            return controller.dynamicType == LoginTableViewController.self
+        }) == true {
             // Perform an unwind instead
             self.performSegueWithIdentifier("unwindToLoginFromCreateAccount", sender: self)
             return false

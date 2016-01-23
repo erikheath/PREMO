@@ -17,6 +17,19 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
     @IBOutlet weak var subscribeCell: UITableViewCell!
 
+    @IBOutlet weak var inviteFriends: UITableViewCell!
+
+    @IBOutlet weak var help: UITableViewCell!
+
+    @IBOutlet weak var sendFeedback: UITableViewCell!
+
+    @IBOutlet weak var aboutPremo: UITableViewCell!
+
+    @IBOutlet weak var privacyPolicy: UITableViewCell!
+
+    @IBOutlet weak var premoForIOS: UILabel!
+
+    @IBOutlet weak var versionLabel: UILabel!
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -37,6 +50,9 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         navigationItemSetup: do {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
             self.navigationItem.title = "Account"
+            if let _ = self.navigationItem.title {
+                self.navigationItem.titleView = PremoStyleTemplate.styledTitleLabel(self.navigationItem.title!)
+            }
             self.navigationItem.hidesBackButton = true
 
         }
@@ -46,6 +62,8 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         navbarControllerSetup: do {
             guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
             navbarController.navigationBarHidden = false
+            PremoStyleTemplate.styleVisibleNavBar(navbarController.navigationBar)
+
         }
 
         revealControllerSetup: do {
@@ -56,7 +74,72 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
             toggleButton.image = UIImage(named: "menu_fff")
             self.navigationItem.leftBarButtonItem = toggleButton
         }
+    }
 
+    func accountHeaderFont() -> UIFont {
+        let newFont = UIFont(name: "Montserrat-Regular", size: 12.0)
+        let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
+        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
+        let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
+        return UIFont(descriptor: fontDescriptor!, size: 12.0)
+    }
+
+    func accountMainLabelFont() -> UIFont {
+        let newFont = UIFont(name: "Montserrat-Regular", size: 12.0)
+        let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
+        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
+        let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
+        return UIFont(descriptor: fontDescriptor!, size: 12.0)
+    }
+
+    func accountDetailLabelFont() -> UIFont {
+        let newFont = UIFont(name: "Montserrat-Light", size: 12.5)
+        let descriptorDict = (newFont?.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
+        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
+        let fontDescriptor = newFont?.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
+        return UIFont(descriptor: fontDescriptor!, size: 12.5)
+    }
+
+
+    func accountMainLabelAttributedString(header: String) -> NSAttributedString {
+        let itemTitle = (header as NSString).uppercaseString
+        let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
+        mutableItemTitle.addAttribute(NSFontAttributeName, value: self.accountMainLabelFont(), range: NSMakeRange(0, mutableItemTitle.length))
+        mutableItemTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableItemTitle.length))
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.setParagraphStyle(NSParagraphStyle.defaultParagraphStyle())
+        paragraphStyle.firstLineHeadIndent = 4.5
+        mutableItemTitle.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, mutableItemTitle.length))
+        return mutableItemTitle
+    }
+
+    func accountHeaderAttributedString(header: String) -> NSAttributedString {
+        let itemTitle = (header as NSString).uppercaseString
+        let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
+        mutableItemTitle.addAttribute(NSFontAttributeName, value: self.accountHeaderFont(), range: NSMakeRange(0, mutableItemTitle.length))
+        mutableItemTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableItemTitle.length))
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.setParagraphStyle(NSParagraphStyle.defaultParagraphStyle())
+        paragraphStyle.firstLineHeadIndent = 4.5
+        mutableItemTitle.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, mutableItemTitle.length))
+        return mutableItemTitle
+    }
+
+
+
+    func accountDetailLabelAttributedString(header: String) -> NSAttributedString {
+        let itemTitle = header
+        let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
+        mutableItemTitle.addAttribute(NSFontAttributeName, value: self.accountDetailLabelFont(), range: NSMakeRange(0, mutableItemTitle.length))
+        mutableItemTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableItemTitle.length))
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.setParagraphStyle(NSParagraphStyle.defaultParagraphStyle())
+        paragraphStyle.firstLineHeadIndent = 4.5
+        mutableItemTitle.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, mutableItemTitle.length))
+        return mutableItemTitle
     }
 
     override func viewDidLoad() {
@@ -65,6 +148,15 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         self.configureNavigationBarAppearance()
         self.updateLoginCellDisplay()
         self.updateSubscribeCellDisplay()
+
+        self.inviteFriends.textLabel?.attributedText = self.accountHeaderAttributedString((self.inviteFriends.textLabel?.text)!)
+        self.help.textLabel?.attributedText = self.accountHeaderAttributedString((self.help.textLabel?.text)!)
+        self.aboutPremo.textLabel?.attributedText = self.accountHeaderAttributedString((self.aboutPremo.textLabel?.text)!)
+        self.sendFeedback.textLabel?.attributedText = self.accountHeaderAttributedString((self.sendFeedback.textLabel?.text)!)
+        self.privacyPolicy.textLabel?.attributedText = self.accountHeaderAttributedString((self.privacyPolicy.textLabel?.text)!)
+        self.premoForIOS?.attributedText = self.accountMainLabelAttributedString((self.premoForIOS?.text)!)
+        self.versionLabel?.attributedText = self.accountDetailLabelAttributedString((self.versionLabel?.text)!)
+
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -91,13 +183,25 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         // The user is logged in.
         self.loginStateLabel.text = "LOG OUT"
         self.loginNameLabel.text = userName
+
+        defer {
+            self.loginStateLabel.attributedText = self.accountMainLabelAttributedString(self.loginStateLabel.text!)
+            self.loginNameLabel.attributedText = self.accountDetailLabelAttributedString(self.loginNameLabel.text!)
+        }
     }
 
     func updateSubscribeCellDisplay() {
+
+        defer {
+            self.subscribeCallToActionLabel.attributedText = self.accountMainLabelAttributedString(self.subscribeCallToActionLabel.text!)
+            self.subscribeTeaserLabel.attributedText = self.accountDetailLabelAttributedString(self.subscribeTeaserLabel.text!)
+        }
+        do {
+
         guard let subscriptionExpiresDate = Account.expirationDate, let subscriptionRenews = Account.autoRenews, let subscriptionSource = Account.source else {
             // The user has never had a subscription, so display the teaser.
             self.subscribeCallToActionLabel.text = "SUBSCRIBE NOW"
-            self.subscribeTeaserLabel.text = "$4.99 / month, Free 30-day trial"
+            self.subscribeTeaserLabel.text = "Only $4.99 / month, Free 30-day trial"
             return
         }
         let subscriptionActive = subscriptionExpiresDate.compare(NSDate()) == NSComparisonResult.OrderedDescending
@@ -144,6 +248,8 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
                 self.subscribeCell.tag = 5
             }
         }
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -194,6 +300,13 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         }
     }
 
+    @IBAction func followOnFacebook(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://www.facebook.com/premonetwork")!)
+    }
+
+    @IBAction func followOnTwitter(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://twitter.com/premonetwork")!)
+    }
 
     @IBAction func unwindFromSubscribe(unwindSegue: UIStoryboardSegue) {
 
@@ -204,18 +317,28 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.row {
-        case 6:
+        case 5:
+            let sharingItems = [AnyObject]()
+            let activityViewController = UIActivityViewController(activityItems: sharingItems, applicationActivities: nil)
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+
+        case 7:
             UIApplication.sharedApplication().openURL(Account.supportSite!)
-        case 8:
+
+        case 9:
             guard MFMailComposeViewController.canSendMail() == true else { return }
             let sendFeedbackMailView = MFMailComposeViewController()
             sendFeedbackMailView.mailComposeDelegate = self
             sendFeedbackMailView.setSubject("Feedback")
             sendFeedbackMailView.setToRecipients(["support@premonetwork.com"])
-            sendFeedbackMailView.setMessageBody("Please enter your feedback here.", isHTML: false)
+            sendFeedbackMailView.setMessageBody("Hello PREMO, \n\nI have some important feedack to share with you:\n", isHTML: false)
             sendFeedbackMailView.modalPresentationStyle = UIModalPresentationStyle.FullScreen
             sendFeedbackMailView.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
             self.presentViewController(sendFeedbackMailView, animated: true, completion: nil)
+
+        case 11:
+            UIApplication.sharedApplication().openURL(AppDelegate.PREMOURL!)
+
         default:
             break
         }
@@ -237,6 +360,6 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
-
+    
+    
 }

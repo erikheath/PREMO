@@ -55,10 +55,10 @@ class Account: NSObject {
         }
     }
 
-    static let supportSite = NSURL(string: "http://www.premonetwork.com/support")
+    static let supportSite = NSURL(string: "/support", relativeToURL: AppDelegate.PREMOURL)
     static let iTunesSubscriptionManagement = NSURL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")
-    static let premoAccoutManagementSite = NSURL(string: "http://www.premonetwork.com")
-    static let premoForgotPasswordSite = NSURL(string: "http://lava-dev.premonetwork.com:3000/web/#/forgot")
+    static let premoAccoutManagementSite = AppDelegate.PREMOURL
+    static let premoForgotPasswordSite = NSURL(string: "/web/#/forgot", relativeToURL: AppDelegate.PREMOURL)
     /**
      The url path used for all premo member info requests
      */

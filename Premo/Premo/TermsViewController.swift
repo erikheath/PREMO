@@ -21,6 +21,9 @@ class TermsViewController: UIViewController  {
         navigationItemSetup: do {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
             self.navigationItem.title = "Privacy Policy & Terms"
+            if let _ = self.navigationItem.title {
+            self.navigationItem.titleView = PremoStyleTemplate.styledTitleLabel(self.navigationItem.title!)
+            }
             self.navigationItem.hidesBackButton = false
 
         }
@@ -30,6 +33,8 @@ class TermsViewController: UIViewController  {
         navbarControllerSetup: do {
             guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
             navbarController.navigationBarHidden = false
+            PremoStyleTemplate.styleVisibleNavBar(navbarController.navigationBar)
+
         }
     }
 

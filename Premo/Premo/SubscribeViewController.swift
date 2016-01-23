@@ -71,9 +71,66 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     func configureNavigationBarAppearance() {
         navbarControllerSetup: do {
             guard let navbarController = self.parentViewController as? UINavigationController else { break navbarControllerSetup }
-            navbarController.navigationBarHidden = true
+            navbarController.navigationBarHidden = false
+            PremoStyleTemplate.styleFullScreenNavBar(navbarController.navigationBar)
+
         }
     }
+
+    func buttonFont() -> UIFont {
+        let newFont = UIFont(name: "Montserrat-Regular", size: 14.0)!
+        //        let newFont = UIFont.systemFontOfSize(20)
+        let descriptorDict = (newFont.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
+        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
+        let fontDescriptor = newFont.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
+        return UIFont(descriptor: fontDescriptor, size: 14.0)
+
+    }
+
+    func skipFont() -> UIFont {
+        let newFont = UIFont(name: "Montserrat-Regular", size: 14.0)!
+        //        let newFont = UIFont.systemFontOfSize(20)
+        let descriptorDict = (newFont.fontDescriptor().fontAttributes()[UIFontDescriptorTraitsAttribute]) as? [NSObject : AnyObject] ?? Dictionary()
+        let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
+        let fontDescriptor = newFont.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
+        return UIFont(descriptor: fontDescriptor, size: 14.0)
+        
+    }
+
+
+    func styledTagline(tagline: NSAttributedString) -> NSAttributedString {
+        let mutableTagline = NSMutableAttributedString(attributedString: tagline)
+        mutableTagline.addAttribute(NSForegroundColorAttributeName, value: UIColor(colorLiteralRed: 221.0/255.0, green: 221.0/255.0, blue: 221.0/255.0, alpha: 1.0), range: NSMakeRange(0, mutableTagline.length))
+        mutableTagline.addAttribute(NSKernAttributeName, value: NSNumber(float: 0.5), range: NSMakeRange(0, mutableTagline.length))
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.setParagraphStyle(NSParagraphStyle.defaultParagraphStyle())
+        paragraphStyle.alignment = .Center
+        paragraphStyle.paragraphSpacing = 1
+        mutableTagline.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, mutableTagline.length))
+
+
+        return mutableTagline
+    }
+
+    func styledButtonText(buttonText: String) -> NSAttributedString {
+        let mutableButtonText = NSMutableAttributedString(string: buttonText)
+        mutableButtonText.addAttribute(NSFontAttributeName, value: self.buttonFont(), range: NSMakeRange(0, mutableButtonText.length))
+        mutableButtonText.addAttribute(NSForegroundColorAttributeName, value: UIColor(colorLiteralRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), range: NSMakeRange(0, mutableButtonText.length))
+        mutableButtonText.addAttribute(NSKernAttributeName, value: NSNumber(float: 0.5), range: NSMakeRange(0, mutableButtonText.length))
+
+        return mutableButtonText
+    }
+
+    func styledSkipText(skipText: String) -> NSAttributedString {
+        let mutableSkipText = NSMutableAttributedString(string: skipText)
+        mutableSkipText.addAttribute(NSFontAttributeName, value: self.skipFont(), range: NSMakeRange(0, mutableSkipText.length))
+        mutableSkipText.addAttribute(NSForegroundColorAttributeName, value: UIColor(colorLiteralRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), range: NSMakeRange(0, mutableSkipText.length))
+        mutableSkipText.addAttribute(NSKernAttributeName, value: NSNumber(float: 0.5), range: NSMakeRange(0, mutableSkipText.length))
+
+        return mutableSkipText
+    }
+
 
 
     override func viewDidLoad() {
@@ -82,6 +139,8 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         let buttonLayer = subscribeButton.layer
         buttonLayer.masksToBounds = true
         buttonLayer.cornerRadius = 5.0
+
+        self.callToActionLabel.attributedText = self.styledTagline(self.callToActionLabel.attributedText!)
 
         request.delegate = self
         manageUserInteractions(false)
@@ -134,12 +193,13 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     func configureProductOffer() {
 
         // Determine the offer.
-        if NSUserDefaults.standardUserDefaults().stringForKey("subscriptionCreatedDate") != nil {
+        if Account.creationDate != nil {
             // Make the Offer for renewal only.
-            self.callToActionLabel.text = "To access full-length features, please re-subscribe to PREMO. Watch films, comedies, originals and more for $4.99/month."
-            self.subscribeOfferLabel.text = ""
-            self.subscribeButton.setTitle("RENEW NOW", forState: UIControlState.Normal)
+            self.subscribeButton.setAttributedTitle(self.styledButtonText("RENEW NOW"), forState: UIControlState.Normal)
             self.subscribeOffer = 1
+        } else {
+            self.subscribeOffer = 0
+            self.subscribeButton.setAttributedTitle(self.styledButtonText("START YOUR 30-DAY TRIAL"), forState: UIControlState.Normal)
         }
         
     }
