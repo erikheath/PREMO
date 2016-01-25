@@ -218,7 +218,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="211"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Scrapper_Premo_still" translatesAutoresizingMaskIntoConstraints="NO" id="Pt4-1I-lR7">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pt4-1I-lR7">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="211"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
@@ -1339,11 +1339,11 @@
                         <viewControllerLayoutGuide type="bottom" id="kEX-Q8-dWX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mnh-RT-TPf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HN0-sw-uJQ">
-                                <rect key="frame" x="20" y="88" width="560" height="512"/>
+                                <rect key="frame" x="20" y="88" width="560" height="597"/>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES"/>
@@ -1475,7 +1475,7 @@ CgoKCgoKCgoKCgoKCgo
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwQ-rL-EWj">
-                                <rect key="frame" x="20" y="88" width="560" height="512"/>
+                                <rect key="frame" x="20" y="88" width="560" height="597"/>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES"/>
@@ -4408,11 +4408,11 @@ CgoKCgoKCgoKCg
                         <viewControllerLayoutGuide type="bottom" id="pxH-x7-Gjn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hw2-SH-4ZM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg_v1" translatesAutoresizingMaskIntoConstraints="NO" id="yeY-EC-ezn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faK-mG-vnb">
                                 <rect key="frame" x="40" y="412" width="520" height="44"/>
@@ -4537,7 +4537,7 @@ point of view</string>
                         <viewControllerLayoutGuide type="bottom" id="atC-mG-Xx3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pQd-E9-Ldr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Subscribe_bg" translatesAutoresizingMaskIntoConstraints="NO" id="V4r-xV-uDo">
@@ -5028,7 +5028,6 @@ point of view</string>
     <resources>
         <image name="FBFollowButton" width="50" height="34"/>
         <image name="PREMO" width="133" height="23"/>
-        <image name="Scrapper_Premo_still" width="640" height="360"/>
         <image name="Subscribe_bg" width="375" height="667"/>
         <image name="account" width="18" height="18"/>
         <image name="comedy" width="18" height="18"/>
@@ -5041,11 +5040,11 @@ point of view</string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="uhl-wZ-eii"/>
-        <segue reference="J5c-2G-Igz"/>
-        <segue reference="zrf-8E-psn"/>
         <segue reference="zHm-oe-vCR"/>
         <segue reference="HeX-iT-EiB"/>
         <segue reference="ue3-he-1aD"/>
-        <segue reference="ikX-ao-8ID"/>
+        <segue reference="A7W-Ws-NVz"/>
+        <segue reference="33p-NY-b3K"/>
+        <segue reference="hna-rC-Epv"/>
     </inferredMetricsTieBreakers>
 </document>

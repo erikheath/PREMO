@@ -83,6 +83,8 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
     override init() {
         super.init()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processTransactionNotification:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processTransactionNotification:", name: TransactionProcessor.TransactionStatusNotification.restored.rawValue, object: nil)
+
     }
 
     deinit {
@@ -101,7 +103,7 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
 
     func constructRegistrationRequest(receiptData: NSData) throws -> NSMutableURLRequest {
         // Construct the request for the registration server.
-        let HTTPBodyDictionary: NSDictionary = [ "token": receiptData, "platform": "ios"]
+        let HTTPBodyDictionary: NSDictionary = [ "token": receiptData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0)), "platform": "ios"]
         let registrationRequest: NSMutableURLRequest
         do {
             registrationRequest = try NSMutableURLRequest.PREMOURLRequest(self.registrationPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: true)

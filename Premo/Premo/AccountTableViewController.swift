@@ -70,7 +70,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
             guard let revealController = self.revealViewController() else {
                 break revealControllerSetup
             }
-            let toggleButton = UIBarButtonItem(title: "toggle", style: .Plain, target: revealController, action: "revealToggle:")
+            let toggleButton = UIBarButtonItem(title: "    ", style: .Plain, target: revealController, action: "revealToggle:")
             toggleButton.image = UIImage(named: "menu_fff")
             self.navigationItem.leftBarButtonItem = toggleButton
         }
@@ -285,6 +285,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         alert.addAction(alertCancelAction)
 
         self.presentViewController(alert, animated: true, completion: nil)
+
 
     }
 

@@ -169,7 +169,7 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
             revealController.frontViewController.view.addSubview(currentScreenshot)
             self.backgroundView = currentScreenshot
 
-            let foregroundView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
+            let foregroundView = UIView(frame: CGRect(x: 0.0, y: 22.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
             foregroundView.backgroundColor = UIColor.clearColor()
             revealController.frontViewController.view.addSubview(foregroundView)
             foregroundView.addGestureRecognizer(revealController.tapGestureRecognizer())

@@ -17,8 +17,6 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     // MARK: UI Outlets
     @IBOutlet weak var callToActionLabel: UILabel!
 
-    @IBOutlet weak var subscribeOfferLabel: UILabel!
-
     @IBOutlet weak var subscribeButton: UIButton!
 
     @IBOutlet weak var subscribeActivityIndicator: UIActivityIndicatorView!
@@ -158,6 +156,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentPurchaseFailed:", name: TransactionProcessor.TransactionStatusNotification.failed.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "purchaseRequestSucceeded:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentReceiptProcessingError:", name: RegistrationProcessor.RegistrationStatusNotification.receiptError.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentRegistrationFailure:", name: RegistrationProcessor.RegistrationStatusNotification.communicationError.rawValue, object: nil)
 
         /*
         TODO: Add timeouts for each step?
@@ -314,15 +313,15 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     }
 
     func purchaseRequestPurchasing(notification: NSNotification) -> Void {
-        self.subscribeOfferLabel.text = "Purchasing"
+//        self.subscribeOfferLabel.text = "Purchasing"
     }
 
     func purchaseRequestDeferred(notification: NSNotification) -> Void {
-        self.subscribeOfferLabel.text = "Processing"
+//        self.subscribeOfferLabel.text = "Processing"
     }
 
     func purchaseRequestSucceeded(notification: NSNotification) -> Void {
-        self.subscribeOfferLabel.text = "Purchase Completed. Registering Subscription with PREMO."
+//        self.subscribeOfferLabel.text = "Purchase Completed. Registering Subscription with PREMO."
     }
 
     func presentPurchaseFailed(notification: NSNotification) -> Void {

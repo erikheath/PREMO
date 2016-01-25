@@ -247,7 +247,8 @@ class Account: NSObject {
      -
      */
     static func processAccountPayload(JSONObject: NSDictionary) throws -> Void {
-
+        let lock = NSLock()
+        lock.lock()
         guard let payload = JSONObject.objectForKey("payload") as? NSDictionary else {
             return
         }
@@ -262,7 +263,10 @@ class Account: NSObject {
             try self.processSubscriptionPayload(subscription)
         }
 
-        defer { NSUserDefaults.standardUserDefaults().synchronize() }
+        defer {
+            NSUserDefaults.standardUserDefaults().synchronize()
+            lock.unlock()
+        }
 
     }
 
