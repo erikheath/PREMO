@@ -55,7 +55,7 @@ class Account: NSObject {
         }
     }
 
-    static let supportSite = NSURL(string: "/support", relativeToURL: AppDelegate.PREMOURL)
+    static let supportSite = NSURL(string: "/support", relativeToURL: AppDelegate.PREMOMainURL)
     static let iTunesSubscriptionManagement = NSURL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")
     static let premoAccoutManagementSite = AppDelegate.PREMOURL
     static let premoForgotPasswordSite = NSURL(string: "/web/#/forgot", relativeToURL: AppDelegate.PREMOURL)

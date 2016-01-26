@@ -17,8 +17,6 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
     @IBOutlet weak var subscribeCell: UITableViewCell!
 
-    @IBOutlet weak var inviteFriends: UITableViewCell!
-
     @IBOutlet weak var help: UITableViewCell!
 
     @IBOutlet weak var sendFeedback: UITableViewCell!
@@ -149,7 +147,6 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         self.updateLoginCellDisplay()
         self.updateSubscribeCellDisplay()
 
-        self.inviteFriends.textLabel?.attributedText = self.accountHeaderAttributedString((self.inviteFriends.textLabel?.text)!)
         self.help.textLabel?.attributedText = self.accountHeaderAttributedString((self.help.textLabel?.text)!)
         self.aboutPremo.textLabel?.attributedText = self.accountHeaderAttributedString((self.aboutPremo.textLabel?.text)!)
         self.sendFeedback.textLabel?.attributedText = self.accountHeaderAttributedString((self.sendFeedback.textLabel?.text)!)
@@ -318,27 +315,23 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch indexPath.row {
-        case 5:
-            let sharingItems = [AnyObject]()
-            let activityViewController = UIActivityViewController(activityItems: sharingItems, applicationActivities: nil)
-            self.presentViewController(activityViewController, animated: true, completion: nil)
 
-        case 7:
+        case 5:
             UIApplication.sharedApplication().openURL(Account.supportSite!)
 
-        case 9:
+        case 7:
             guard MFMailComposeViewController.canSendMail() == true else { return }
             let sendFeedbackMailView = MFMailComposeViewController()
             sendFeedbackMailView.mailComposeDelegate = self
             sendFeedbackMailView.setSubject("Feedback")
             sendFeedbackMailView.setToRecipients(["support@premonetwork.com"])
-            sendFeedbackMailView.setMessageBody("Hello PREMO, \n\nI have some important feedack to share with you:\n", isHTML: false)
+            sendFeedbackMailView.setMessageBody("Hello PREMO, \n\nI have some important feedback to share with you:\n", isHTML: false)
             sendFeedbackMailView.modalPresentationStyle = UIModalPresentationStyle.FullScreen
             sendFeedbackMailView.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
             self.presentViewController(sendFeedbackMailView, animated: true, completion: nil)
 
-        case 11:
-            UIApplication.sharedApplication().openURL(AppDelegate.PREMOURL!)
+        case 9:
+            UIApplication.sharedApplication().openURL(AppDelegate.PREMOMainURL!)
 
         default:
             break

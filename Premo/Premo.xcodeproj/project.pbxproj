@@ -169,7 +169,7 @@
 		4A3D12221C1F711F000D6D85 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
 		4A3D12241C1F776C000D6D85 /* Premo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Premo-Bridging-Header.h"; sourceTree = "<group>"; };
 		4A3D128A1C20AD99000D6D85 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = ../Media.xcassets; sourceTree = "<group>"; };
-		4A3D7D931BFE89B300383319 /* Premo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Premo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A3D7D931BFE89B300383319 /* PREMO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PREMO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A3D7D961BFE89B300383319 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A3D7D991BFE89B300383319 /* Premo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Premo.xcdatamodel; sourceTree = "<group>"; };
 		4A3D7DA01BFE89B300383319 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -397,7 +397,7 @@
 		4A3D7D941BFE89B300383319 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4A3D7D931BFE89B300383319 /* Premo.app */,
+				4A3D7D931BFE89B300383319 /* PREMO.app */,
 				4A3D7DAC1BFE89B300383319 /* PremoTests.xctest */,
 				4A3D7DB71BFE89B300383319 /* PremoUITests.xctest */,
 			);
@@ -621,9 +621,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4A3D7D921BFE89B300383319 /* Premo */ = {
+		4A3D7D921BFE89B300383319 /* PREMO */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4A3D7DC01BFE89B300383319 /* Build configuration list for PBXNativeTarget "Premo" */;
+			buildConfigurationList = 4A3D7DC01BFE89B300383319 /* Build configuration list for PBXNativeTarget "PREMO" */;
 			buildPhases = (
 				4A3D7D8F1BFE89B300383319 /* Sources */,
 				4A3D7D901BFE89B300383319 /* Frameworks */,
@@ -633,9 +633,9 @@
 			);
 			dependencies = (
 			);
-			name = Premo;
+			name = PREMO;
 			productName = Premo;
-			productReference = 4A3D7D931BFE89B300383319 /* Premo.app */;
+			productReference = 4A3D7D931BFE89B300383319 /* PREMO.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4A3D7DAB1BFE89B300383319 /* PremoTests */ = {
@@ -716,7 +716,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4A3D7D921BFE89B300383319 /* Premo */,
+				4A3D7D921BFE89B300383319 /* PREMO */,
 				4A3D7DAB1BFE89B300383319 /* PremoTests */,
 				4A3D7DB61BFE89B300383319 /* PremoUITests */,
 			);
@@ -879,12 +879,12 @@
 /* Begin PBXTargetDependency section */
 		4A3D7DAE1BFE89B300383319 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4A3D7D921BFE89B300383319 /* Premo */;
+			target = 4A3D7D921BFE89B300383319 /* PREMO */;
 			targetProxy = 4A3D7DAD1BFE89B300383319 /* PBXContainerItemProxy */;
 		};
 		4A3D7DB91BFE89B300383319 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4A3D7D921BFE89B300383319 /* Premo */;
+			target = 4A3D7D921BFE89B300383319 /* PREMO */;
 			targetProxy = 4A3D7DB81BFE89B300383319 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1039,6 +1039,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Premo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1064,6 +1065,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Premo-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1127,7 +1129,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4A3D7DC01BFE89B300383319 /* Build configuration list for PBXNativeTarget "Premo" */ = {
+		4A3D7DC01BFE89B300383319 /* Build configuration list for PBXNativeTarget "PREMO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A3D7DC11BFE89B300383319 /* Debug */,

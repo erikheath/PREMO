@@ -187,8 +187,8 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
     @IBAction func updateCredentials(sender: AnyObject) {
         if Account.loggedIn == true {
-            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please subscribe to PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Subscribe Now", style: .Default, handler: { (action: UIAlertAction) -> Void in
+            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please log in or sign up for PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Log In or Sign Up", style: .Default, handler: { (action: UIAlertAction) -> Void in
                 self.performSegueWithIdentifier("ShowSubscribeFromFeature", sender: self)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))

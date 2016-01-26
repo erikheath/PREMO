@@ -53,13 +53,20 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
         self.configureNavigationItemAppearance()
         self.configureNavigationBarAppearance()
         super.viewWillAppear(animated)
+        self.setNeedsStatusBarAppearanceUpdate()
 
 
     }
 
     override func prefersStatusBarHidden() -> Bool {
-        return true
+        return false
     }
+
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

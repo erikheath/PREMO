@@ -302,7 +302,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
                 itemTitle = (itemTitle as NSString).uppercaseString
                 let mutableItemTitle = NSMutableAttributedString(string: itemTitle)
                 mutableItemTitle.addAttribute(NSFontAttributeName, value: self.categoryTitleFont(), range: NSMakeRange(0, mutableItemTitle.length))
-                mutableItemTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange(0, mutableItemTitle.length))
+
+                mutableItemTitle.addAttribute(NSKernAttributeName, value: NSNumber(float: 1.0), range: NSMakeRange( 0, mutableItemTitle.length))
                 posterCell.titleLabel!.attributedText = mutableItemTitle
             }
 

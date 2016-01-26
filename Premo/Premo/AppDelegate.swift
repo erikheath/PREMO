@@ -46,6 +46,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return components.URL
     }()
 
+    static var PREMOMainURL: NSURL? = {
+        let components = NSURLComponents()
+        components.scheme = "http"
+        components.host = "www.premonetwork.com"
+        return components.URL
+    }()
+
     /**
      The data layer contains the currently available content. The data layer is refreshed:
      - on application launch
