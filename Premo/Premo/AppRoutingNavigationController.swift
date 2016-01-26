@@ -28,7 +28,6 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
         }
     }
 
-    var backgroundView: UIView? = nil
     var foregroundView: UIView? = nil
 
     var currentNavigationStack: NavigationStack = NavigationStack.credentialStack
@@ -166,14 +165,14 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
     func revealController(revealController: SWRevealViewController!, willMoveToPosition position: FrontViewPosition) {
         if position != FrontViewPosition.Left {
             let currentScreenshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
-            revealController.frontViewController.view.addSubview(currentScreenshot)
-            self.backgroundView = currentScreenshot
 
-            let foregroundView = UIView(frame: CGRect(x: 0.0, y: 22.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
+            let foregroundView = UIView(frame: CGRect(x: 0.0, y: 64.0, width: currentScreenshot.frame.size.width, height: currentScreenshot.frame.size.height))
             foregroundView.backgroundColor = UIColor.clearColor()
             revealController.frontViewController.view.addSubview(foregroundView)
             foregroundView.addGestureRecognizer(revealController.tapGestureRecognizer())
             self.foregroundView = foregroundView
+
+            ((revealController.frontViewController as? AppRoutingNavigationController)?.topViewController as? CategoryTableViewController)?.pauseCarouselAnimation()
         }
     }
 
@@ -188,10 +187,9 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
 
     func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
         if position == FrontViewPosition.Left {
-            self.backgroundView?.removeFromSuperview()
             self.foregroundView?.removeFromSuperview()
-            self.backgroundView = nil
             self.foregroundView = nil
+            ((revealController.frontViewController as? AppRoutingNavigationController)?.topViewController as? CategoryTableViewController)?.animateCarousel(true)
         }
     }
 

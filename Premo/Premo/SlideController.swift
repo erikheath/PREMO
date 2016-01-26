@@ -39,4 +39,12 @@ class SlideController: SWRevealViewController {
         return true
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let blackstatusbarView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 22.0))
+        blackstatusbarView.backgroundColor = UIColor.blackColor()
+        self.view.addSubview(blackstatusbarView)
+    }
+
 }
