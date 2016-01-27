@@ -45,11 +45,17 @@ class TermsViewController: UIViewController  {
         super.viewDidLoad()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
+        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
+        super.viewWillAppear(animated)
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         termsOfUseText.setContentOffset(CGPointZero, animated: false)
         privacyPolicyText.setContentOffset(CGPointZero, animated: false)
-        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
 
     }
 

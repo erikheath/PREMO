@@ -66,6 +66,9 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
+
         PremoStyleTemplate.styleCallToActionButton(self.loginButton)
         PremoStyleTemplate.styleCallToActionButton(self.facebookLoginButton)
         PremoStyleTemplate.styleTextButton(self.forgotPasswordButton)
@@ -79,8 +82,6 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.configureNavigationItemAppearance()
-        self.configureNavigationBarAppearance()
         (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
 
     }

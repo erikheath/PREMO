@@ -57,6 +57,9 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.configureNavigationItemAppearance()
+        self.configureNavigationBarAppearance()
+
         PremoStyleTemplate.styleCallToActionButton(self.signupButton)
         PremoStyleTemplate.styleCallToActionButton(self.facebookSignupButton)
         PremoStyleTemplate.styleTextButton(self.gotoLoginButton)
@@ -69,8 +72,6 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.configureNavigationItemAppearance()
-        self.configureNavigationBarAppearance()
         (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
 
     }
