@@ -103,6 +103,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         super.viewDidLoad()
         self.configureNavigationBarAppearance()
         self.configureNavigationItemAppearance()
+
         guard let contentItem = self.contentItem else { return }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: contentItem.managedObjectContext)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextDidSaveNotification, object: contentItem.managedObjectContext)
@@ -111,6 +112,8 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     override func viewWillAppear(animated: Bool) {
         self.configureNavigationBarAppearance()
         self.configureNavigationItemAppearance()
+        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
+
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
 

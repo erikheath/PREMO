@@ -6,7 +6,7 @@ import UIKit
 
 class SlideController: SWRevealViewController {
 
-    var screenshot: UIView? = nil
+    weak var blackStatusBarBackgroundView: UIView? = nil
 
     override init!(rearViewController: UIViewController!, frontViewController: UIViewController!) {
         super.init(rearViewController: rearViewController, frontViewController: frontViewController)
@@ -44,6 +44,7 @@ class SlideController: SWRevealViewController {
 
         let blackstatusbarView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 22.0))
         blackstatusbarView.backgroundColor = UIColor.blackColor()
+        self.blackStatusBarBackgroundView = blackstatusbarView
         self.view.addSubview(blackstatusbarView)
     }
 

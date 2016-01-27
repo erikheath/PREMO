@@ -81,6 +81,8 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         super.viewWillAppear(animated)
         self.configureNavigationItemAppearance()
         self.configureNavigationBarAppearance()
+        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
+
     }
 
     func configureNavigationItemAppearance() {

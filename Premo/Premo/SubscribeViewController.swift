@@ -173,6 +173,8 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     override func viewWillAppear(animated: Bool) {
         self.configureNavigationItemAppearance()
         self.configureNavigationBarAppearance()
+        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.clearColor()
+
         super.viewWillAppear(animated)
 
     }

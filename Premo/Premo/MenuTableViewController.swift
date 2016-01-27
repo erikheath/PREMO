@@ -47,11 +47,14 @@ class MenuTableViewController: UITableViewController, NSFetchedResultsController
         self.tableView.clipsToBounds = true
         self.tableView.superview?.clipsToBounds = true
 
+
     }
 
     override func viewWillAppear(animated: Bool) {
         self.configureNavigationItemAppearance()
         self.configureNavigationBarAppearance()
+        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
+
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
 

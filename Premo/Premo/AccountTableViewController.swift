@@ -144,6 +144,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         super.viewDidLoad()
         self.configureNavigationItemAppearance()
         self.configureNavigationBarAppearance()
+
         self.updateLoginCellDisplay()
         self.updateSubscribeCellDisplay()
 
@@ -161,6 +162,8 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         self.configureNavigationBarAppearance()
         self.updateLoginCellDisplay()
         self.updateSubscribeCellDisplay()
+        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
+
         super.viewWillAppear(animated)
     }
 
@@ -170,20 +173,22 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
 
     func updateLoginCellDisplay() {
-        guard let _ = NSUserDefaults.standardUserDefaults().stringForKey("jwt"), let userName = NSUserDefaults.standardUserDefaults().stringForKey("userName") else {
-            // The user is not logged in.
-            self.loginStateLabel.text = "LOG IN"
-            self.loginNameLabel.text = "Log in or sign up"
-            return
-        }
-
-        // The user is logged in.
-        self.loginStateLabel.text = "LOG OUT"
-        self.loginNameLabel.text = userName
-
         defer {
             self.loginStateLabel.attributedText = self.accountMainLabelAttributedString(self.loginStateLabel.text!)
             self.loginNameLabel.attributedText = self.accountDetailLabelAttributedString(self.loginNameLabel.text!)
+        }
+
+        do {
+            guard let _ = NSUserDefaults.standardUserDefaults().stringForKey("jwt"), let userName = NSUserDefaults.standardUserDefaults().stringForKey("userName") else {
+                // The user is not logged in.
+                self.loginStateLabel.text = "LOG IN"
+                self.loginNameLabel.text = "Log in or sign up"
+                return
+            }
+
+            // The user is logged in.
+            self.loginStateLabel.text = "LOG OUT"
+            self.loginNameLabel.text = userName
         }
     }
 
@@ -193,58 +198,59 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
             self.subscribeCallToActionLabel.attributedText = self.accountMainLabelAttributedString(self.subscribeCallToActionLabel.text!)
             self.subscribeTeaserLabel.attributedText = self.accountDetailLabelAttributedString(self.subscribeTeaserLabel.text!)
         }
+        
         do {
 
-        guard let subscriptionExpiresDate = Account.expirationDate, let subscriptionRenews = Account.autoRenews, let subscriptionSource = Account.source else {
-            // The user has never had a subscription, so display the teaser.
-            self.subscribeCallToActionLabel.text = "SUBSCRIBE NOW"
-            self.subscribeTeaserLabel.text = "Only $4.99 / month, Free 30-day trial"
-            return
-        }
-        let subscriptionActive = subscriptionExpiresDate.compare(NSDate()) == NSComparisonResult.OrderedDescending
+            guard let subscriptionExpiresDate = Account.expirationDate, let subscriptionRenews = Account.autoRenews, let subscriptionSource = Account.source else {
+                // The user has never had a subscription, so display the teaser.
+                self.subscribeCallToActionLabel.text = "SUBSCRIBE NOW"
+                self.subscribeTeaserLabel.text = "Only $4.99 / month, Free 30-day trial"
+                return
+            }
+            let subscriptionActive = subscriptionExpiresDate.compare(NSDate()) == NSComparisonResult.OrderedDescending
 
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy"
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "MM-dd-yyyy"
 
-        if subscriptionActive == true {
-            switch subscriptionSource {
-            case "itunes":
-                if subscriptionRenews == true {
-                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION RENEWS ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                    self.subscribeTeaserLabel.text = "Manage your subscription"
-                    self.subscribeCell.tag = 0
+            if subscriptionActive == true {
+                switch subscriptionSource {
+                case "itunes":
+                    if subscriptionRenews == true {
+                        self.subscribeCallToActionLabel.text = "SUBSCRIPTION RENEWS ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
+                        self.subscribeTeaserLabel.text = "Manage your subscription"
+                        self.subscribeCell.tag = 0
 
-                } else {
-                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRES ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
+                    } else {
+                        self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRES ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
+                        self.subscribeTeaserLabel.text = "Renew now"
+                        self.subscribeCell.tag = 1
+                    }
+                default:
+                    if subscriptionRenews == true {
+                        self.subscribeCallToActionLabel.text = "SUBSCRIPTION RENEWS ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
+                        self.subscribeTeaserLabel.text = "Manage your account at www.premonetwork.com"
+                        self.subscribeCell.tag = 2
+                    } else {
+                        self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRES ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
+                        self.subscribeTeaserLabel.text = "Update your account at www.premonetwork.com"
+                        self.subscribeCell.tag = 3
+                    }
+                }
+            } else {
+                switch subscriptionSource {
+                case "itunes":
+
+                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
                     self.subscribeTeaserLabel.text = "Renew now"
-                    self.subscribeCell.tag = 1
-                }
-            default:
-                if subscriptionRenews == true {
-                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION RENEWS ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                    self.subscribeTeaserLabel.text = "Manage your account at www.premonetwork.com"
-                    self.subscribeCell.tag = 2
-                } else {
-                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRES ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
+                    self.subscribeCell.tag = 4
+
+                default:
+
+                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
                     self.subscribeTeaserLabel.text = "Update your account at www.premonetwork.com"
-                    self.subscribeCell.tag = 3
+                    self.subscribeCell.tag = 5
                 }
             }
-        } else {
-            switch subscriptionSource {
-            case "itunes":
-
-                self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                self.subscribeTeaserLabel.text = "Renew now"
-                self.subscribeCell.tag = 4
-
-            default:
-
-                self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                self.subscribeTeaserLabel.text = "Update your account at www.premonetwork.com"
-                self.subscribeCell.tag = 5
-            }
-        }
         }
 
     }
@@ -332,12 +338,12 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
         case 9:
             UIApplication.sharedApplication().openURL(AppDelegate.PREMOMainURL!)
-
+            
         default:
             break
         }
     }
-
+    
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         switch result {
         case MFMailComposeResultCancelled:

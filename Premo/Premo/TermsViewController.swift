@@ -49,6 +49,8 @@ class TermsViewController: UIViewController  {
         super.viewDidLayoutSubviews()
         termsOfUseText.setContentOffset(CGPointZero, animated: false)
         privacyPolicyText.setContentOffset(CGPointZero, animated: false)
+        (self.revealViewController() as? SlideController)!.blackStatusBarBackgroundView?.backgroundColor = UIColor.blackColor()
+
     }
 
     override func didReceiveMemoryWarning() {
