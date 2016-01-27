@@ -220,7 +220,6 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 3
     }
 
@@ -391,7 +390,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
             let minuteString = String(seconds.integerValue / 60) + " Min"
             featureDetails = detailString(minuteString, featureDetails: featureDetails)
         }
-        guard let genreName = (contentItem?.genres?.firstObject as? Genre)!.genreName  else { return featureDetails ?? "" }
+        guard let genreName = (contentItem?.genres?.firstObject as? Genre)?.genreName  else { return featureDetails ?? "" }
         featureDetails = detailString((genreName as NSString).uppercaseString , featureDetails: featureDetails)
 
         guard let cc = contentItem?.contentCaptionsIncluded else { return featureDetails ?? "" }
@@ -534,17 +533,30 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
                 if let description = contentItem?.contentSynopsis {
                     let content = self.attributedCreditContent(description)
                     let contentHeight = content.boundingRectWithSize(constraintSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil).height
-                    height = ceil(contentHeight) + 18.0
+                    height = ceil(contentHeight) > 1 ? ceil(contentHeight) + 18.0 : 0.0
                 }
 
+            case 2:
+                guard let description = contentItem?.actors where description.count > 0 else { height = 0; break }
+                height = 50
+
+            case 3:
+                guard let description = contentItem?.directors where description.count > 0 else { height = 0; break }
+                height = 50
+
+            case 4:
+                guard let description = contentItem?.producers where description.count > 0 else { height = 0; break }
+                height = 50
+                    
             default:
                 height = 50.0
                 break
             }
 
         default:
-            break
+            height = 50
         }
+
         return height
     }
 
