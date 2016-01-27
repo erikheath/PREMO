@@ -1304,11 +1304,11 @@
                         <viewControllerLayoutGuide type="bottom" id="kEX-Q8-dWX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mnh-RT-TPf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HN0-sw-uJQ">
-                                <rect key="frame" x="20" y="88" width="560" height="597"/>
+                                <rect key="frame" x="20" y="88" width="560" height="512"/>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES"/>
@@ -1440,7 +1440,7 @@ CgoKCgoKCgoKCgoKCgo
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwQ-rL-EWj">
-                                <rect key="frame" x="20" y="88" width="560" height="597"/>
+                                <rect key="frame" x="20" y="88" width="560" height="512"/>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES"/>
@@ -4952,7 +4952,7 @@ point of view</string>
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
-                                                        <segue destination="bgc-yt-72x" kind="unwind" identifier="unwindFromSubscribe" unwindAction="unwindFromSubscribe:" id="3Qd-3P-ufO"/>
+                                                        <action selector="skipSignUp:" destination="P7d-hz-6X9" eventType="touchUpInside" id="Vvm-hA-6VA"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -4991,6 +4991,7 @@ point of view</string>
                         <outlet property="skipButton" destination="bw0-cE-0DA" id="HtD-PM-TgL"/>
                         <segue destination="bgc-yt-72x" kind="unwind" identifier="unwindToLoginFromCreateAccount" unwindAction="unwindToLoginFromCreateAccount:" id="Pq8-uu-ZDs"/>
                         <segue destination="foo-1l-Tz4" kind="show" identifier="showSubscribeFromAccount" id="HmV-hJ-I1u"/>
+                        <segue destination="bgc-yt-72x" kind="unwind" identifier="unwindFromSubscribe" unwindAction="unwindFromSubscribe:" id="52o-Nx-caF"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iLQ-y1-CQZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5018,12 +5019,12 @@ point of view</string>
         <image name="twitterFollowButton" width="50" height="34"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="A7W-Ws-NVz"/>
+        <segue reference="ikX-ao-8ID"/>
+        <segue reference="ue3-he-1aD"/>
+        <segue reference="HeX-iT-EiB"/>
+        <segue reference="HmV-hJ-I1u"/>
         <segue reference="hna-rC-Epv"/>
-        <segue reference="33p-NY-b3K"/>
         <segue reference="ONC-dj-StM"/>
         <segue reference="zHm-oe-vCR"/>
-        <segue reference="HeX-iT-EiB"/>
-        <segue reference="ue3-he-1aD"/>
     </inferredMetricsTieBreakers>
 </document>

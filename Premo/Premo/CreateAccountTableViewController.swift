@@ -101,6 +101,14 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func skipSignUp(sender: AnyObject) {
+        if (self.navigationController as? AppRoutingNavigationController)!.currentNavigationStack == .credentialStack {
+            (self.navigationController as? AppRoutingNavigationController)!.transitionToVideoStack(true)
+        } else {
+            self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+        }
+    }
+
 
     @IBAction func unwindToCreateAccountFromLogin(sender: UIStoryboardSegue) {
 
