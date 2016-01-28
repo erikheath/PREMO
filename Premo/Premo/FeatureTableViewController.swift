@@ -525,7 +525,13 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         case 2:
             switch indexPath.row {
             case 0:
-                height = 82.0
+                let constraintWidth = tableView.bounds.size.width - tableView.layoutMargins.left - tableView.layoutMargins.right
+                let constraintSize = CGSizeMake(constraintWidth, CGFloat.max)
+                if let titleContent = contentItem?.contentDetailDisplayTitle {
+                    let content = self.attributedFeatureTitle(titleContent)
+                    let contentHeight = content.boundingRectWithSize(constraintSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil).height
+                    height = ceil(contentHeight) + 56.0
+                }
 
             case 1:
                 let constraintWidth = tableView.bounds.size.width - tableView.layoutMargins.left - tableView.layoutMargins.right
