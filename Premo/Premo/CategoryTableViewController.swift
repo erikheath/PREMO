@@ -359,8 +359,8 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             gradientFilter?.setDefaults()
             gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
             gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
-            gradientFilter?.setValue(CIVector(x: 0, y: -20), forKey: "inputPoint0")
-            gradientFilter?.setValue(CIVector(x: 0, y: 220), forKey: "inputPoint1")
+            gradientFilter?.setValue(CIVector(x: 0, y: 10), forKey: "inputPoint0")
+            gradientFilter?.setValue(CIVector(x: 0, y: 280), forKey: "inputPoint1")
             guard let outputImageRecipe = gradientFilter?.outputImage else { return nil }
             let outputImage = context.createCGImage(outputImageRecipe, fromRect: rect)
             self.carouselImageMask = UIImage(CGImage: outputImage)
@@ -376,7 +376,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
             gradientFilter?.setDefaults()
             gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor1")
             gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor0")
-            gradientFilter?.setValue(CIVector(x: 0, y: 0), forKey: "inputPoint0")
+            gradientFilter?.setValue(CIVector(x: 50, y: 50), forKey: "inputPoint0")
             gradientFilter?.setValue(CIVector(x: 300, y: 300), forKey: "inputPoint1")
             guard let outputImageRecipe = gradientFilter?.outputImage else { return nil }
             let outputImage = context.createCGImage(outputImageRecipe, fromRect: rect)
