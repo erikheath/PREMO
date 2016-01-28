@@ -220,7 +220,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -230,7 +230,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         case 2:
             return  5
         default:
-            return 0
+            return 1
         }
 
     }
@@ -259,7 +259,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
             self.configureCreditsCell(cell, indexPath: indexPath)
             break
         default:
-            cell = tableView.dequeueReusableCellWithIdentifier("CreditsCell", forIndexPath: indexPath)
+            cell = tableView.dequeueReusableCellWithIdentifier("SpacerCell", forIndexPath: indexPath)
             break
         }
 
@@ -560,7 +560,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
             }
 
         default:
-            height = 50
+            height = 40.0
         }
 
         return height

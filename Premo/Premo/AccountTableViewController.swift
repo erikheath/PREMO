@@ -281,6 +281,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
             Account.removeDeviceFromService()
             Account.clearAccountSettings()
             self.updateLoginCellDisplay()
+            self.updateSubscribeCellDisplay()
 
         })
         let alertCancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
