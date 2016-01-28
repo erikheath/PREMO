@@ -46,6 +46,15 @@ class SlideController: SWRevealViewController {
         blackstatusbarView.backgroundColor = UIColor.blackColor()
         self.blackStatusBarBackgroundView = blackstatusbarView
         self.view.addSubview(blackstatusbarView)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "connectionFailure:", name: AppDelegate.ReachabilityStatus.NotReachable.rawValue, object: nil)
+    }
+
+    func connectionFailure(notification: NSNotification) -> Void {
+        let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection and try again", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 
 }

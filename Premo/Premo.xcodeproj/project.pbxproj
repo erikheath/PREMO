@@ -124,6 +124,8 @@
 		4AF547301C2207CB00AD1703 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AF547281C2207CB00AD1703 /* Montserrat-Regular.otf */; };
 		4AF547311C2207CB00AD1703 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AF547291C2207CB00AD1703 /* Montserrat-SemiBold.otf */; };
 		4AF547321C2207CB00AD1703 /* Montserrat-UltraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4AF5472A1C2207CB00AD1703 /* Montserrat-UltraLight.otf */; };
+		4AFA018E1C599259008DAA18 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA018D1C599259008DAA18 /* Reachability.m */; };
+		4AFA01911C59C89D008DAA18 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA01901C59C89D008DAA18 /* LaunchScreenViewController.swift */; };
 		4AFC419B1C46E142003BDAE1 /* ContentItemJSONObjectConditioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC419A1C46E142003BDAE1 /* ContentItemJSONObjectConditioner.swift */; };
 		4AFC41AB1C473118003BDAE1 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AFC41AA1C473118003BDAE1 /* FBSDKCoreKit.framework */; };
 		4AFC41AE1C4737BA003BDAE1 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AFC41AD1C4737BA003BDAE1 /* iCarousel.m */; };
@@ -276,6 +278,9 @@
 		4AF547281C2207CB00AD1703 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		4AF547291C2207CB00AD1703 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
 		4AF5472A1C2207CB00AD1703 /* Montserrat-UltraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-UltraLight.otf"; sourceTree = "<group>"; };
+		4AFA018C1C599259008DAA18 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		4AFA018D1C599259008DAA18 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		4AFA01901C59C89D008DAA18 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		4AFC419A1C46E142003BDAE1 /* ContentItemJSONObjectConditioner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentItemJSONObjectConditioner.swift; sourceTree = "<group>"; };
 		4AFC41AA1C473118003BDAE1 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Premo/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		4AFC41AC1C4737BA003BDAE1 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
@@ -411,6 +416,7 @@
 				4A3D7D961BFE89B300383319 /* AppDelegate.swift */,
 				4A9264541C4C48BC0029B12E /* Account State Management */,
 				4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */,
+				4AFA01901C59C89D008DAA18 /* LaunchScreenViewController.swift */,
 				4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */,
 				4A3D11DC1C1F4215000D6D85 /* MenuTableViewController.swift */,
 				4A3D12221C1F711F000D6D85 /* CategoryTableViewController.swift */,
@@ -427,6 +433,7 @@
 				4AE318791C335D9400963C80 /* TermsViewController.swift */,
 				4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */,
 				4AED71C61C4AF7EB0083A9F9 /* StyleTemplate.swift */,
+				4AFA018F1C599261008DAA18 /* Reachability */,
 				4AFD45551C496208002DA7AE /* SWRevealController */,
 				4AFC41AF1C47381A003BDAE1 /* iCarousel */,
 				4AEE7EE01C0188D8009F0004 /* DataDriver */,
@@ -579,6 +586,15 @@
 				4AEE7ED11C0188CC009F0004 /* URLResponse.swift */,
 			);
 			name = DataDriver;
+			sourceTree = "<group>";
+		};
+		4AFA018F1C599261008DAA18 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				4AFA018C1C599259008DAA18 /* Reachability.h */,
+				4AFA018D1C599259008DAA18 /* Reachability.m */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		4AFC419C1C46E66A003BDAE1 /* JSON Object Conditioners */ = {
@@ -802,6 +818,7 @@
 				4AC5DC341C1A17D400FF2547 /* NetworkStoreSaveRequest.swift in Sources */,
 				4A1F2E481C30C76100E3D05C /* FeatureTableViewController.swift in Sources */,
 				4AEE7ED81C0188CC009F0004 /* InsertionFactory.swift in Sources */,
+				4AFA01911C59C89D008DAA18 /* LaunchScreenViewController.swift in Sources */,
 				4AD7DB2F1C45E292008A339F /* JSONObjectDataConditionerFactory.swift in Sources */,
 				4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */,
 				4AED71C51C4AEEC80083A9F9 /* Account.swift in Sources */,
@@ -827,6 +844,7 @@
 				4AEE88C71C51D0AF00E3C5C7 /* ProgramTrailers.swift in Sources */,
 				4A9264581C4F18A80029B12E /* Carousel.swift in Sources */,
 				4AEE88B91C51D0AF00E3C5C7 /* Catalog.swift in Sources */,
+				4AFA018E1C599259008DAA18 /* Reachability.m in Sources */,
 				4A1F2E401C30C62100E3D05C /* DetailPosterTableViewCell.swift in Sources */,
 				4AEE88B51C51D0AF00E3C5C7 /* Producer.swift in Sources */,
 				4A92645A1C4F3EAE0029B12E /* PlayerViewController.swift in Sources */,

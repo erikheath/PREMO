@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }()
 
+    private var loadingError: Bool = false
+
     /**
      The base URL used for all requests to the premo servers.
      */
@@ -52,6 +54,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         components.host = "www.premonetwork.com"
         return components.URL
     }()
+
+    private(set) static var PREMOMainHostReachability: Reachability? = nil
+    private var reachabilityTimer: NSTimer? = nil
+
+    enum ReachabilityStatus: String {
+        case NotReachable = "Not Reachable"
+        case Reachable = "Reachable"
+    }
 
     /**
      The data layer contains the currently available content. The data layer is refreshed:
@@ -94,19 +104,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        // Set up Reachability Monitors
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: kReachabilityChangedNotification, object: nil)
+
+        AppDelegate.PREMOMainHostReachability = Reachability(hostName: "www.premonetwork.com")
+        AppDelegate.PREMOMainHostReachability?.startNotifier()
+
         // UI Customization
         PremoStyleTemplate.styleApp()
 
         // Set up Data Layer
         JSONObjectDataConditionerFactory.registerObjectConditioner(ContentItemJSONObjectConditioner.entityName, objectConditioner: ContentItemJSONObjectConditioner())
-        if self.datalayer == nil {
-            return false
-            /*
-            TODO: Notify user of Failure
-            This causes the catalog to be loaded. Also, the app can't run without this. This would be an appropriate time to notify the user of the error.
-            */
-
-        }
 
         // Set up Facebook SDK
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -154,7 +162,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //        }
     }
 
+    // MARK: - Reachability stack
 
+    func reachabilityChanged(notification: NSNotification) -> Void {
+        guard let networkChecker = notification.object as? Reachability where networkChecker == AppDelegate.PREMOMainHostReachability else { return }
+
+        self.pollConnectionStatusForChange(7.0, status: networkChecker.currentReachabilityStatus() == NotReachable ? .NotReachable : .Reachable)
+    }
+
+    func pollConnectionStatusForChange(interval: NSTimeInterval, status: ReachabilityStatus) -> Void {
+        if self.reachabilityTimer != nil { return }
+        self.reachabilityTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: "postConnectionStatus:", userInfo: ["status": status.rawValue], repeats: false)
+    }
+
+    func postConnectionStatus(reconnectTimer: NSTimer) -> Void {
+        self.reachabilityTimer = nil
+        defer {
+            reconnectTimer.invalidate()
+        }
+        guard let priorStatus = reconnectTimer.userInfo?["status"] as? String else { return }
+        let currentStatus = AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() == NotReachable ? ReachabilityStatus.NotReachable.rawValue : ReachabilityStatus.Reachable.rawValue
+        if currentStatus == priorStatus {
+            NSNotificationCenter.defaultCenter().postNotificationName(currentStatus, object: nil)
+        } else {
+            self.pollConnectionStatusForChange(5.0, status: AppDelegate.ReachabilityStatus.init(rawValue: currentStatus)!)
+        }
+    }
 
     // MARK: - Core Data stack
 

@@ -70,6 +70,11 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
 
     func transitionToInitialStack() -> Void {
 
+        guard AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() != NotReachable else {
+            self.transitionToLoadingScreen(false)
+            return
+        }
+
         switch self.currentNavigationStack {
 
         case .videoStack:
@@ -88,6 +93,12 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
             self.transitionToAccountStack(false)
 
         }
+    }
+
+    func transitionToLoadingScreen(animated: Bool) -> Void {
+        guard let rootController = self.storyboard?.instantiateViewControllerWithIdentifier("loadingScreen") else { return }
+        let controllers = [rootController]
+        self.setViewControllers(controllers, animated: animated)
     }
 
     func transitionToAccountStack(animated: Bool) -> Void {
