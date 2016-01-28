@@ -104,6 +104,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        if self.datalayer == nil {
+            return false
+            /*
+            TODO: Notify user of Failure
+            This causes the catalog to be loaded. Also, the app can't run without this. This would be an appropriate time to notify the user of the error.
+            */
+
+        }
+
         // Set up Reachability Monitors
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: kReachabilityChangedNotification, object: nil)
 

@@ -148,7 +148,7 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
         func processFacebookLogin() {
             do {
                 let HTTPBodyDictionary: NSDictionary = ["userID": FBSDKAccessToken.currentAccessToken().userID, "accessToken": FBSDKAccessToken.currentAccessToken().tokenString, "deviceID": AppDelegate.appDeviceID, "platform": "ios"]
-                let loginRequest = try NSMutableURLRequest.PREMOURLRequest(self.facebookLoginPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: true)
+                let loginRequest = try NSMutableURLRequest.PREMOURLRequest(self.facebookLoginPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: false)
                 self.sendLoginRequest(loginRequest)
             } catch {
                 self.presentLoginError()

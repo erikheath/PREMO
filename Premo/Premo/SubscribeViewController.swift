@@ -20,7 +20,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     @IBOutlet weak var subscribeButton: UIButton!
 
     @IBOutlet weak var subscribeActivityIndicator: UIActivityIndicatorView!
-    
+
     @IBOutlet weak var skipSubscribeButton: UIButton!
 
 
@@ -92,7 +92,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         let newFontAttributes = NSMutableDictionary(dictionary: descriptorDict)
         let fontDescriptor = newFont.fontDescriptor().fontDescriptorByAddingAttributes(NSDictionary(dictionary: newFontAttributes) as! [String : AnyObject])
         return UIFont(descriptor: fontDescriptor, size: 14.0)
-        
+
     }
 
 
@@ -157,6 +157,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "purchaseRequestSucceeded:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentReceiptProcessingError:", name: RegistrationProcessor.RegistrationStatusNotification.receiptError.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentRegistrationFailure:", name: RegistrationProcessor.RegistrationStatusNotification.communicationError.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentPurchaseSuccessful:", name: RegistrationProcessor.RegistrationStatusNotification.registered.rawValue, object: nil)
 
         /*
         TODO: Add timeouts for each step?
@@ -168,7 +169,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
 
     }
 
-    
+
 
     override func viewWillAppear(animated: Bool) {
         self.configureNavigationItemAppearance()
@@ -202,7 +203,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             self.subscribeOffer = 0
             self.subscribeButton.setAttributedTitle(self.styledButtonText("START YOUR 30-DAY TRIAL"), forState: UIControlState.Normal)
         }
-        
+
     }
 
     override func prefersStatusBarHidden() -> Bool {
@@ -264,7 +265,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         subscribeButton.userInteractionEnabled = enabled
         skipSubscribeButton.userInteractionEnabled = enabled
         self.navigationItem.backBarButtonItem?.enabled = enabled
-        
+
     }
 
     func presentProductRequestFailure() {
@@ -315,15 +316,15 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     }
 
     func purchaseRequestPurchasing(notification: NSNotification) -> Void {
-//        self.subscribeOfferLabel.text = "Purchasing"
+        //        self.subscribeOfferLabel.text = "Purchasing"
     }
 
     func purchaseRequestDeferred(notification: NSNotification) -> Void {
-//        self.subscribeOfferLabel.text = "Processing"
+        //        self.subscribeOfferLabel.text = "Processing"
     }
 
     func purchaseRequestSucceeded(notification: NSNotification) -> Void {
-//        self.subscribeOfferLabel.text = "Purchase Completed. Registering Subscription with PREMO."
+        //        self.subscribeOfferLabel.text = "Purchase Completed. Registering Subscription with PREMO."
     }
 
     func presentPurchaseFailed(notification: NSNotification) -> Void {
@@ -366,25 +367,27 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     }
 
     func presentPurchaseSuccessful(notification: NSNotification) -> Void {
-        let alert = UIAlertController(title: "Subscription Activated", message: "You have successfully subscribed to PREMO.", preferredStyle: UIAlertControllerStyle.Alert)
-        let defaultAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (action:UIAlertAction) -> Void in
-            guard let appRouter = self.navigationController as? AppRoutingNavigationController else { return }
-            /*
-            TODO: This is a fatal error
-            This should never occur, but in the event of a fatal error, something needs to be displayed and the app should exit.
-            */
-            switch appRouter.currentNavigationStack {
-            case .accountStack:
-                self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
-            case .credentialStack:
-                appRouter.transitionToVideoStack(true)
-            case .videoStack:
-                self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let alert = UIAlertController(title: "Subscription Activated", message: "You have successfully subscribed to PREMO.", preferredStyle: UIAlertControllerStyle.Alert)
+            let defaultAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) { (action:UIAlertAction) -> Void in
+                guard let appRouter = self.navigationController as? AppRoutingNavigationController else { return }
+                /*
+                TODO: This is a fatal error
+                This should never occur, but in the event of a fatal error, something needs to be displayed and the app should exit.
+                */
+                switch appRouter.currentNavigationStack {
+                case .accountStack:
+                    self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                case .credentialStack:
+                    appRouter.transitionToVideoStack(true)
+                case .videoStack:
+                    self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                }
             }
+            alert.addAction(defaultAction)
+            self.presentViewController(alert, animated: true, completion: nil)
+            self.subscribeActivityIndicator.stopAnimating()
         }
-        alert.addAction(defaultAction)
-        self.presentViewController(alert, animated: true, completion: nil)
-        self.subscribeActivityIndicator.stopAnimating()
     }
 
 
@@ -410,7 +413,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             let payment = SKMutablePayment(product: product)
             payment.quantity = 1
             SKPaymentQueue.defaultQueue().addPayment(payment)
-
+            
         case 1:
             guard let _ = Account.iTunesSubscriptionManagement else {
                 self.presentiTunesAccessFailure()
@@ -418,10 +421,10 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             }
             UIApplication.sharedApplication().openURL(Account.iTunesSubscriptionManagement!)
             self.manageUserInteractions(true)
-
+            
         default:
             self.presentiTunesAccessFailure()
         }
     }
-
+    
 }

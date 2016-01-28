@@ -237,6 +237,9 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
             (UIApplication.sharedApplication().delegate as? AppDelegate)?.transactionProcessor.completeTransaction(transaction!)
         }
 
+        let notification = NSNotification(name: RegistrationStatusNotification.registered.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().postNotification(notification)
+
     }
 
 
