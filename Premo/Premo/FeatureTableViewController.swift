@@ -80,7 +80,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
     func configureNavigationItemAppearance() {
         navigationItemSetup: do {
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "  ", style: .Plain, target: nil, action: nil)
             self.navigationItem.hidesBackButton = false
             self.navigationItem.title = contentItem?.contentDetailDisplayTitle
             if let _ = self.navigationItem.title {

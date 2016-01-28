@@ -46,7 +46,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
 
     func configureNavigationItemAppearance() {
         navigationItemSetup: do {
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "  ", style: .Plain, target: nil, action: nil)
             self.navigationItem.title = "Account"
             if let _ = self.navigationItem.title {
                 self.navigationItem.titleView = PremoStyleTemplate.styledTitleLabel(self.navigationItem.title!)

@@ -78,7 +78,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
     func configureNavigationItemAppearance() {
         navigationItemSetup: do {
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "  ", style: .Plain, target: nil, action: nil)
             self.navigationItem.title = ""
             self.navigationItem.hidesBackButton = false
             let titleViewImageView = UIImageView(image: UIImage(named: "PREMO_titlebar"))
