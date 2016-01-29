@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A073A5B1C18D2C600EEFC40 /* StoreReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A073A5A1C18D2C600EEFC40 /* StoreReference.swift */; };
 		4A073A5F1C18EBD600EEFC40 /* StoreReferenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A073A5E1C18EBD600EEFC40 /* StoreReferenceTests.swift */; };
 		4A073A611C18EBEE00EEFC40 /* DataLayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A073A601C18EBEE00EEFC40 /* DataLayerTests.swift */; };
 		4A1F2E161C2F51FC00E3D05C /* PosterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1F2E151C2F51FC00E3D05C /* PosterTableViewCell.swift */; };
@@ -37,10 +36,11 @@
 		4A7634F31C02858D002DFB50 /* DataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7634F11C02858D002DFB50 /* DataLayer.swift */; };
 		4A7634F41C02858D002DFB50 /* DataConditionerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7634F21C02858D002DFB50 /* DataConditionerOperation.swift */; };
 		4A76ECEA1C2720F5005C6F83 /* JSONCollectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECE91C2720F5005C6F83 /* JSONCollectionProcessor.swift */; };
-		4A76ECEC1C272185005C6F83 /* ImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECEB1C272185005C6F83 /* ImageDataProcessor.swift */; };
 		4A76ECEE1C272362005C6F83 /* NotificationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECED1C272362005C6F83 /* NotificationProcessor.swift */; };
 		4A76ECF01C28B43E005C6F83 /* JSONAttributeProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECEF1C28B43E005C6F83 /* JSONAttributeProcessor.swift */; };
 		4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */; };
+		4A77251B1C5B10180024CAEA /* ImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7725191C5B10180024CAEA /* ImageDataProcessor.swift */; };
+		4A77251C1C5B10180024CAEA /* StoreReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A77251A1C5B10180024CAEA /* StoreReference.swift */; };
 		4A7A66911C489B53007B86F2 /* FeatureDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */; };
 		4A88E32C1C41DC7900BC1543 /* AppRoutingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */; };
 		4A9264561C4F0D3A0029B12E /* SlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9264551C4F0D3A0029B12E /* SlideController.swift */; };
@@ -154,7 +154,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4A073A5A1C18D2C600EEFC40 /* StoreReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreReference.swift; sourceTree = "<group>"; };
 		4A073A5E1C18EBD600EEFC40 /* StoreReferenceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreReferenceTests.swift; sourceTree = "<group>"; };
 		4A073A601C18EBEE00EEFC40 /* DataLayerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLayerTests.swift; sourceTree = "<group>"; };
 		4A1F2E151C2F51FC00E3D05C /* PosterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PosterTableViewCell.swift; sourceTree = "<group>"; };
@@ -191,10 +190,11 @@
 		4A7634F11C02858D002DFB50 /* DataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataLayer.swift; path = DataDriver/DataLayer.swift; sourceTree = "<group>"; };
 		4A7634F21C02858D002DFB50 /* DataConditionerOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataConditionerOperation.swift; path = DataDriver/DataConditionerOperation.swift; sourceTree = "<group>"; };
 		4A76ECE91C2720F5005C6F83 /* JSONCollectionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONCollectionProcessor.swift; path = DataDriver/JSONCollectionProcessor.swift; sourceTree = "<group>"; };
-		4A76ECEB1C272185005C6F83 /* ImageDataProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDataProcessor.swift; sourceTree = "<group>"; };
 		4A76ECED1C272362005C6F83 /* NotificationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationProcessor.swift; path = DataDriver/NotificationProcessor.swift; sourceTree = "<group>"; };
 		4A76ECEF1C28B43E005C6F83 /* JSONAttributeProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONAttributeProcessor.swift; path = DataDriver/JSONAttributeProcessor.swift; sourceTree = "<group>"; };
 		4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONEntityProcessor.swift; path = DataDriver/JSONEntityProcessor.swift; sourceTree = "<group>"; };
+		4A7725191C5B10180024CAEA /* ImageDataProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDataProcessor.swift; path = DataDriver/ImageDataProcessor.swift; sourceTree = "<group>"; };
+		4A77251A1C5B10180024CAEA /* StoreReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoreReference.swift; path = DataDriver/StoreReference.swift; sourceTree = "<group>"; };
 		4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDetailTableViewCell.swift; sourceTree = "<group>"; };
 		4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoutingNavigationController.swift; sourceTree = "<group>"; };
 		4A9264551C4F0D3A0029B12E /* SlideController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideController.swift; sourceTree = "<group>"; };
@@ -485,10 +485,10 @@
 				4A76ECE91C2720F5005C6F83 /* JSONCollectionProcessor.swift */,
 				4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */,
 				4A76ECEF1C28B43E005C6F83 /* JSONAttributeProcessor.swift */,
-				4A76ECEB1C272185005C6F83 /* ImageDataProcessor.swift */,
 				4A76ECED1C272362005C6F83 /* NotificationProcessor.swift */,
 				4AD7DB2E1C45E292008A339F /* JSONObjectDataConditionerFactory.swift */,
 				4AD7DB301C45E48D008A339F /* JSONObjectConditioner.swift */,
+				4A7725191C5B10180024CAEA /* ImageDataProcessor.swift */,
 			);
 			name = "Data Conditioning";
 			sourceTree = "<group>";
@@ -571,10 +571,10 @@
 		4AEE7EE01C0188D8009F0004 /* DataDriver */ = {
 			isa = PBXGroup;
 			children = (
+				4A77251A1C5B10180024CAEA /* StoreReference.swift */,
 				4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */,
 				4AC5DC331C1A17D400FF2547 /* NetworkStoreSaveRequest.swift */,
 				4AC5DC351C1A17F500FF2547 /* NetworkStoreFetchRequest.swift */,
-				4A073A5A1C18D2C600EEFC40 /* StoreReference.swift */,
 				4A7634F11C02858D002DFB50 /* DataLayer.swift */,
 				4AEE7ECE1C0188CC009F0004 /* PersistentStoreCoordinator.swift */,
 				4AEE7ECD1C0188CC009F0004 /* OperationGraphManager.swift */,
@@ -840,7 +840,6 @@
 				4A6AF96C1C3489D5009F6C71 /* LoginTableViewController.swift in Sources */,
 				4AEE88C11C51D0AF00E3C5C7 /* Director.swift in Sources */,
 				4AED71C71C4AF7EB0083A9F9 /* StyleTemplate.swift in Sources */,
-				4A76ECEC1C272185005C6F83 /* ImageDataProcessor.swift in Sources */,
 				4AEE88C71C51D0AF00E3C5C7 /* ProgramTrailers.swift in Sources */,
 				4A9264581C4F18A80029B12E /* Carousel.swift in Sources */,
 				4AEE88B91C51D0AF00E3C5C7 /* Catalog.swift in Sources */,
@@ -851,7 +850,6 @@
 				4A1F2E161C2F51FC00E3D05C /* PosterTableViewCell.swift in Sources */,
 				4AEE88BC1C51D0AF00E3C5C7 /* Series+CoreDataProperties.swift in Sources */,
 				4AEE7EDB1C0188CC009F0004 /* PersistentStoreCoordinator.swift in Sources */,
-				4A073A5B1C18D2C600EEFC40 /* StoreReference.swift in Sources */,
 				4AEE7ED41C0188CC009F0004 /* DataRequestOperation.swift in Sources */,
 				4AEE88C21C51D0AF00E3C5C7 /* CategoryList+CoreDataProperties.swift in Sources */,
 				4A6AF96E1C3489F0009F6C71 /* CreateAccountTableViewController.swift in Sources */,
@@ -861,6 +859,8 @@
 				4A76ECEA1C2720F5005C6F83 /* JSONCollectionProcessor.swift in Sources */,
 				4AFC419B1C46E142003BDAE1 /* ContentItemJSONObjectConditioner.swift in Sources */,
 				4AED71C91C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift in Sources */,
+				4A77251C1C5B10180024CAEA /* StoreReference.swift in Sources */,
+				4A77251B1C5B10180024CAEA /* ImageDataProcessor.swift in Sources */,
 				4AFC41B11C473992003BDAE1 /* CarouselTableViewCell.swift in Sources */,
 				4AEE7ED61C0188CC009F0004 /* EntityProcessor.swift in Sources */,
 				4AEE7EDC1C0188CC009F0004 /* UpdateFactory.swift in Sources */,
