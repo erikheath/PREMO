@@ -209,7 +209,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     }
 
     @IBAction func unwindFromSubscribe(unwindSegue: UIStoryboardSegue) {
-
+        self.tableView.reloadData()
     }
 
     @IBAction func unwindFromVideoPlayback(unwindSegue: UIStoryboardSegue) {
