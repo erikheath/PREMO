@@ -14,7 +14,10 @@ public class JSONEntityProcessor: NSObject {
 
     private var operationGraphManager: OperationGraphManager
 
-    public init(operationGraphManager: OperationGraphManager) {
+    private var stackID: String
+
+    public init(operationGraphManager: OperationGraphManager, stackID: String) {
+        self.stackID = stackID
         self.operationGraphManager = operationGraphManager
     }
 
@@ -51,7 +54,7 @@ public class JSONEntityProcessor: NSObject {
 
             self.assignRuntimeEntitySettings(managedObject)
 
-            try JSONAttributeProcessor(operationGraphManager: self.operationGraphManager).fulfillManagedObject(managedObject, valueSource: conditionedValueSource.first!)
+            try JSONAttributeProcessor(operationGraphManager: self.operationGraphManager, stackID: self.stackID).fulfillManagedObject(managedObject, valueSource: conditionedValueSource.first!)
 
             try self.fullfilManagedObject(managedObject, parentRelationship: parentRelationship, relationshipsValueSource: conditionedValueSource.first!)
 

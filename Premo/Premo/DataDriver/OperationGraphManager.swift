@@ -103,7 +103,7 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
 
         if let response = downloadTask.response as? NSHTTPURLResponse, let URLRequest = downloadTask.originalRequest, let context = self.coordinator.dataManager?.networkContext where response.statusCode == 200 {
 
-            if let responseOperation = URLRequest.responseOperation as? String, let operationProcessor = URLResponseFactory.processor(responseOperation) {
+            if let responseOperation = URLRequest.responseOperation as? String, let stackID = self.coordinator.dataManager?.stackID, let operationProcessor = URLResponseFactory.processor(responseOperation, stackID: stackID) {
                 let operation = operationProcessor.process(session, downloadTask: downloadTask, didFinishDownloadingToURL: location, backgroundContext: context)
                 let lock = NSLock()
                 lock.lock()

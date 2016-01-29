@@ -28,7 +28,10 @@ public class JSONCollectionProcessor: NSObject {
 
     private var operationGraphManager: OperationGraphManager
 
-    public init(operationGraphManager: OperationGraphManager) {
+    private var stackID: String
+
+    public init(operationGraphManager: OperationGraphManager, stackID: String) {
+        self.stackID = stackID
         self.operationGraphManager = operationGraphManager
     }
 
@@ -163,7 +166,7 @@ public class JSONCollectionProcessor: NSObject {
 
             guard let _ = managedObject else { throw JSONParserError.structureError }
 
-            try JSONEntityProcessor(operationGraphManager: self.operationGraphManager).fulfillManagedObject(managedObject!, valueSource: JSONObject, parentRelationship: nil)
+            try JSONEntityProcessor(operationGraphManager: self.operationGraphManager, stackID: self.stackID).fulfillManagedObject(managedObject!, valueSource: JSONObject, parentRelationship: nil)
 
             objectIDArray.append(managedObject!.objectID)
 

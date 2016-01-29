@@ -83,7 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let model = NSManagedObjectModel(contentsOfURL: modelURL) else { throw DataLayerError.genericError }
             let preloadRequest = NetworkStoreFetchRequest(entityName: "AppConfig")
 
-            let layer = try DataLayer(stores: [store], model: model, preload: preloadRequest)
+            let layer = try DataLayer(stores: [store], model: model, preload: preloadRequest, stackID: nil)
 
             return layer
         } catch {

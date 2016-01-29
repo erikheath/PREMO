@@ -496,6 +496,7 @@
 		4A7634F71C02A649002DFB50 /* Remote Store Request Construction */ = {
 			isa = PBXGroup;
 			children = (
+				4AEE7EC91C0188CC009F0004 /* EntityProcessor.swift */,
 				4AEE7ECB1C0188CC009F0004 /* InsertionFactory.swift */,
 				4AEE7ECF1C0188CC009F0004 /* UpdateFactory.swift */,
 				4AEE7EC81C0188CC009F0004 /* DeletionFactory.swift */,
@@ -581,7 +582,6 @@
 				4A7634F61C02A5A9002DFB50 /* Data Conditioning */,
 				4A7634F81C02AB1F002DFB50 /* Data Requesting */,
 				4A7634F71C02A649002DFB50 /* Remote Store Request Construction */,
-				4AEE7EC91C0188CC009F0004 /* EntityProcessor.swift */,
 				4AEE7ED01C0188CC009F0004 /* URLProcessor.swift */,
 				4AEE7ED11C0188CC009F0004 /* URLResponse.swift */,
 			);

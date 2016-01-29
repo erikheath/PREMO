@@ -42,6 +42,7 @@ public class DataConditionerOperation: NSOperation {
 
     private var traversedIdentifiers: Array<NSManagedObjectID> = Array()
 
+    lazy var stackID: String = { self.graphManager.coordinator.dataManager!.stackID }()
 
     // MARK: Object Lifecycle
 
@@ -271,7 +272,7 @@ public class DataConditionerOperation: NSOperation {
                 switch processingType {
 
                 case .JSON:
-                    objectIDArray = try JSONCollectionProcessor(operationGraphManager: self.graphManager).processJSONDataStructure(self.responseData, request: self.URLRequest, context: self.internalContext)
+                    objectIDArray = try JSONCollectionProcessor(operationGraphManager: self.graphManager, stackID: self.stackID).processJSONDataStructure(self.responseData, request: self.URLRequest, context: self.internalContext)
                     
                 case .Image:
                     objectIDArray = try ImageDataProcessor().processImageData(self.responseData, request: self.URLRequest, context: self.internalContext)

@@ -11,18 +11,18 @@ protocol URLResponse {
 
 public class URLResponseFactory {
 
-    private static var processors:Dictionary<String, URLResponse> = Dictionary<String, URLResponse>()
+    private static var processors:Dictionary<String, Dictionary<String, URLResponse>> = Dictionary<String, Dictionary<String, URLResponse>>()
 
-    static func registerProcessor(entityName: String, entityProcessor: URLResponse) {
-        processors.updateValue(entityProcessor, forKey: entityName)
+    static func registerProcessor(entityName: String, entityProcessor: URLResponse, stackID: String) {
+        processors.updateValue([entityName: entityProcessor], forKey: stackID)
     }
 
     static func unregisterProcessor(entityName: String) {
         processors.removeValueForKey(entityName)
     }
 
-    static func processor(entityName: String) -> URLResponse? {
-        return processors[entityName]
+    static func processor(entityName: String, stackID: String) -> URLResponse? {
+        return processors[stackID]?[entityName]
     }
 
 }

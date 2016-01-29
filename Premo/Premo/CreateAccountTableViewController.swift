@@ -132,7 +132,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
         func processFacebookLogin() {
             do {
                 let HTTPBodyDictionary: NSDictionary = ["userID": FBSDKAccessToken.currentAccessToken().userID, "accessToken": FBSDKAccessToken.currentAccessToken().tokenString, "deviceID": AppDelegate.appDeviceID, "platform": "ios"]
-                let signupRequest = try NSMutableURLRequest.PREMOURLRequest(self.facebookSignupPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: true)
+                let signupRequest = try NSMutableURLRequest.PREMOURLRequest(self.facebookSignupPath, method: NSMutableURLRequest.PREMORequestMethod.POST, HTTPBody: HTTPBodyDictionary, authorizationRequired: false)
                 self.sendSignupRequest(signupRequest)
             } catch {
                 self.presentSignUpError()

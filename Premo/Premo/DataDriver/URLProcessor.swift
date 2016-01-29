@@ -12,18 +12,18 @@ protocol URLProcessor {
 
 public class URLProcessorFactory {
 
-    private static var processors:Dictionary<String, URLProcessor> = Dictionary<String, URLProcessor>()
+    private static var processors:Dictionary<String, Dictionary<String, URLProcessor>> = Dictionary<String, Dictionary<String, URLProcessor>>()
 
-    static func registerProcessor(entityName: String, entityProcessor: URLProcessor) {
-        processors.updateValue(entityProcessor, forKey: entityName)
+    static func registerProcessor(processorName: String, processor: URLProcessor, stackID: String) {
+        processors.updateValue([processorName: processor], forKey: stackID)
     }
 
-    static func unregisterProcessor(entityName: String) {
-        processors.removeValueForKey(entityName)
+    static func unregisterProcessor(processorName: String, stackID: String) {
+        processors[stackID]?.removeValueForKey(processorName)
     }
 
-    static func processor(entityName: String) -> URLProcessor? {
-        return processors[entityName]
+    static func processor(processorName: String, stackID: String) -> URLProcessor? {
+        return processors[stackID]?[processorName]
     }
 
 }

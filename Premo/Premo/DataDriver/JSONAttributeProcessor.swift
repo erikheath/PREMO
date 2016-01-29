@@ -9,7 +9,10 @@ public class JSONAttributeProcessor: NSObject {
 
     private var operationGraphManager: OperationGraphManager
 
-    public init(operationGraphManager: OperationGraphManager) {
+    private var stackID: String
+
+    public init(operationGraphManager: OperationGraphManager, stackID: String) {
+        self.stackID = stackID
         self.operationGraphManager = operationGraphManager
     }
     
@@ -228,7 +231,7 @@ public class JSONAttributeProcessor: NSObject {
                 if targetProperty != nil { targetObjectID = managedObject.objectID }
                 let URLOverrides = NSURLComponents(URL: convertedAttribute, resolvingAgainstBaseURL: false)
                 let changeRequest = RemoteStoreRequest(entity: targetEntity, property: targetProperty, predicate: nil, URLOverrides: URLOverrides, overrideTokens: nil, methodType: RemoteStoreRequest.RequestType.GET, methodBody: nil, destinationID: targetObjectID)
-                if let processor = URLProcessorFactory.processor(targetEntityName) {
+                if let processor = URLProcessorFactory.processor(targetEntityName, stackID: self.stackID) {
                     let changeRequestArray = processor.process(changeRequest) // This is where customization can occur
                     if changeRequestArray.count > 0 {
                         self.operationGraphManager.requestNetworkStoreOperations(changeRequestArray)

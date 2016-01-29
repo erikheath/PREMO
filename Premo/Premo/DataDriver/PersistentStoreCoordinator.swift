@@ -71,17 +71,20 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
 
 
             } else if let request = request as? NetworkStoreSaveRequest {
-                var changes:Array<RemoteStoreRequest> = []
-                if let insertedObjects = request.insertedObjects {
-                    changes.appendContentsOf(InsertionFactory.process(insertedObjects))
+                saveRequests: do {
+                    guard let stackID = self.dataManager?.stackID else { break saveRequests }
+                    var changes:Array<RemoteStoreRequest> = []
+                    if let insertedObjects = request.insertedObjects {
+                        changes.appendContentsOf(InsertionFactory.process(insertedObjects, stackID: stackID))
+                    }
+                    if let updatedObjects = request.updatedObjects {
+                        changes.appendContentsOf(UpdateFactory.process(updatedObjects, stackID: stackID))
+                    }
+                    if let deletedObjects = request.deletedObjects {
+                        changes.appendContentsOf(DeletionFactory.process(deletedObjects, stackID: stackID))
+                    }
+                    self.operationGraphManager.requestNetworkStoreOperations(changes)
                 }
-                if let updatedObjects = request.updatedObjects {
-                    changes.appendContentsOf(UpdateFactory.process(updatedObjects))
-                }
-                if let deletedObjects = request.deletedObjects {
-                    changes.appendContentsOf(DeletionFactory.process(deletedObjects))
-                }
-                self.operationGraphManager.requestNetworkStoreOperations(changes)
             }
 
         }

@@ -25,6 +25,11 @@ import CoreData
 public class DataLayer: NSObject {
 
     /**
+     A unique identifier provided at initialization that is used to retrieve various processing objects like data conditioners, url processor objects, etc. If you do not provide a stack ID at initialization, one will be created and assigned.
+     */
+    public let stackID: String
+
+    /**
      A preloadFetch is a NSFetchRequest that should be executed immediately upon successful object creation. Typically this will involve triggering an asynchronous fetch over the network for data that is not in one or more local stores. Because a preload does not return results to the initialization caller, it is strongly recommended that the request only be for object ids, and not for fully populated objects as this creates unnecessary processing overhead. All standard notifications are processed and dispatched with a preload fetch, which means that, depending on your initialization sequence, you may receive multiple notifications for requests you have not issued directly. Because of this, is essential to inspect the id of a notification to make certain that it corresponds to your request.
     */
     public let preloadFetch: NSFetchRequest?
@@ -127,11 +132,15 @@ public class DataLayer: NSObject {
 
     - Parameter preload: A fetch request that should be used to trigger the initial loading of data, typically from a network store. May also be used to populate row caches to speed up data retrieval by subsequent requests.
     
+    - Parameter stackID: A unique ID for the stack that can be used to register processing helper objects.
+    
     - Throws: If a store can not be added, an error will be re-thrown from the internal persistent store coordinator.
     
     - Returns: On successful initialization, a fully prepared Core Data Stack.
     */
-    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: NSFetchRequest?) throws {
+    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: NSFetchRequest?, stackID: String?) throws {
+
+        self.stackID = stackID != nil ? stackID! : NSUUID().UUIDString
 
         // Begin Phase One Initialization
 
