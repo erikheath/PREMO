@@ -217,22 +217,22 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
                 case "itunes":
                     if subscriptionRenews == true {
                         self.subscribeCallToActionLabel.text = "SUBSCRIPTION RENEWS ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                        self.subscribeTeaserLabel.text = "Manage your subscription"
+                        self.subscribeTeaserLabel.text = "Manage your subscription on iTunes"
                         self.subscribeCell.tag = 0
 
                     } else {
                         self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRES ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                        self.subscribeTeaserLabel.text = "Renew now"
+                        self.subscribeTeaserLabel.text = "Renew now on iTunes"
                         self.subscribeCell.tag = 1
                     }
                 default:
                     if subscriptionRenews == true {
                         self.subscribeCallToActionLabel.text = "SUBSCRIPTION RENEWS ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                        self.subscribeTeaserLabel.text = "Manage your account at www.premonetwork.com"
+                        self.subscribeTeaserLabel.text = "Manage your account at premonetwork.com"
                         self.subscribeCell.tag = 2
                     } else {
                         self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRES ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                        self.subscribeTeaserLabel.text = "Update your account at www.premonetwork.com"
+                        self.subscribeTeaserLabel.text = "Update your account at premonetwork.com"
                         self.subscribeCell.tag = 3
                     }
                 }
@@ -241,13 +241,13 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
                 case "itunes":
 
                     self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                    self.subscribeTeaserLabel.text = "Renew now"
+                    self.subscribeTeaserLabel.text = "Renew now on iTunes"
                     self.subscribeCell.tag = 4
 
                 default:
 
                     self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                    self.subscribeTeaserLabel.text = "Update your account at www.premonetwork.com"
+                    self.subscribeTeaserLabel.text = "Update your account at premonetwork.com"
                     self.subscribeCell.tag = 5
                 }
             }
@@ -275,7 +275,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
     }
 
     func confirmLogout() {
-        let alert = UIAlertController(title: "Log Out of Account?", message: "This will decrease the number of playback items associated with your account.", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Log Out of Account?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
         let alertDefaultAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
             // remove the users credentials and update the table.
             Account.removeDeviceFromService()

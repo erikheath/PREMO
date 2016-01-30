@@ -190,16 +190,16 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
     @IBAction func updateCredentials(sender: AnyObject) {
         if Account.loggedIn == true {
-            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please log in or sign up for PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Log In or Sign Up", style: .Default, handler: { (action: UIAlertAction) -> Void in
+            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please subscribe to PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Subscribe Now", style: .Default, handler: { (action: UIAlertAction) -> Void in
                 self.performSegueWithIdentifier("ShowSubscribeFromFeature", sender: self)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
 
         } else {
-            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please subscribe to PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Subscribe Now", style: .Default, handler: { (action: UIAlertAction) -> Void in
+            let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please log in or sign up for PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Log In or Sign Up", style: .Default, handler: { (action: UIAlertAction) -> Void in
                 self.performSegueWithIdentifier("ShowWelcomeFromFeature", sender: self)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
@@ -275,7 +275,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         gradientFilter?.setDefaults()
         gradientFilter?.setValue(CIColor(color: UIColor.clearColor()), forKey: "inputColor1")
         gradientFilter?.setValue(CIColor(color: UIColor.blackColor()), forKey: "inputColor0")
-        gradientFilter?.setValue(CIVector(x: 0, y: 50), forKey: "inputPoint0")
+        gradientFilter?.setValue(CIVector(x: 0, y: 20), forKey: "inputPoint0")
         gradientFilter?.setValue(CIVector(x: 0, y: 500), forKey: "inputPoint1")
         guard let gradientImageRecipe = gradientFilter?.outputImage else { return }
 

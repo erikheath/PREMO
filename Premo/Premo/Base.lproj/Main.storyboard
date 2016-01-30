@@ -895,6 +895,10 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CWc-yw-Kzv">
                                                     <rect key="frame" x="20" y="21" width="50" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="34" id="5eH-HV-9fk"/>
+                                                        <constraint firstAttribute="width" constant="50" id="6Ap-II-qFA"/>
+                                                    </constraints>
                                                     <state key="normal" image="FBFollowButton"/>
                                                     <connections>
                                                         <action selector="followOnFacebook:" destination="wHT-1y-1ru" eventType="touchUpInside" id="uW8-zF-Zyj"/>
@@ -902,6 +906,10 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcA-qx-ErV">
                                                     <rect key="frame" x="88" y="21" width="50" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="T35-fn-eaR"/>
+                                                        <constraint firstAttribute="height" constant="34" id="rkJ-4j-mrd"/>
+                                                    </constraints>
                                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <state key="normal" image="twitterFollowButton"/>
                                                     <connections>
@@ -953,7 +961,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Login" title="PREMO" id="Mrp-Ax-7kZ" userLabel="Log In" customClass="LoginTableViewController" customModule="PREMO" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EDc-hy-Lon">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -1306,11 +1314,11 @@
                         <viewControllerLayoutGuide type="bottom" id="kEX-Q8-dWX"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mnh-RT-TPf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HN0-sw-uJQ">
-                                <rect key="frame" x="20" y="88" width="560" height="512"/>
+                                <rect key="frame" x="20" y="88" width="560" height="597"/>
                                 <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES"/>
@@ -1405,7 +1413,7 @@ Premo respects the privacy of the users of the Premo Service.  Please take a few
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
-                                    <fragment content="http://www.premonetwork.com/about/privacypolicy">
+                                    <fragment content="http://www.premonetwork.com/privacypolicy">
                                         <attributes>
                                             <color key="NSColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="12" name="Helvetica-Light"/>
@@ -1442,7 +1450,7 @@ CgoKCgoKCgoKCgoKCgo
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" spellCheckingType="no"/>
                             </textView>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwQ-rL-EWj">
-                                <rect key="frame" x="20" y="88" width="560" height="512"/>
+                                <rect key="frame" x="20" y="88" width="560" height="597"/>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" staticText="YES"/>
@@ -4375,14 +4383,14 @@ CgoKCgoKCgoKCg
                         <viewControllerLayoutGuide type="bottom" id="pxH-x7-Gjn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hw2-SH-4ZM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg_v1" translatesAutoresizingMaskIntoConstraints="NO" id="yeY-EC-ezn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faK-mG-vnb">
-                                <rect key="frame" x="40" y="372" width="520" height="44"/>
+                                <rect key="frame" x="40" y="457" width="520" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Iwj-RN-tSg"/>
                                 </constraints>
@@ -4396,7 +4404,7 @@ CgoKCgoKCgoKCg
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6I-Cf-GZQ">
-                                <rect key="frame" x="40" y="451" width="520" height="44"/>
+                                <rect key="frame" x="40" y="536" width="520" height="44"/>
                                 <color key="backgroundColor" red="0.90980392160000001" green="0.1058823529" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="vu4-o4-V0v"/>
@@ -4418,7 +4426,7 @@ CgoKCgoKCgoKCg
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Hu-xd-2Na">
-                                <rect key="frame" x="171" y="519" width="259" height="29"/>
+                                <rect key="frame" x="171" y="604" width="259" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="LAF-GQ-iRR"/>
                                 </constraints>
@@ -4510,20 +4518,20 @@ point of view</string>
                         <viewControllerLayoutGuide type="bottom" id="atC-mG-Xx3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pQd-E9-Ldr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Subscribe_bg" translatesAutoresizingMaskIntoConstraints="NO" id="V4r-xV-uDo">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PREMO" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
-                                <rect key="frame" x="234" y="40" width="133" height="23"/>
+                                <rect key="frame" x="234" y="40" width="133" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="133" id="Rnz-og-kEa"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7k-7C-YaT">
-                                <rect key="frame" x="20" y="78" width="560" height="69"/>
+                                <rect key="frame" x="20" y="101" width="560" height="69"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">A collection of films, comedies,
@@ -4546,7 +4554,7 @@ point of view</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-4e-oZa">
-                                <rect key="frame" x="40" y="451" width="520" height="44"/>
+                                <rect key="frame" x="40" y="536" width="520" height="44"/>
                                 <color key="backgroundColor" red="0.90980392160000001" green="0.1058823529" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="BBr-mR-iyF"/>
@@ -4560,7 +4568,7 @@ point of view</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xq1-cj-m9c">
-                                <rect key="frame" x="171" y="522" width="259" height="28"/>
+                                <rect key="frame" x="171" y="607" width="259" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="4qI-k0-ZoN"/>
                                     <constraint firstAttribute="height" constant="44" id="H7l-BH-S2X"/>
@@ -4579,7 +4587,7 @@ point of view</string>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="n9X-G3-pSi">
-                                <rect key="frame" x="282" y="454" width="37" height="37"/>
+                                <rect key="frame" x="282" y="539" width="37" height="37"/>
                                 <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -4627,7 +4635,7 @@ point of view</string>
             <objects>
                 <tableViewController title="PREMO" id="P7d-hz-6X9" userLabel="Create Account" customClass="CreateAccountTableViewController" customModule="PREMO" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="BP0-CH-B0G">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -4894,8 +4902,8 @@ point of view</string>
                                                         <segue destination="Mrp-Ax-7kZ" kind="show" identifier="showLoginFromCreateAccount" id="HeX-iT-EiB"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fna-go-ZBk">
-                                                    <rect key="frame" x="120" y="88" width="362" height="24"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fna-go-ZBk">
+                                                    <rect key="frame" x="119" y="88" width="362" height="23.5"/>
                                                     <state key="normal">
                                                         <attributedString key="attributedTitle">
                                                             <fragment content="By selecting &quot;Sign Up,&quot; you agree to PREMO's ">
@@ -5064,12 +5072,12 @@ point of view</string>
         <image name="twitterFollowButton" width="50" height="34"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="J5c-2G-Igz"/>
-        <segue reference="zHm-oe-vCR"/>
-        <segue reference="zrf-8E-psn"/>
-        <segue reference="xcy-pX-Ytk"/>
-        <segue reference="J9c-NV-ZkF"/>
-        <segue reference="ikX-ao-8ID"/>
         <segue reference="uhl-wZ-eii"/>
+        <segue reference="zHm-oe-vCR"/>
+        <segue reference="hna-rC-Epv"/>
+        <segue reference="J9c-NV-ZkF"/>
+        <segue reference="HmV-hJ-I1u"/>
+        <segue reference="HeX-iT-EiB"/>
+        <segue reference="ikX-ao-8ID"/>
     </inferredMetricsTieBreakers>
 </document>
