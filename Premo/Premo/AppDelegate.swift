@@ -42,8 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      */
     static var PREMOURL: NSURL? = {
         let components = NSURLComponents()
-        components.scheme = "http"
-        components.host = "lava-dev.premonetwork.com"
+        components.scheme = "https"
+        components.host = "lava.premonetwork.com"
         components.port = 3000
         return components.URL
     }()
