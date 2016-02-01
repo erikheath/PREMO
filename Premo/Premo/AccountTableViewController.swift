@@ -238,17 +238,17 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
                 }
             } else {
                 switch subscriptionSource {
-                case "itunes":
+                default:
 
                     self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
                     self.subscribeTeaserLabel.text = "Renew now on iTunes"
                     self.subscribeCell.tag = 4
 
-                default:
-
-                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
-                    self.subscribeTeaserLabel.text = "Update your account at premonetwork.com"
-                    self.subscribeCell.tag = 5
+//                default:
+//
+//                    self.subscribeCallToActionLabel.text = "SUBSCRIPTION EXPIRED ON " + dateFormatter.stringFromDate(subscriptionExpiresDate)
+//                    self.subscribeTeaserLabel.text = "Update your account at premonetwork.com"
+//                    self.subscribeCell.tag = 5
                 }
             }
         }
@@ -300,6 +300,8 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
             self.performSegueWithIdentifier("showSubscribe", sender: self)
         } else if Account.source == "itunes" {
             UIApplication.sharedApplication().openURL(Account.iTunesSubscriptionManagement!)
+        } else if Account.subscribed == false {
+            self.performSegueWithIdentifier("showSubscribe", sender: self)
         } else {
             UIApplication.sharedApplication().openURL(Account.premoAccoutManagementSite!)
         }

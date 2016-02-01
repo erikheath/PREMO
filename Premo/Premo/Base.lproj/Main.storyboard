@@ -442,7 +442,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mdL-yO-HTF">
-                                            <rect key="frame" x="15" y="34" width="40.5" height="13.5"/>
+                                            <rect key="frame" x="15" y="34" width="41" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
@@ -460,7 +460,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="upW-4e-Riu">
-                                            <rect key="frame" x="15" y="13" width="30" height="19"/>
+                                            <rect key="frame" x="15" y="12" width="30" height="19"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Title">
@@ -473,7 +473,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" numberOfLines="25" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WTk-j8-xE8">
-                                            <rect key="frame" x="15" y="32" width="40.5" height="13.5"/>
+                                            <rect key="frame" x="15" y="31" width="41" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -617,7 +617,7 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="244" verticalCompressionResistancePriority="250" text="Log in or sign up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Nl-lM-6UE">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="244" verticalCompressionResistancePriority="250" misplaced="YES" text="Log in or sign up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Nl-lM-6UE">
                                                     <rect key="frame" x="15" y="36" width="569" height="14"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="11"/>
                                                     <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -671,7 +671,7 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="$4.99/month, 30-day free trial" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBf-r9-g8D">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" misplaced="YES" text="$4.99/month, 30-day free trial" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBf-r9-g8D">
                                                     <rect key="frame" x="15" y="37" width="569" height="13"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="11"/>
                                                     <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -849,7 +849,7 @@
                                                     </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWo-vE-nT9">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWo-vE-nT9">
                                                     <rect key="frame" x="15" y="36" width="569" height="14"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="VERSION 1.0">
@@ -4524,13 +4524,13 @@ point of view</string>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Subscribe_bg" translatesAutoresizingMaskIntoConstraints="NO" id="V4r-xV-uDo">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PREMO" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="PREMO" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
                                 <rect key="frame" x="234" y="40" width="133" height="46"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="133" id="Rnz-og-kEa"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7k-7C-YaT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7k-7C-YaT">
                                 <rect key="frame" x="20" y="101" width="560" height="69"/>
                                 <attributedString key="attributedText">
                                     <fragment>
@@ -4869,11 +4869,11 @@ point of view</string>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.28627450980000002" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="149" id="nj4-3C-z9a">
-                                        <rect key="frame" x="0.0" y="373" width="600" height="149"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="169" id="nj4-3C-z9a">
+                                        <rect key="frame" x="0.0" y="373" width="600" height="169"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nj4-3C-z9a" id="JCf-3C-EQX">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="149"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="169"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WL8-bg-Llm">
@@ -4890,7 +4890,7 @@ point of view</string>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fdp-NC-o9c">
-                                                    <rect key="frame" x="15" y="120" width="569" height="30"/>
+                                                    <rect key="frame" x="15" y="132" width="569" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="Jzw-9y-hlS"/>
                                                     </constraints>
@@ -4902,11 +4902,13 @@ point of view</string>
                                                         <segue destination="Mrp-Ax-7kZ" kind="show" identifier="showLoginFromCreateAccount" id="HeX-iT-EiB"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fna-go-ZBk">
-                                                    <rect key="frame" x="119" y="88" width="362" height="23.5"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fna-go-ZBk">
+                                                    <rect key="frame" x="201" y="88" width="199" height="35"/>
                                                     <state key="normal">
                                                         <attributedString key="attributedTitle">
-                                                            <fragment content="By selecting &quot;Sign Up,&quot; you agree to PREMO's ">
+                                                            <fragment>
+                                                                <string key="content">By selecting "Sign Up," you agree to 
+PREMO's </string>
                                                                 <attributes>
                                                                     <color key="NSColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <font key="NSFont" size="10" name="Helvetica-Light"/>
@@ -4950,21 +4952,23 @@ point of view</string>
                                                 <constraint firstItem="Fdp-NC-o9c" firstAttribute="leading" secondItem="JCf-3C-EQX" secondAttribute="leadingMargin" constant="7" id="Tgb-TM-2Z0"/>
                                                 <constraint firstItem="Fna-go-ZBk" firstAttribute="centerX" secondItem="JCf-3C-EQX" secondAttribute="centerX" id="VL5-Ah-pVn"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Fdp-NC-o9c" secondAttribute="trailing" constant="8" id="ZB8-Bc-7wo"/>
+                                                <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="Fna-go-ZBk" secondAttribute="trailing" constant="32" id="bFU-99-y3L"/>
                                                 <constraint firstItem="Fdp-NC-o9c" firstAttribute="top" secondItem="Fna-go-ZBk" secondAttribute="bottom" constant="9" id="du9-9g-Ber"/>
                                                 <constraint firstItem="WL8-bg-Llm" firstAttribute="top" secondItem="JCf-3C-EQX" secondAttribute="topMargin" constant="24" id="fxv-fK-Q3d"/>
+                                                <constraint firstItem="Fna-go-ZBk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JCf-3C-EQX" secondAttribute="leadingMargin" constant="32" id="gUP-IF-lEg"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.1176470588" green="0.1176470588" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="100" id="yEx-Ot-3yf">
-                                        <rect key="frame" x="0.0" y="522" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="542" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yEx-Ot-3yf" id="nLs-gP-Inv">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bw0-cE-0DA">
-                                                    <rect key="frame" x="231" y="42" width="138" height="30"/>
+                                                    <rect key="frame" x="231" y="40" width="138" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="YY5-r8-iF6"/>
                                                         <constraint firstAttribute="width" constant="138" id="bAb-g0-z1B"/>
@@ -4980,7 +4984,7 @@ point of view</string>
                                             </subviews>
                                             <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstItem="bw0-cE-0DA" firstAttribute="top" secondItem="nLs-gP-Inv" secondAttribute="topMargin" constant="34" id="g8s-Nh-kGD"/>
+                                                <constraint firstItem="bw0-cE-0DA" firstAttribute="top" secondItem="nLs-gP-Inv" secondAttribute="topMargin" constant="32" id="g8s-Nh-kGD"/>
                                                 <constraint firstItem="bw0-cE-0DA" firstAttribute="centerX" secondItem="nLs-gP-Inv" secondAttribute="centerX" id="n5Z-3b-pti"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="bw0-cE-0DA" secondAttribute="bottom" constant="40" id="xiX-0F-I5r"/>
                                             </constraints>
