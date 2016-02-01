@@ -21,7 +21,7 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
         return NSURLSessionConfiguration.ephemeralSessionConfiguration()
         }()
 
-    let DataRequestQueue: NSOperationQueue = {
+    let dataRequestQueue: NSOperationQueue = {
         let opQueue = NSOperationQueue()
         opQueue.maxConcurrentOperationCount = 1
         opQueue.name = "com.datadriverlayer.datarequestqueue"
@@ -29,7 +29,7 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
         return opQueue
         }()
 
-    let DataProcessingQueue: NSOperationQueue = {
+    let dataProcessingQueue: NSOperationQueue = {
         let opQueue = NSOperationQueue()
         opQueue.maxConcurrentOperationCount = 1
         opQueue.name = "com.datadriverlayer.dataprocessingqueue"
@@ -54,7 +54,7 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
         let lock = NSLock()
         let operation = DataRequestOperation(session: URLSession, requests: changeRequests)
         lock.lock()
-        self.DataRequestQueue.addOperation(operation)
+        self.dataRequestQueue.addOperation(operation)
         lock.unlock()
     }
 
@@ -107,7 +107,7 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
                 let operation = operationProcessor.process(session, downloadTask: downloadTask, didFinishDownloadingToURL: location, backgroundContext: context)
                 let lock = NSLock()
                 lock.lock()
-                self.DataProcessingQueue.addOperation(operation)
+                self.dataProcessingQueue.addOperation(operation)
                 lock.unlock()
 
             } else {
@@ -123,7 +123,7 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
 //                }
                 let lock = NSLock()
                 lock.lock()
-                self.DataProcessingQueue.addOperation(operation)
+                self.dataProcessingQueue.addOperation(operation)
                 lock.unlock()
             }
 

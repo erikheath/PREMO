@@ -9,6 +9,7 @@ public enum FulfillmentStatus: Int {
     case unknown = 0
     case pending = 1
     case fulfilled = 2
+    case error = 3
 }
 
 extension NSURLRequest {

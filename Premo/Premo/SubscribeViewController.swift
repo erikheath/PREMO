@@ -198,7 +198,11 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         if Account.creationDate != nil {
             // Make the Offer for renewal only.
             self.subscribeButton.setAttributedTitle(self.styledButtonText("RENEW NOW"), forState: UIControlState.Normal)
-            self.subscribeOffer = 1
+            if Account.source == "iTunes" {
+                self.subscribeOffer = 1
+            } else {
+                self.subscribeOffer = 2
+            }
         } else {
             self.subscribeOffer = 0
             self.subscribeButton.setAttributedTitle(self.styledButtonText("START YOUR 30-DAY TRIAL"), forState: UIControlState.Normal)
@@ -235,11 +239,12 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
 
     func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
         do {
+            defer { lock.unlock() }
+
             let lock = NSLock()
             lock.lock()
             if self.currentMonitor == nil { return }
             self.currentMonitor = nil
-            defer { lock.unlock() }
         }
         if response.products.count != 1 { self.presentProductRequestFailure(); return }
         self.products = response.products
@@ -406,6 +411,10 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         self.manageUserInteractions(false)
         switch self.subscribeOffer {
         case 0:
+            /*
+            TODO: Update method with new predicate construction
+            Use the construction from case 2
+            */
             guard let product = self.products?[0] else {
                 self.presentProductRequestFailure()
                 return
@@ -413,7 +422,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             let payment = SKMutablePayment(product: product)
             payment.quantity = 1
             SKPaymentQueue.defaultQueue().addPayment(payment)
-            
+
         case 1:
             guard let _ = Account.iTunesSubscriptionManagement else {
                 self.presentiTunesAccessFailure()
@@ -421,7 +430,21 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             }
             UIApplication.sharedApplication().openURL(Account.iTunesSubscriptionManagement!)
             self.manageUserInteractions(true)
-            
+
+        case 2:
+            /*
+            TODO: Complete method with product information
+            Ask Matt for new product IDs
+            */
+            guard let product = (self.products as NSArray!).filteredArrayUsingPredicate(NSPredicate(format: "SELF.productIdentifier = ", argumentArray: nil)).first as? SKProduct else {
+                self.presentProductRequestFailure()
+                return
+            }
+            let payment = SKMutablePayment(product: product)
+            payment.quantity = 1
+            SKPaymentQueue.defaultQueue().addPayment(payment)
+
+
         default:
             self.presentiTunesAccessFailure()
         }

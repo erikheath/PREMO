@@ -30,9 +30,9 @@ public class DataLayer: NSObject {
     public let stackID: String
 
     /**
-     A preloadFetch is a NSFetchRequest that should be executed immediately upon successful object creation. Typically this will involve triggering an asynchronous fetch over the network for data that is not in one or more local stores. Because a preload does not return results to the initialization caller, it is strongly recommended that the request only be for object ids, and not for fully populated objects as this creates unnecessary processing overhead. All standard notifications are processed and dispatched with a preload fetch, which means that, depending on your initialization sequence, you may receive multiple notifications for requests you have not issued directly. Because of this, is essential to inspect the id of a notification to make certain that it corresponds to your request.
+     A preloadFetch is one or more NSFetchRequests that should be executed immediately upon successful object creation. Typically this will involve triggering an asynchronous fetch over the network for data that is not in one or more local stores. Because a preload does not return results to the initialization caller, it is strongly recommended that the request only be for object ids, and not for fully populated objects as this creates unnecessary processing overhead. All standard notifications are processed and dispatched with a preload fetch, which means that, depending on your initialization sequence, you may receive multiple notifications for requests you have not issued directly. Because of this, is essential to inspect the id of a notification to make certain that it corresponds to your request.
     */
-    public let preloadFetch: NSFetchRequest?
+    public let preloadFetch: Array<NSFetchRequest>?
 
     /**
      The master context serves as the context that coordinates writing to the various stores. It is the ultimate parent context and operates on a private queue so that updates to the rather slow disk or network stores can be processed without interupting the UI or slowing down the processing of incoming network data (which is handled on the Network Context).
@@ -120,6 +120,7 @@ public class DataLayer: NSObject {
 
     }
 
+    public var status: Bool = false
 
     // MARK: Object Lifecycle
 
@@ -130,7 +131,7 @@ public class DataLayer: NSObject {
     
     - Parameter model: The model that the internal persistent store coordinator should use.
 
-    - Parameter preload: A fetch request that should be used to trigger the initial loading of data, typically from a network store. May also be used to populate row caches to speed up data retrieval by subsequent requests.
+    - Parameter preload: An array of fetch requests that should be used to trigger the initial loading of data, typically from a network store. May also be used to populate row caches to speed up data retrieval by subsequent requests. Requests are executed in order one at a time.
     
     - Parameter stackID: A unique ID for the stack that can be used to register processing helper objects.
     
@@ -138,7 +139,7 @@ public class DataLayer: NSObject {
     
     - Returns: On successful initialization, a fully prepared Core Data Stack.
     */
-    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: NSFetchRequest?, stackID: String?) throws {
+    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: Array<NSFetchRequest>?, stackID: String?) throws {
 
         self.stackID = stackID != nil ? stackID! : NSUUID().UUIDString
 
@@ -173,15 +174,17 @@ public class DataLayer: NSObject {
         self.persistentStoreCoordinator.dataManager = self
 
         // Execute the preload fetch
-        guard let request = self.preloadFetch else { return }
-        self.masterContext.performBlock { () -> Void in
-            do {
-                try self.masterContext.executeFetchRequest(request)
-            } catch {
-                /*
-                TODO: Add a notification dispatch for any error
-                
-                */
+        guard let _ = self.preloadFetch else { return }
+        for request in self.preloadFetch! {
+            self.masterContext.performBlock { () -> Void in
+                do {
+                    try self.masterContext.executeFetchRequest(request)
+                } catch {
+                    /*
+                    TODO: Add a notification dispatch for any error
+
+                    */
+                }
             }
         }
 

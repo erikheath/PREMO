@@ -19,6 +19,15 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
     */
     private(set) lazy var operationGraphManager: OperationGraphManager = OperationGraphManager(coordinator: self)
 
+    let operationGraphManagerQueue: NSOperationQueue = {
+        let opQueue = NSOperationQueue()
+        opQueue.maxConcurrentOperationCount = 1
+        opQueue.name = "com.datadriverlayer.operationGraphManagerQueue"
+
+        return opQueue
+    }()
+
+
     /**
      The fetch requests dictionary contains all of the requests processed by the coordinator.
     */
