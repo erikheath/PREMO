@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let components = NSURLComponents()
         components.scheme = "https"
         components.host = "lava.premonetwork.com"
-        components.port = 3000
         return components.URL
     }()
 
