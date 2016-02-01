@@ -4,16 +4,7 @@
 
 import CoreData
 
-public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate  {
-
-
-    // MARK: Object Life-Cycle
-
-    init (coordinator:PersistentStoreCoordinator) {
-        self.coordinator = coordinator
-        super.init()
-    }
-
+public class OperationGraphManager: NSOperation, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate  {
 
     // MARK : Properties
 
@@ -37,7 +28,11 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
         return opQueue
         }()
 
-    var coordinator: PersistentStoreCoordinator
+    private(set) var coordinator: PersistentStoreCoordinator
+
+    let changeRequests: Array<RemoteStoreRequest>
+
+    var pendingOperations: Bool = false
 
 
     // MARK: Post Init Properties
@@ -48,15 +43,30 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
         }
     }
 
+    // MARK: Object Life-Cycle
+
+    init (coordinator:PersistentStoreCoordinator, changeRequests: Array<RemoteStoreRequest>) {
+        self.coordinator = coordinator
+        self.changeRequests = changeRequests
+        super.init()
+    }
+
+
     // MARK: Operation Management
 
-    func requestNetworkStoreOperations(changeRequests:Array<RemoteStoreRequest>) {
-        let lock = NSLock()
-        let operation = DataRequestOperation(session: URLSession, requests: changeRequests)
-        lock.lock()
+    override public func main() -> Void {
+
+        let operation = DataRequestOperation(session: self.URLSession, requests: self.changeRequests)
         self.dataRequestQueue.addOperation(operation)
-        lock.unlock()
+
+        self.pendingOperations = true
+
+        while self.pendingOperations == true { } // block until the operation is marked as complete
+
     }
+
+//    func requestNetworkStoreOperations(changeRequests:Array<RemoteStoreRequest>) {
+//    }
 
 
     // MARK: NSURLSessionDelegate
