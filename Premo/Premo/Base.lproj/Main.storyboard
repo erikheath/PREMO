@@ -491,25 +491,25 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApJ-lr-cjc">
-                                            <rect key="frame" x="15" y="23" width="40" height="19"/>
+                                            <rect key="frame" x="20" y="23" width="40" height="19"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgS-gB-zCz">
-                                            <rect key="frame" x="15" y="50" width="29" height="14"/>
+                                            <rect key="frame" x="20" y="50" width="29" height="14"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="pgS-gB-zCz" firstAttribute="leading" secondItem="WdP-L2-10o" secondAttribute="leadingMargin" constant="7" id="1dH-j3-B72"/>
+                                        <constraint firstItem="pgS-gB-zCz" firstAttribute="leading" secondItem="WdP-L2-10o" secondAttribute="leadingMargin" constant="12" id="1dH-j3-B72"/>
                                         <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="pgS-gB-zCz" secondAttribute="trailing" constant="8" id="BM1-hS-Hg6"/>
                                         <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="ApJ-lr-cjc" secondAttribute="trailing" constant="8" id="QAx-Bi-5x6"/>
                                         <constraint firstItem="pgS-gB-zCz" firstAttribute="top" secondItem="ApJ-lr-cjc" secondAttribute="bottom" constant="8" id="WZk-83-b7b"/>
                                         <constraint firstItem="ApJ-lr-cjc" firstAttribute="top" secondItem="WdP-L2-10o" secondAttribute="topMargin" constant="15" id="m8W-LV-rC6"/>
-                                        <constraint firstItem="ApJ-lr-cjc" firstAttribute="leading" secondItem="WdP-L2-10o" secondAttribute="leadingMargin" constant="7" id="ngn-83-buD"/>
+                                        <constraint firstItem="ApJ-lr-cjc" firstAttribute="leading" secondItem="WdP-L2-10o" secondAttribute="leadingMargin" constant="12" id="ngn-83-buD"/>
                                         <constraint firstItem="pgS-gB-zCz" firstAttribute="top" secondItem="ApJ-lr-cjc" secondAttribute="bottom" constant="8" id="qy1-MJ-xgS"/>
                                         <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="pgS-gB-zCz" secondAttribute="bottom" constant="8" id="vFZ-mD-SD9"/>
                                     </constraints>
@@ -961,7 +961,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="Login" title="PREMO" id="Mrp-Ax-7kZ" userLabel="Log In" customClass="LoginTableViewController" customModule="PREMO" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EDc-hy-Lon">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -4383,14 +4383,14 @@ CgoKCgoKCgoKCg
                         <viewControllerLayoutGuide type="bottom" id="pxH-x7-Gjn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hw2-SH-4ZM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg_v1" translatesAutoresizingMaskIntoConstraints="NO" id="yeY-EC-ezn">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faK-mG-vnb">
-                                <rect key="frame" x="40" y="457" width="520" height="44"/>
+                                <rect key="frame" x="40" y="372" width="520" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Iwj-RN-tSg"/>
                                 </constraints>
@@ -4404,7 +4404,7 @@ CgoKCgoKCgoKCg
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6I-Cf-GZQ">
-                                <rect key="frame" x="40" y="536" width="520" height="44"/>
+                                <rect key="frame" x="40" y="451" width="520" height="44"/>
                                 <color key="backgroundColor" red="0.90980392160000001" green="0.1058823529" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="vu4-o4-V0v"/>
@@ -4426,7 +4426,7 @@ CgoKCgoKCgoKCg
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Hu-xd-2Na">
-                                <rect key="frame" x="171" y="604" width="259" height="29"/>
+                                <rect key="frame" x="171" y="519" width="259" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="LAF-GQ-iRR"/>
                                 </constraints>
@@ -4518,11 +4518,11 @@ point of view</string>
                         <viewControllerLayoutGuide type="bottom" id="atC-mG-Xx3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pQd-E9-Ldr">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Subscribe_bg" translatesAutoresizingMaskIntoConstraints="NO" id="V4r-xV-uDo">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PREMO" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
                                 <rect key="frame" x="234" y="40" width="133" height="23"/>
@@ -4554,7 +4554,7 @@ point of view</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HdC-4e-oZa">
-                                <rect key="frame" x="40" y="536" width="520" height="44"/>
+                                <rect key="frame" x="40" y="451" width="520" height="44"/>
                                 <color key="backgroundColor" red="0.90980392160000001" green="0.1058823529" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="BBr-mR-iyF"/>
@@ -4568,7 +4568,7 @@ point of view</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xq1-cj-m9c">
-                                <rect key="frame" x="171" y="607" width="259" height="28"/>
+                                <rect key="frame" x="171" y="522" width="259" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="259" id="4qI-k0-ZoN"/>
                                     <constraint firstAttribute="height" constant="44" id="H7l-BH-S2X"/>
@@ -4587,7 +4587,7 @@ point of view</string>
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="n9X-G3-pSi">
-                                <rect key="frame" x="282" y="539" width="37" height="37"/>
+                                <rect key="frame" x="282" y="454" width="37" height="37"/>
                                 <color key="color" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -4635,7 +4635,7 @@ point of view</string>
             <objects>
                 <tableViewController title="PREMO" id="P7d-hz-6X9" userLabel="Create Account" customClass="CreateAccountTableViewController" customModule="PREMO" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="BP0-CH-B0G">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -5077,11 +5077,11 @@ PREMO's </string>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="zHm-oe-vCR"/>
-        <segue reference="hna-rC-Epv"/>
-        <segue reference="33p-NY-b3K"/>
-        <segue reference="A7W-Ws-NVz"/>
+        <segue reference="zrf-8E-psn"/>
+        <segue reference="J5c-2G-Igz"/>
         <segue reference="J9c-NV-ZkF"/>
         <segue reference="HeX-iT-EiB"/>
         <segue reference="uhl-wZ-eii"/>
+        <segue reference="A7W-Ws-NVz"/>
     </inferredMetricsTieBreakers>
 </document>
