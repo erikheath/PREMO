@@ -28,7 +28,7 @@ class ControllerTableViewCell: UITableViewCell {
         var sharingItems = [AnyObject]()
 
         sharingItems.append(titleImage)
-        sharingItems.append("\n\nCheck out \(title) on PREMO. You can download PREMO from the Apple App Store.")
+        sharingItems.append("Check out \(title) on PREMO. You can download PREMO from the Apple App Store.")
         let activityViewController = UIActivityViewController(activityItems: sharingItems, applicationActivities: nil)
         self.delegate!.presentViewController(activityViewController, animated: true, completion: nil)
     }
