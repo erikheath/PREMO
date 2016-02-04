@@ -334,7 +334,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
         case 3:
             if let description = contentItem?.directors where description.count > 0 {
-                header = self.attributedCreditHeader("Director")
+                header = description.count > 1 ? self.attributedCreditHeader("Directors") : self.attributedCreditHeader("Director")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
                 cell.textLabel?.attributedText = header
                 cell.detailTextLabel?.attributedText = content
@@ -342,7 +342,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
         case 4:
             if let description = contentItem?.producers where description.count > 0 {
-                header = self.attributedCreditHeader("Producers")
+                header = description.count > 1 ? self.attributedCreditHeader("Producers") : self.attributedCreditHeader("Producer")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
                 cell.textLabel?.attributedText = header
                 cell.detailTextLabel?.attributedText = content
