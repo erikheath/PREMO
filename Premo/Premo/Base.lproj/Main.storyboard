@@ -617,8 +617,8 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="244" verticalCompressionResistancePriority="250" misplaced="YES" text="Log in or sign up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Nl-lM-6UE">
-                                                    <rect key="frame" x="15" y="36" width="569" height="14"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="244" verticalCompressionResistancePriority="250" text="Log in or sign up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Nl-lM-6UE">
+                                                    <rect key="frame" x="15" y="37" width="569" height="14"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="11"/>
                                                     <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -671,8 +671,8 @@
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" misplaced="YES" text="$4.99/month, 30-day free trial" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBf-r9-g8D">
-                                                    <rect key="frame" x="15" y="37" width="569" height="13"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="$4.99/month, 30-day free trial" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBf-r9-g8D">
+                                                    <rect key="frame" x="15" y="37" width="569" height="14"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Light" family="Montserrat" pointSize="11"/>
                                                     <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -849,8 +849,8 @@
                                                     </attributedString>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWo-vE-nT9">
-                                                    <rect key="frame" x="15" y="36" width="569" height="14"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWo-vE-nT9">
+                                                    <rect key="frame" x="15" y="37" width="569" height="14"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="VERSION 1.0">
                                                             <attributes>
@@ -4524,14 +4524,14 @@ point of view</string>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Subscribe_bg" translatesAutoresizingMaskIntoConstraints="NO" id="V4r-xV-uDo">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="685"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="PREMO" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
-                                <rect key="frame" x="234" y="40" width="133" height="46"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PREMO" translatesAutoresizingMaskIntoConstraints="NO" id="20O-Tb-r8b">
+                                <rect key="frame" x="234" y="40" width="133" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="133" id="Rnz-og-kEa"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7k-7C-YaT">
-                                <rect key="frame" x="20" y="101" width="560" height="69"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7k-7C-YaT">
+                                <rect key="frame" x="20" y="78" width="560" height="69"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">A collection of films, comedies,
@@ -5076,12 +5076,12 @@ PREMO's </string>
         <image name="twitterFollowButton" width="50" height="34"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uhl-wZ-eii"/>
         <segue reference="zHm-oe-vCR"/>
         <segue reference="hna-rC-Epv"/>
+        <segue reference="33p-NY-b3K"/>
+        <segue reference="A7W-Ws-NVz"/>
         <segue reference="J9c-NV-ZkF"/>
-        <segue reference="HmV-hJ-I1u"/>
         <segue reference="HeX-iT-EiB"/>
-        <segue reference="ikX-ao-8ID"/>
+        <segue reference="uhl-wZ-eii"/>
     </inferredMetricsTieBreakers>
 </document>

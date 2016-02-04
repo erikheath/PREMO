@@ -340,7 +340,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
             self.presentViewController(sendFeedbackMailView, animated: true, completion: nil)
 
         case 9:
-            UIApplication.sharedApplication().openURL(AppDelegate.PREMOMainURL!)
+            UIApplication.sharedApplication().openURL(Account.premoAboutUsSite!)
             
         default:
             break
