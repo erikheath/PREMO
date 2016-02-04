@@ -11,19 +11,18 @@ class ControllerTableViewCell: UITableViewCell {
     @IBOutlet weak var playTrailerButton: UIButton!
 
     @IBOutlet weak var shareFeatureButton: UIButton!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    @IBOutlet weak var dividerView: UIView!
 
-        // Configure the view for the selected state
-    }
+    @IBOutlet weak var shareLeadingMargin: NSLayoutConstraint!
 
-    @IBAction func shareFeature(sender: AnyObject) {
+    @IBOutlet weak var shareButtonWidth: NSLayoutConstraint!
+
+    @IBOutlet weak var shareLeadingPosition: NSLayoutConstraint!
+
+    @IBOutlet weak var shareTrailingPosition: NSLayoutConstraint!
+
+    @IBAction func shareFeature(sender: AnyObject) -> Void {
         guard let viewController = self.delegate as? FeatureTableViewController, let title = viewController.contentItem?.contentDetailDisplayTitle, let titleImageData = viewController.contentItem?.artwork?.artwork269x152, let titleImage = UIImage(data: titleImageData) else { return }
         var sharingItems = [AnyObject]()
 
@@ -33,7 +32,16 @@ class ControllerTableViewCell: UITableViewCell {
         self.delegate!.presentViewController(activityViewController, animated: true, completion: nil)
     }
 
-    @IBAction func playTrailer(sender: AnyObject) {
+    func configureOneButtonLayout() -> Void {
+        self.shareFeatureButton.removeConstraints([self.shareLeadingMargin, self.shareLeadingPosition, self.shareButtonWidth, self.shareTrailingPosition])
+        self.contentView.removeConstraints([self.shareTrailingPosition])
+        self.playTrailerButton.removeFromSuperview()
+        self.dividerView.removeFromSuperview()
 
+        self.contentView.addConstraint(NSLayoutConstraint(item: self.shareFeatureButton, attribute: NSLayoutAttribute.LeftMargin, relatedBy: NSLayoutRelation.Equal, toItem: self.contentView, attribute: NSLayoutAttribute.LeftMargin, multiplier: 1.0, constant: -2.0))
+        self.contentView.addConstraint(NSLayoutConstraint(item: self.shareFeatureButton, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: self.contentView, attribute: NSLayoutAttribute.Width, multiplier: 0.5, constant: 0.0))
+        
     }
+
+
 }

@@ -301,7 +301,12 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     func configureControllerCell(cell: ControllerTableViewCell, indexPath: NSIndexPath) {
         cell.delegate = self
         cell.shareFeatureButton.setAttributedTitle(self.attributedControllerButtonTitle("Share"), forState: .Normal)
-        cell.playTrailerButton.setAttributedTitle(self.attributedControllerButtonTitle("Trailer"), forState: .Normal)
+
+//        guard let _ = self.trailerEmbedCode, let _ = self.trailerPcode else {
+            cell.configureOneButtonLayout()
+//            return
+//        }
+//        cell.playTrailerButton.setAttributedTitle(self.attributedControllerButtonTitle("Trailer"), forState: .Normal)
     }
 
     func configureCreditsCell(cell: UITableViewCell, indexPath: NSIndexPath) {

@@ -417,8 +417,13 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.1647058824" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
+                                    <outlet property="dividerView" destination="vX9-hn-9Nj" id="k9n-72-h1Y"/>
                                     <outlet property="playTrailerButton" destination="05w-zj-QYH" id="1UR-Dj-C0G"/>
+                                    <outlet property="shareButtonWidth" destination="VKN-Dx-2Xz" id="DyX-zt-tbU"/>
                                     <outlet property="shareFeatureButton" destination="hkk-6h-ff9" id="fS3-aB-qVw"/>
+                                    <outlet property="shareLeadingMargin" destination="CuW-YU-xZr" id="fKL-Nq-bFh"/>
+                                    <outlet property="shareLeadingPosition" destination="gwg-zX-Blv" id="II2-wy-DXU"/>
+                                    <outlet property="shareTrailingPosition" destination="tgz-NV-K9t" id="3aE-Oz-syB"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreditedCell" textLabel="6Fd-Y2-6jh" detailTextLabel="mdL-yO-HTF" rowHeight="62" style="IBUITableViewCellStyleSubtitle" id="C8h-8U-Qjc">
