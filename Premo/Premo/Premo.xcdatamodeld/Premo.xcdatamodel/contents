@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Automatic">
     <entity name="Actor" representedClassName="Actor" syncable="YES">
         <attribute name="creditedName" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -59,11 +59,10 @@
             <entry key="localstore.contextsavebatchsize" value="20"/>
             <entry key="localstore.entityid" value="catalogFeed"/>
             <entry key="localstore.targetentity" value="CategoryList"/>
-            <entry key="remotestore.baseurl.get" value="lava-dev.premonetwork.com"/>
+            <entry key="remotestore.baseurl.get" value="lava.premonetwork.com"/>
             <entry key="remotestore.entityid" value="catalogFeed"/>
             <entry key="remotestore.jsonrootkeypath" value="payload"/>
-            <entry key="remotestore.port.get" value="3000"/>
-            <entry key="remotestore.scheme.get" value="http"/>
+            <entry key="remotestore.scheme.get" value="https"/>
             <entry key="remotestore.searchpathformat.get" value="/api/v1/app/config/ios"/>
             <entry key="remotestore.usedefaultstorehost" value="YES"/>
         </userInfo>
@@ -173,11 +172,10 @@
         <userInfo>
             <entry key="localstore.contextsavebatchsize" value="20"/>
             <entry key="localstore.entityid" value="categoryName"/>
-            <entry key="remotestore.baseurl.get" value="lava-dev.premonetwork.com"/>
+            <entry key="remotestore.baseurl.get" value="lava.premonetwork.com"/>
             <entry key="remotestore.entityid" value="name"/>
             <entry key="remotestore.jsonrootkeypath" value="categories"/>
-            <entry key="remotestore.port.get" value="3000"/>
-            <entry key="remotestore.scheme.get" value="http"/>
+            <entry key="remotestore.scheme.get" value="https"/>
             <entry key="remotestore.searchpathformat.get" value="/catalog/v2/catalog_ios.json"/>
             <entry key="remotestore.usedefaultstorehost" value="YES"/>
         </userInfo>

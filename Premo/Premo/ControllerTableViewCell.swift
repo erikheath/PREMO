@@ -11,29 +11,36 @@ class ControllerTableViewCell: UITableViewCell {
     @IBOutlet weak var playTrailerButton: UIButton!
 
     @IBOutlet weak var shareFeatureButton: UIButton!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    @IBOutlet weak var dividerView: UIView!
 
-        // Configure the view for the selected state
-    }
+    @IBOutlet weak var shareLeadingMargin: NSLayoutConstraint!
 
-    @IBAction func shareFeature(sender: AnyObject) {
+    @IBOutlet weak var shareButtonWidth: NSLayoutConstraint!
+
+    @IBOutlet weak var shareLeadingPosition: NSLayoutConstraint!
+
+    @IBOutlet weak var shareTrailingPosition: NSLayoutConstraint!
+
+    @IBAction func shareFeature(sender: AnyObject) -> Void {
         guard let viewController = self.delegate as? FeatureTableViewController, let title = viewController.contentItem?.contentDetailDisplayTitle, let titleImageData = viewController.contentItem?.artwork?.artwork269x152, let titleImage = UIImage(data: titleImageData) else { return }
         var sharingItems = [AnyObject]()
 
+        sharingItems.append("Check out \(title) on PREMO. You can download PREMO from the Apple App Store.")
         sharingItems.append(titleImage)
-        sharingItems.append("\n\nCheck out \(title) on PREMO. You can download PREMO from the Apple App Store.")
         let activityViewController = UIActivityViewController(activityItems: sharingItems, applicationActivities: nil)
         self.delegate!.presentViewController(activityViewController, animated: true, completion: nil)
     }
 
-    @IBAction func playTrailer(sender: AnyObject) {
+    func configureOneButtonLayout() -> Void {
+        guard let leadingMargin = self.shareLeadingMargin, let leadingPosition = self.shareLeadingPosition, let buttonWidth = self.shareButtonWidth else { return }
+        self.shareFeatureButton.removeConstraints([leadingMargin, leadingPosition, buttonWidth])
+        self.playTrailerButton.removeFromSuperview()
+        self.dividerView.removeFromSuperview()
+
+        self.contentView.addConstraint(NSLayoutConstraint(item: self.shareFeatureButton, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self.contentView, attribute: NSLayoutAttribute.LeadingMargin, multiplier: 1.0, constant: 0.0))
 
     }
+
+
 }

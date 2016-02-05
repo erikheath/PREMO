@@ -301,6 +301,11 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     func configureControllerCell(cell: ControllerTableViewCell, indexPath: NSIndexPath) {
         cell.delegate = self
         cell.shareFeatureButton.setAttributedTitle(self.attributedControllerButtonTitle("Share"), forState: .Normal)
+
+        guard let _ = self.trailerEmbedCode, let _ = self.trailerPcode else {
+            cell.configureOneButtonLayout()
+            return
+        }
         cell.playTrailerButton.setAttributedTitle(self.attributedControllerButtonTitle("Trailer"), forState: .Normal)
     }
 
@@ -311,41 +316,41 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
 
         switch indexPath.row {
         case 0:
-            if let description = contentItem?.contentDetailDisplayTitle, cell = cell as? FeatureDetailTableViewCell {
+            if let description = contentItem?.contentDetailDisplayTitle, let cell = cell as? FeatureDetailTableViewCell {
                 cell.featureTitle.attributedText = self.attributedFeatureTitle(description)
                 cell.featureDetailsSubtitle.attributedText = self.attributedFeatureDetails(formatFeatureDetailsList())
 
             }
         case 1:
-            if let description = contentItem?.contentSynopsis {
+            if let description = contentItem?.contentSynopsis, let cell = cell as? SynopsisTableViewCell {
                 header = self.attributedCreditHeader("Synopsis")
                 content = self.attributedCreditContent(description)
-                cell.textLabel?.attributedText = header
-                cell.detailTextLabel?.attributedText = content
+                cell.synopsisTitle.attributedText = header
+                cell.synopsisContent.attributedText = content
             }
 
         case 2:
-            if let description = contentItem?.actors where description.count > 0 {
+            if let description = contentItem?.actors where description.count > 0, let cell = cell as? CreditedTableViewCell {
                 header = self.attributedCreditHeader("Starring")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
-                cell.textLabel?.attributedText = header
-                cell.detailTextLabel?.attributedText = content
+                cell.creditedTitle.attributedText = header
+                cell.creditedContent.attributedText = content
             }
 
         case 3:
-            if let description = contentItem?.directors where description.count > 0 {
-                header = self.attributedCreditHeader("Director")
+            if let description = contentItem?.directors where description.count > 0, let cell = cell as? CreditedTableViewCell {
+                header = description.count > 1 ? self.attributedCreditHeader("Directors") : self.attributedCreditHeader("Director")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
-                cell.textLabel?.attributedText = header
-                cell.detailTextLabel?.attributedText = content
+                cell.creditedTitle.attributedText = header
+                cell.creditedContent.attributedText = content
             }
 
         case 4:
-            if let description = contentItem?.producers where description.count > 0 {
-                header = self.attributedCreditHeader("Producers")
+            if let description = contentItem?.producers where description.count > 0, let cell = cell as? CreditedTableViewCell {
+                header = description.count > 1 ? self.attributedCreditHeader("Producers") : self.attributedCreditHeader("Producer")
                 content = self.attributedCreditContent(self.formatCreditedNameList(description, limit: 2))
-                cell.textLabel?.attributedText = header
-                cell.detailTextLabel?.attributedText = content
+                cell.creditedTitle.attributedText = header
+                cell.creditedContent.attributedText = content
             }
 
         default:
@@ -539,7 +544,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
                 if let description = contentItem?.contentSynopsis {
                     let content = self.attributedCreditContent(description)
                     let contentHeight = content.boundingRectWithSize(constraintSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil).height
-                    height = ceil(contentHeight) > 1 ? ceil(contentHeight) + 18.0 : 0.0
+                    height = ceil(contentHeight) > 1 ? ceil(contentHeight) + 20.0 : 0.0
                 }
 
             case 2:

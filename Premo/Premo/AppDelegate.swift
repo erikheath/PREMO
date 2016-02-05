@@ -42,9 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      */
     static var PREMOURL: NSURL? = {
         let components = NSURLComponents()
-        components.scheme = "http"
-        components.host = "lava-dev.premonetwork.com"
-        components.port = 3000
+        components.scheme = "https"
+        components.host = "lava.premonetwork.com"
         return components.URL
     }()
 
@@ -83,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let model = NSManagedObjectModel(contentsOfURL: modelURL) else { throw DataLayerError.genericError }
             let preloadRequest = NetworkStoreFetchRequest(entityName: "AppConfig")
 
-            let layer = try DataLayer(stores: [store], model: model, preload: preloadRequest, stackID: nil)
+            let layer = try DataLayer(stores: [store], model: model, preload: [preloadRequest], stackID: nil)
 
             return layer
         } catch {

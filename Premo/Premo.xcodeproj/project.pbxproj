@@ -41,6 +41,8 @@
 		4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */; };
 		4A77251B1C5B10180024CAEA /* ImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7725191C5B10180024CAEA /* ImageDataProcessor.swift */; };
 		4A77251C1C5B10180024CAEA /* StoreReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A77251A1C5B10180024CAEA /* StoreReference.swift */; };
+		4A7947401C653E1200243509 /* SynopsisTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A79473E1C653E1200243509 /* SynopsisTableViewCell.swift */; };
+		4A7947431C6546C400243509 /* CreditedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7947421C6546C400243509 /* CreditedTableViewCell.swift */; };
 		4A7A66911C489B53007B86F2 /* FeatureDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */; };
 		4A88E32C1C41DC7900BC1543 /* AppRoutingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */; };
 		4A9264561C4F0D3A0029B12E /* SlideController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9264551C4F0D3A0029B12E /* SlideController.swift */; };
@@ -195,6 +197,8 @@
 		4A76ECF11C28B505005C6F83 /* JSONEntityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONEntityProcessor.swift; path = DataDriver/JSONEntityProcessor.swift; sourceTree = "<group>"; };
 		4A7725191C5B10180024CAEA /* ImageDataProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageDataProcessor.swift; path = DataDriver/ImageDataProcessor.swift; sourceTree = "<group>"; };
 		4A77251A1C5B10180024CAEA /* StoreReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoreReference.swift; path = DataDriver/StoreReference.swift; sourceTree = "<group>"; };
+		4A79473E1C653E1200243509 /* SynopsisTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynopsisTableViewCell.swift; sourceTree = "<group>"; };
+		4A7947421C6546C400243509 /* CreditedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditedTableViewCell.swift; sourceTree = "<group>"; };
 		4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDetailTableViewCell.swift; sourceTree = "<group>"; };
 		4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppRoutingNavigationController.swift; sourceTree = "<group>"; };
 		4A9264551C4F0D3A0029B12E /* SlideController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideController.swift; sourceTree = "<group>"; };
@@ -416,6 +420,8 @@
 				4A3D7D961BFE89B300383319 /* AppDelegate.swift */,
 				4A9264541C4C48BC0029B12E /* Account State Management */,
 				4A88E32B1C41DC7900BC1543 /* AppRoutingNavigationController.swift */,
+				4A79473E1C653E1200243509 /* SynopsisTableViewCell.swift */,
+				4A7947421C6546C400243509 /* CreditedTableViewCell.swift */,
 				4AFA01901C59C89D008DAA18 /* LaunchScreenViewController.swift */,
 				4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */,
 				4A3D11DC1C1F4215000D6D85 /* MenuTableViewController.swift */,
@@ -809,6 +815,7 @@
 				4AEE88C51C51D0AF00E3C5C7 /* ContentItem.swift in Sources */,
 				4AEE88B41C51D0AF00E3C5C7 /* Producer+CoreDataProperties.swift in Sources */,
 				4AEE88B61C51D0AF00E3C5C7 /* Season+CoreDataProperties.swift in Sources */,
+				4A7947431C6546C400243509 /* CreditedTableViewCell.swift in Sources */,
 				4AEE88C61C51D0AF00E3C5C7 /* ProgramTrailers+CoreDataProperties.swift in Sources */,
 				4AEE88B31C51D0AF00E3C5C7 /* Genre.swift in Sources */,
 				4AEE7EDD1C0188CC009F0004 /* URLProcessor.swift in Sources */,
@@ -825,6 +832,7 @@
 				4AEE88AE1C51D0AF00E3C5C7 /* AppConfig+CoreDataProperties.swift in Sources */,
 				4AEE88C31C51D0AF00E3C5C7 /* CategoryList.swift in Sources */,
 				4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */,
+				4A7947401C653E1200243509 /* SynopsisTableViewCell.swift in Sources */,
 				4AFD45541C4961FF002DA7AE /* SWRevealViewController.m in Sources */,
 				4A9264561C4F0D3A0029B12E /* SlideController.swift in Sources */,
 				4A3D12231C1F711F000D6D85 /* CategoryTableViewController.swift in Sources */,

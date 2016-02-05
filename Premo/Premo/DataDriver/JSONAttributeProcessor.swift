@@ -121,13 +121,13 @@ public class JSONAttributeProcessor: NSObject {
         switch attribute {
 
         case is String:
-            attributeValue = NSNumber(double: ((attribute as! NSString).doubleValue))
+            attributeValue = NSNumber(double: ((attribute as! NSString).doubleValue)) //autotest: attribute: String == NSNumber.DoubleType(1.0..8.5)
         case is NSNull:
-            attributeValue = nil
+            attributeValue = nil //autotest: NSNull == nil
         case is NSNumber:
-            attributeValue = attribute
+            attributeValue = attribute //autotest: attribute as NSNumber == attributeValue
         default:
-            throw JSONCollectionProcessor.JSONParserError.expectedAttributeTypeError
+            throw JSONCollectionProcessor.JSONParserError.expectedAttributeTypeError //autotest: attribute: RandomType throws 
         }
 
         return attributeValue

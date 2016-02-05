@@ -57,8 +57,9 @@ class Account: NSObject {
 
     static let supportSite = NSURL(string: "/support", relativeToURL: AppDelegate.PREMOMainURL)
     static let iTunesSubscriptionManagement = NSURL(string: "https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/manageSubscriptions")
-    static let premoAccoutManagementSite = AppDelegate.PREMOURL
+    static let premoAccoutManagementSite = AppDelegate.PREMOMainURL
     static let premoForgotPasswordSite = NSURL(string: "/web/#/forgot", relativeToURL: AppDelegate.PREMOURL)
+    static let premoAboutUsSite = NSURL(string: "/aboutus", relativeToURL: AppDelegate.PREMOMainURL)
     /**
      The url path used for all premo member info requests
      */
@@ -247,25 +248,27 @@ class Account: NSObject {
      -
      */
     static func processAccountPayload(JSONObject: NSDictionary) throws -> Void {
-        let lock = NSLock()
-        lock.lock()
-        guard let payload = JSONObject.objectForKey("payload") as? NSDictionary else {
-            return
-        }
-
-        self.processAuthorizationPayload(payload)
-
-        if let member = payload.objectForKey("member") as? NSDictionary {
-            try self.processMemberPayload(member)
-        }
-
-        if let subscription = payload.objectForKey("subscription") as? NSDictionary {
-            try self.processSubscriptionPayload(subscription)
-        }
-
         defer {
             NSUserDefaults.standardUserDefaults().synchronize()
-            lock.unlock()
+            objc_sync_exit(self)
+        }
+
+        objc_sync_enter(self)
+
+        do {
+            guard let payload = JSONObject.objectForKey("payload") as? NSDictionary else {
+                return
+            }
+
+            self.processAuthorizationPayload(payload)
+
+            if let member = payload.objectForKey("member") as? NSDictionary {
+                try self.processMemberPayload(member)
+            }
+
+            if let subscription = payload.objectForKey("subscription") as? NSDictionary {
+                try self.processSubscriptionPayload(subscription)
+            }
         }
 
     }

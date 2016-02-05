@@ -26,7 +26,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
 
     // MARK: Purchase & Subscription Management
 
-    let request = SKProductsRequest(productIdentifiers: ["30DayFreeTrial"])
+    let request = SKProductsRequest(productIdentifiers: ["30DayFreeTrial", "FreeTrialExpired"])
 
     var products: Array<SKProduct>? = nil
 
@@ -238,15 +238,16 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     }
 
     func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
-        do {
-            defer { lock.unlock() }
+        defer { lock.unlock() }
 
-            let lock = NSLock()
+        let lock = NSLock()
+        
+        do {
             lock.lock()
             if self.currentMonitor == nil { return }
             self.currentMonitor = nil
         }
-        if response.products.count != 1 { self.presentProductRequestFailure(); return }
+        if response.products.count < 1 { self.presentProductRequestFailure(); return }
         self.products = response.products
         self.manageUserInteractions(true)
 
@@ -411,11 +412,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         self.manageUserInteractions(false)
         switch self.subscribeOffer {
         case 0:
-            /*
-            TODO: Update method with new predicate construction
-            Use the construction from case 2
-            */
-            guard let product = self.products?[0] else {
+            guard let product = (self.products as NSArray!).filteredArrayUsingPredicate(NSPredicate(format: "productIdentifier = %@", argumentArray: ["30DayFreeTrial"])).first as? SKProduct else {
                 self.presentProductRequestFailure()
                 return
             }
@@ -432,11 +429,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             self.manageUserInteractions(true)
 
         case 2:
-            /*
-            TODO: Complete method with product information
-            Ask Matt for new product IDs
-            */
-            guard let product = (self.products as NSArray!).filteredArrayUsingPredicate(NSPredicate(format: "SELF.productIdentifier = ", argumentArray: nil)).first as? SKProduct else {
+            guard let product = (self.products as NSArray!).filteredArrayUsingPredicate(NSPredicate(format: "productIdentifier = %@", argumentArray: ["FreeTrialExpired"])).first as? SKProduct else {
                 self.presentProductRequestFailure()
                 return
             }

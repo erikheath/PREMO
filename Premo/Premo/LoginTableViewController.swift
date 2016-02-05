@@ -233,20 +233,22 @@ class LoginTableViewController: UITableViewController, NSURLSessionDelegate, NSU
     // MARK: - LOGIN PROCESSING
 
     func sendLoginRequest(loginRequest: NSMutableURLRequest) {
-        let lock = NSLock()
-        lock.lock()
-        if self.currentLoginTask != nil && self.currentLoginTask?.state == NSURLSessionTaskState.Running {
-            self.currentLoginTask?.cancel()
-            self.currentLoginTask = nil
+        defer { objc_sync_exit(self) }
+
+        objc_sync_enter(self)
+
+        do {
+            if self.currentLoginTask != nil && self.currentLoginTask?.state == NSURLSessionTaskState.Running {
+                self.currentLoginTask?.cancel()
+                self.currentLoginTask = nil
+            }
+
+            self.loginResponse = nil
+
+            let loginTask = self.loginSession.dataTaskWithRequest(loginRequest)
+            self.currentLoginTask = loginTask
+            loginTask.resume()
         }
-
-        self.loginResponse = nil
-
-        let loginTask = self.loginSession.dataTaskWithRequest(loginRequest)
-        self.currentLoginTask = loginTask
-        loginTask.resume()
-
-        defer { lock.unlock() }
 
     }
 

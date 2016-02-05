@@ -220,20 +220,22 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
 
 
     func sendSignupRequest(signupRequest: NSMutableURLRequest) {
-        let lock = NSLock()
-        lock.lock()
-        if self.currentSignUpTask != nil && self.currentSignUpTask?.state == NSURLSessionTaskState.Running {
-            self.currentSignUpTask?.cancel()
-            self.currentSignUpTask = nil
+        defer { objc_sync_exit(self) }
+
+        objc_sync_enter(self)
+        
+        do {
+            if self.currentSignUpTask != nil && self.currentSignUpTask?.state == NSURLSessionTaskState.Running {
+                self.currentSignUpTask?.cancel()
+                self.currentSignUpTask = nil
+            }
+            self.signUpResponse = nil
+
+            let signUpTask = self.signUpSession.dataTaskWithRequest(signupRequest)
+            self.currentSignUpTask = signUpTask
+            signUpTask.resume()
         }
-        self.signUpResponse = nil
-
-        let signUpTask = self.signUpSession.dataTaskWithRequest(signupRequest)
-        self.currentSignUpTask = signUpTask
-        signUpTask.resume()
-
-        defer { lock.unlock() }
-
+        
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
