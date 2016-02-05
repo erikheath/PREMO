@@ -26,21 +26,20 @@ class ControllerTableViewCell: UITableViewCell {
         guard let viewController = self.delegate as? FeatureTableViewController, let title = viewController.contentItem?.contentDetailDisplayTitle, let titleImageData = viewController.contentItem?.artwork?.artwork269x152, let titleImage = UIImage(data: titleImageData) else { return }
         var sharingItems = [AnyObject]()
 
-        sharingItems.append(titleImage)
         sharingItems.append("Check out \(title) on PREMO. You can download PREMO from the Apple App Store.")
+        sharingItems.append(titleImage)
         let activityViewController = UIActivityViewController(activityItems: sharingItems, applicationActivities: nil)
         self.delegate!.presentViewController(activityViewController, animated: true, completion: nil)
     }
 
     func configureOneButtonLayout() -> Void {
-        self.shareFeatureButton.removeConstraints([self.shareLeadingMargin, self.shareLeadingPosition, self.shareButtonWidth, self.shareTrailingPosition])
-        self.contentView.removeConstraints([self.shareTrailingPosition])
+        guard let leadingMargin = self.shareLeadingMargin, let leadingPosition = self.shareLeadingPosition, let buttonWidth = self.shareButtonWidth else { return }
+        self.shareFeatureButton.removeConstraints([leadingMargin, leadingPosition, buttonWidth])
         self.playTrailerButton.removeFromSuperview()
         self.dividerView.removeFromSuperview()
 
-        self.contentView.addConstraint(NSLayoutConstraint(item: self.shareFeatureButton, attribute: NSLayoutAttribute.LeftMargin, relatedBy: NSLayoutRelation.Equal, toItem: self.contentView, attribute: NSLayoutAttribute.LeftMargin, multiplier: 1.0, constant: -2.0))
-        self.contentView.addConstraint(NSLayoutConstraint(item: self.shareFeatureButton, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: self.contentView, attribute: NSLayoutAttribute.Width, multiplier: 0.5, constant: 0.0))
-        
+        self.contentView.addConstraint(NSLayoutConstraint(item: self.shareFeatureButton, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: self.contentView, attribute: NSLayoutAttribute.LeadingMargin, multiplier: 1.0, constant: 0.0))
+
     }
 
 
