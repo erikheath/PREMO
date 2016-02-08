@@ -117,6 +117,15 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
 
+        guard let posterCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? DetailPosterTableViewCell else { return }
+        if let subscriptionValidUntilDate = NSUserDefaults.standardUserDefaults().objectForKey("subscriptionValidUntilDate") as? NSDate where subscriptionValidUntilDate.compare(NSDate()) == NSComparisonResult.OrderedDescending  {
+            posterCell.subscribeToPlayButton.hidden = true
+            posterCell.readyToPlayButton.hidden = false
+        } else {
+            posterCell.subscribeToPlayButton.hidden = false
+            posterCell.readyToPlayButton.hidden = true
+        }
+
     }
 
     override func didReceiveMemoryWarning() {

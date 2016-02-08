@@ -64,8 +64,9 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "fullscreenExit:", name: OOOoyalaPlayerViewControllerFullscreenExit, object: self.playerController)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playCompleted:", name: OOOoyalaPlayerPlayCompletedNotification, object: self.player)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.player)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.playerController)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playbackError:", name: OOOoyalaPlayerErrorNotification, object: self.player)
+//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.player)
+//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.playerController)
 
             self.addChildViewController(playerController)
             self.playerView.addSubview(playerController.view)
@@ -109,6 +110,16 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
         self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
     }
 
+    func playbackError(notification: NSNotification) {
+        guard self.player?.state() == OOOoyalaPlayerStateError else { return }
+        guard let error = self.player?.error else { return }
+        switch error.code {
+        case OOOoyalaErrorCodeDeviceLimitReached:
+            break
+        default:
+            self.presentPlaybackError()
+        }
+    }
 
     // MARK: - Embed Token Generator
     func tokenForEmbedCodes(embedCodes: [AnyObject]!, callback: OOEmbedTokenCallback!) {
@@ -178,11 +189,22 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
     }
 
+    func presentDeviceLimitExceeded() {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+
+            let alert = UIAlertController(title: "Playback Failure", message: "Your account can only play two video streams at a time. To play video on this device, please stop playing video on another device.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
+            }))
+            UIApplication.sharedApplication().delegate?.window?!.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+
     func presentAudioOnlyPlayback() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: "Low Bandwidth Playback", message: "The video will continue to playback as an audio only stream until your connection speed improves.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            UIApplication.sharedApplication().delegate?.window?!.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
@@ -193,7 +215,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
                 self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            UIApplication.sharedApplication().delegate?.window?!.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
@@ -204,7 +226,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
                 self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
             }))
 
-        self.presentViewController(alert, animated: true, completion: nil)
+            UIApplication.sharedApplication().delegate?.window?!.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
@@ -222,7 +244,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             }))
 
             Account.clearAccountSettings()
-            self.presentViewController(alert, animated: true, completion: nil)
+            UIApplication.sharedApplication().delegate?.window?!.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
@@ -233,7 +255,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
                 self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
             }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            UIApplication.sharedApplication().delegate?.window?!.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
@@ -245,7 +267,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
                 self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
             }))
 
-            self.presentViewController(alert, animated: true, completion: nil)
+            UIApplication.sharedApplication().delegate?.window?!.rootViewController?.presentViewController(alert, animated: true, completion: nil)
         }
     }
 
