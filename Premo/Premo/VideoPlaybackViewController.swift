@@ -60,7 +60,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             let playerController = OOOoyalaPlayerViewController(player: player, controlType: OOOoyalaPlayerControlType.FullScreen)
             self.playerController = playerController
             self.playerController?.setFullscreen(true)
-            playerController.closedCaptionsStyle.textSize = 30
+            playerController.closedCaptionsStyle.textSize = 24
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "fullscreenExit:", name: OOOoyalaPlayerViewControllerFullscreenExit, object: self.playerController)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playCompleted:", name: OOOoyalaPlayerPlayCompletedNotification, object: self.player)
