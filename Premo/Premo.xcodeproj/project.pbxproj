@@ -29,6 +29,7 @@
 		4A3D7DA61BFE89B300383319 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A3D7DA41BFE89B300383319 /* LaunchScreen.storyboard */; };
 		4A3D7DB11BFE89B300383319 /* PremoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7DB01BFE89B300383319 /* PremoTests.swift */; };
 		4A3D7DBC1BFE89B300383319 /* PremoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7DBB1BFE89B300383319 /* PremoUITests.swift */; };
+		4A5B9ED61C6913F100614752 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9ED51C6913F100614752 /* Player.swift */; };
 		4A6AF96C1C3489D5009F6C71 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6AF96B1C3489D5009F6C71 /* LoginTableViewController.swift */; };
 		4A6AF96E1C3489F0009F6C71 /* CreateAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */; };
 		4A6AF9701C371A3B009F6C71 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */; };
@@ -185,6 +186,7 @@
 		4A3D7DB71BFE89B300383319 /* PremoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PremoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A3D7DBB1BFE89B300383319 /* PremoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremoUITests.swift; sourceTree = "<group>"; };
 		4A3D7DBD1BFE89B300383319 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4A5B9ED51C6913F100614752 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		4A6AF96B1C3489D5009F6C71 /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountTableViewController.swift; sourceTree = "<group>"; };
 		4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				4A7A66901C489B53007B86F2 /* FeatureDetailTableViewCell.swift */,
 				4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */,
 				4A9264591C4F3EAE0029B12E /* PlayerViewController.swift */,
+				4A5B9ED51C6913F100614752 /* Player.swift */,
 				4A1F2E3F1C30C62100E3D05C /* DetailPosterTableViewCell.swift */,
 				4A1F2E411C30C65300E3D05C /* ControllerTableViewCell.swift */,
 				4A1F2E431C30C67600E3D05C /* CreditsTableViewCell.swift */,
@@ -830,6 +833,7 @@
 				4A76ECF21C28B505005C6F83 /* JSONEntityProcessor.swift in Sources */,
 				4AED71C51C4AEEC80083A9F9 /* Account.swift in Sources */,
 				4AEE88AE1C51D0AF00E3C5C7 /* AppConfig+CoreDataProperties.swift in Sources */,
+				4A5B9ED61C6913F100614752 /* Player.swift in Sources */,
 				4AEE88C31C51D0AF00E3C5C7 /* CategoryList.swift in Sources */,
 				4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */,
 				4A7947401C653E1200243509 /* SynopsisTableViewCell.swift in Sources */,

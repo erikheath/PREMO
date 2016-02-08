@@ -44,22 +44,23 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
         super.viewDidLoad()
 
         if let pCode = self.pCode, let embedCode = self.embedCode, let playback = self.playbackType {
-            let player:OOOoyalaPlayer
+            let player: Player
             if playback == PlaybackType.Trailer {
-                player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"))
+                player = Player(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"))
             } else {
-                player = OOOoyalaPlayer(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"), embedTokenGenerator: self)
+                player = Player(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"), embedTokenGenerator: self)
             }
 
             self.player = player
             player.setEmbedCode(embedCode)
             player.actionAtEnd = OOOoyalaPlayerActionAtEndStop
             player.allowsExternalPlayback = true
-
+            player.seekable = true
 
             let playerController = OOOoyalaPlayerViewController(player: player, controlType: OOOoyalaPlayerControlType.FullScreen)
             self.playerController = playerController
             self.playerController?.setFullscreen(true)
+            playerController.closedCaptionsStyle.textSize = 30
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "fullscreenExit:", name: OOOoyalaPlayerViewControllerFullscreenExit, object: self.playerController)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playCompleted:", name: OOOoyalaPlayerPlayCompletedNotification, object: self.player)
