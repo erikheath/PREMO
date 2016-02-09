@@ -4,6 +4,12 @@
 
 import Foundation
 
+////////////// AUDIT THIS FILE ////////////
+
+/*
+ This file will be audited and many items removed that are no longer in use.
+*/
+
 
 // MARK: Error Related
 let kErrorDomain = "kErrorDomain"

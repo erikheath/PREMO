@@ -2,6 +2,13 @@
 //  URLResponse.swift
 //
 
+
+///////// DELETE THIS FILE ////////////
+
+/*
+ This file will be removed as it will no longer be necessary to register processors at the stack level. Instead, you can set a delegate for a session at the stack level and at the transaction level.
+*/
+
 import Foundation
 import CoreData
 

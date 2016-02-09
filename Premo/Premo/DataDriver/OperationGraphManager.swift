@@ -2,6 +2,13 @@
 //  OperationGraphManager.swift
 //
 
+//////////////// DELETE THIS FILE /////////////////
+
+/* 
+ This file will be broken apart to fill out the NSR Manager Queue, NSR Transaction, and other components of the remodeled system.
+*/
+
+
 import CoreData
 
 public class OperationGraphManager: NSOperation, NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionTaskDelegate, NSURLSessionDownloadDelegate  {
