@@ -7,6 +7,8 @@
 #import "OOOoyalaError.h"
 #import "OOPlayerDomain.h"
 #import "OOEmbedTokenGenerator.h"
+#import "OOClosedCaptionsStyle.h"
+#import "OOOoyalaError.h"
 #import "iCarousel.h"
 #import "SWRevealViewController.h"
 #import "Reachability.h"
