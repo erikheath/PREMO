@@ -29,6 +29,7 @@
 		4A3D7DA61BFE89B300383319 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A3D7DA41BFE89B300383319 /* LaunchScreen.storyboard */; };
 		4A3D7DB11BFE89B300383319 /* PremoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7DB01BFE89B300383319 /* PremoTests.swift */; };
 		4A3D7DBC1BFE89B300383319 /* PremoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7DBB1BFE89B300383319 /* PremoUITests.swift */; };
+		4A5B9ED61C6913F100614752 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9ED51C6913F100614752 /* Player.swift */; };
 		4A5B9EF91C695F3900614752 /* BackgroundObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9ED81C695F3900614752 /* BackgroundObserver.swift */; };
 		4A5B9EFA1C695F3900614752 /* BlockObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9ED91C695F3900614752 /* BlockObserver.swift */; };
 		4A5B9EFB1C695F3900614752 /* BlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9EDA1C695F3900614752 /* BlockOperation.swift */; };
@@ -218,6 +219,7 @@
 		4A3D7DB71BFE89B300383319 /* PremoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PremoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A3D7DBB1BFE89B300383319 /* PremoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremoUITests.swift; sourceTree = "<group>"; };
 		4A3D7DBD1BFE89B300383319 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4A5B9ED51C6913F100614752 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		4A5B9ED81C695F3900614752 /* BackgroundObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundObserver.swift; path = Operations/BackgroundObserver.swift; sourceTree = "<group>"; };
 		4A5B9ED91C695F3900614752 /* BlockObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockObserver.swift; path = Operations/BlockObserver.swift; sourceTree = "<group>"; };
 		4A5B9EDA1C695F3900614752 /* BlockOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockOperation.swift; path = Operations/BlockOperation.swift; sourceTree = "<group>"; };
