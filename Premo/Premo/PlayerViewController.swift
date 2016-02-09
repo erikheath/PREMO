@@ -5,11 +5,6 @@
 
 extension OOOoyalaPlayerViewController {
 
-//    override public func viewWillDisappear(animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        self.player = nil
-//    }
-
     override public func shouldAutorotate() -> Bool {
         return true
     }

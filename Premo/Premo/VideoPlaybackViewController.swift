@@ -28,8 +28,8 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
     }
     
     @IBOutlet weak var playerView: UIView!
-    weak var playerController: OOOoyalaPlayerViewController? = nil
-    weak var player: OOOoyalaPlayer? = nil
+    var playerController: OOOoyalaPlayerViewController? = nil
+    var player: OOOoyalaPlayer? = nil
     var pCode: String? = nil
     var embedCode: String? = nil
     var playbackType: PlaybackType? = nil
@@ -60,11 +60,12 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             let playerController = OOOoyalaPlayerViewController(player: player, controlType: OOOoyalaPlayerControlType.FullScreen)
             self.playerController = playerController
             self.playerController?.setFullscreen(true)
-            playerController.closedCaptionsStyle.textSize = 24
+            playerController.closedCaptionsStyle.textSize = 18
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "fullscreenExit:", name: OOOoyalaPlayerViewControllerFullscreenExit, object: self.playerController)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playCompleted:", name: OOOoyalaPlayerPlayCompletedNotification, object: self.player)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playbackError:", name: OOOoyalaPlayerErrorNotification, object: self.player)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerStateChanged:", name: OOOoyalaPlayerStateChangedNotification, object: self.player)
 //            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.player)
 //            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.playerController)
 
@@ -118,6 +119,28 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             break
         default:
             self.presentPlaybackError()
+        }
+    }
+
+    func playerStateChanged(notification: NSNotification) {
+        guard let playerState = self.player?.state() else { return }
+
+        switch playerState {
+//        case OOOoyalaPlayerStatePlaying:
+//            self.playerController?.closedCaptionsStyle.textSize = 100
+//
+//        case OOOoyalaPlayerStatePaused:
+////            self.fullscreenExit(notification)
+//            break
+//
+//        case OOOoyalaPlayerStateLoading:
+//            self.playerController?.closedCaptionsStyle.textSize = 24
+//
+//        case OOOoyalaPlayerStateReady:
+//            self.playerController?.closedCaptionsStyle.textSize = 24
+
+        default:
+            return
         }
     }
 
