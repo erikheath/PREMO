@@ -30,6 +30,19 @@ public class DataLayer: NSObject {
     public let stackID: String
 
     /**
+     See the stackType property for a complete description.
+    */
+    public enum StackType: String {
+        case Passthrough = "Passthrough"
+        case Background = "Background"
+    }
+
+    /**
+     The stack type determines the type of context setup used by the data layer. Currently, there are two supported types: passthrough and background. A passthrough stack type sets the network communications context as the child of the main context, pushing all network context changes through the main context to the master context. A background stack sets the spawns the network context from the persistent store coordinator, bypassing all other contexts. In this scenario, other contexts must monitor the coordinator by listening for appropriate notifications and then updating their values if appropriate. If you do not set a stack type, the stack will default to passthrough.
+     */
+    public let stackType: StackType
+
+    /**
      A preloadFetch is one or more NSFetchRequests that should be executed immediately upon successful object creation. Typically this will involve triggering an asynchronous fetch over the network for data that is not in one or more local stores. Because a preload does not return results to the initialization caller, it is strongly recommended that the request only be for object ids, and not for fully populated objects as this creates unnecessary processing overhead. All standard notifications are processed and dispatched with a preload fetch, which means that, depending on your initialization sequence, you may receive multiple notifications for requests you have not issued directly. Because of this, is essential to inspect the id of a notification to make certain that it corresponds to your request.
     */
     public let preloadFetch: Array<NSFetchRequest>?
@@ -139,9 +152,10 @@ public class DataLayer: NSObject {
     
     - Returns: On successful initialization, a fully prepared Core Data Stack.
     */
-    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: Array<NSFetchRequest>?, stackID: String?) throws {
+    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: Array<NSFetchRequest>?, stackID: String?, stackType: StackType?) throws {
 
         self.stackID = stackID != nil ? stackID! : NSUUID().UUIDString
+        self.stackType = stackType ?? StackType.Passthrough
 
         // Begin Phase One Initialization
 

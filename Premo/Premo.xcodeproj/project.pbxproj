@@ -63,6 +63,15 @@
 		4A5B9F171C695F3900614752 /* UIUserNotifications+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9EF61C695F3900614752 /* UIUserNotifications+Operations.swift */; };
 		4A5B9F181C695F3900614752 /* URLSessionTaskOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9EF71C695F3900614752 /* URLSessionTaskOperation.swift */; };
 		4A5B9F191C695F3900614752 /* UserNotificationCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9EF81C695F3900614752 /* UserNotificationCondition.swift */; };
+		4A5B9F271C6A6DB300614752 /* RequestValidationCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F261C6A6DB300614752 /* RequestValidationCondition.swift */; };
+		4A5B9F291C6A7A6E00614752 /* LocalStoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F281C6A7A6E00614752 /* LocalStoreRequest.swift */; };
+		4A5B9F2F1C6AB39600614752 /* RemoteStoreTransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F2E1C6AB39600614752 /* RemoteStoreTransactionManager.swift */; };
+		4A5B9F311C6AD5BA00614752 /* GETPartition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F301C6AD5BA00614752 /* GETPartition.swift */; };
+		4A5B9F331C6AD7B500614752 /* POSTPartition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F321C6AD7B500614752 /* POSTPartition.swift */; };
+		4A5B9F351C6AD81A00614752 /* PUTPartition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F341C6AD81A00614752 /* PUTPartition.swift */; };
+		4A5B9F371C6AD84700614752 /* PATCHPartition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F361C6AD84700614752 /* PATCHPartition.swift */; };
+		4A5B9F391C6AD87F00614752 /* DELETEPartition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F381C6AD87F00614752 /* DELETEPartition.swift */; };
+		4A5B9F3B1C6AD9EF00614752 /* RemoteStoreTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B9F3A1C6AD9EF00614752 /* RemoteStoreTransaction.swift */; };
 		4A6AF96C1C3489D5009F6C71 /* LoginTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6AF96B1C3489D5009F6C71 /* LoginTableViewController.swift */; };
 		4A6AF96E1C3489F0009F6C71 /* CreateAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */; };
 		4A6AF9701C371A3B009F6C71 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */; };
@@ -85,7 +94,7 @@
 		4AC3F8631C3CAB08002464A7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AC3F8621C3CAB08002464A7 /* StoreKit.framework */; };
 		4AC5DC321C1A0C3800FF2547 /* NetworkStoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */; };
 		4AC5DC341C1A17D400FF2547 /* NetworkStoreSaveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DC331C1A17D400FF2547 /* NetworkStoreSaveRequest.swift */; };
-		4AC5DC361C1A17F500FF2547 /* NetworkStoreFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DC351C1A17F500FF2547 /* NetworkStoreFetchRequest.swift */; };
+		4AC5DC361C1A17F500FF2547 /* RemoteStoreFetchRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DC351C1A17F500FF2547 /* RemoteStoreFetchRequests.swift */; };
 		4AC76ED71C20D9FC00CE2E79 /* CategorySectionLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AC76ED51C20D9FC00CE2E79 /* CategorySectionLabel.xib */; };
 		4AC76EDB1C20DBB800CE2E79 /* AccountSectionLabel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AC76ED91C20DBB800CE2E79 /* AccountSectionLabel.xib */; };
 		4AD7DB2F1C45E292008A339F /* JSONObjectDataConditionerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD7DB2E1C45E292008A339F /* JSONObjectDataConditionerFactory.swift */; };
@@ -253,6 +262,15 @@
 		4A5B9EF61C695F3900614752 /* UIUserNotifications+Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIUserNotifications+Operations.swift"; path = "Operations/UIUserNotifications+Operations.swift"; sourceTree = "<group>"; };
 		4A5B9EF71C695F3900614752 /* URLSessionTaskOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLSessionTaskOperation.swift; path = Operations/URLSessionTaskOperation.swift; sourceTree = "<group>"; };
 		4A5B9EF81C695F3900614752 /* UserNotificationCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserNotificationCondition.swift; path = Operations/UserNotificationCondition.swift; sourceTree = "<group>"; };
+		4A5B9F261C6A6DB300614752 /* RequestValidationCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestValidationCondition.swift; path = DataDriver/RequestValidationCondition.swift; sourceTree = "<group>"; };
+		4A5B9F281C6A7A6E00614752 /* LocalStoreRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocalStoreRequest.swift; path = DataDriver/LocalStoreRequest.swift; sourceTree = "<group>"; };
+		4A5B9F2E1C6AB39600614752 /* RemoteStoreTransactionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteStoreTransactionManager.swift; path = DataDriver/RemoteStoreTransactionManager.swift; sourceTree = "<group>"; };
+		4A5B9F301C6AD5BA00614752 /* GETPartition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GETPartition.swift; path = DataDriver/GETPartition.swift; sourceTree = "<group>"; };
+		4A5B9F321C6AD7B500614752 /* POSTPartition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = POSTPartition.swift; path = DataDriver/POSTPartition.swift; sourceTree = "<group>"; };
+		4A5B9F341C6AD81A00614752 /* PUTPartition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PUTPartition.swift; path = DataDriver/PUTPartition.swift; sourceTree = "<group>"; };
+		4A5B9F361C6AD84700614752 /* PATCHPartition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PATCHPartition.swift; path = DataDriver/PATCHPartition.swift; sourceTree = "<group>"; };
+		4A5B9F381C6AD87F00614752 /* DELETEPartition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DELETEPartition.swift; path = DataDriver/DELETEPartition.swift; sourceTree = "<group>"; };
+		4A5B9F3A1C6AD9EF00614752 /* RemoteStoreTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteStoreTransaction.swift; path = DataDriver/RemoteStoreTransaction.swift; sourceTree = "<group>"; };
 		4A6AF96B1C3489D5009F6C71 /* LoginTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTableViewController.swift; sourceTree = "<group>"; };
 		4A6AF96D1C3489F0009F6C71 /* CreateAccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountTableViewController.swift; sourceTree = "<group>"; };
 		4A6AF96F1C371A3B009F6C71 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -275,7 +293,7 @@
 		4AC3F8621C3CAB08002464A7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkStoreRequest.swift; path = DataDriver/NetworkStoreRequest.swift; sourceTree = "<group>"; };
 		4AC5DC331C1A17D400FF2547 /* NetworkStoreSaveRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkStoreSaveRequest.swift; path = DataDriver/NetworkStoreSaveRequest.swift; sourceTree = "<group>"; };
-		4AC5DC351C1A17F500FF2547 /* NetworkStoreFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkStoreFetchRequest.swift; path = DataDriver/NetworkStoreFetchRequest.swift; sourceTree = "<group>"; };
+		4AC5DC351C1A17F500FF2547 /* RemoteStoreFetchRequests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteStoreFetchRequests.swift; path = DataDriver/RemoteStoreFetchRequests.swift; sourceTree = "<group>"; };
 		4AC76ED61C20D9FC00CE2E79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CategorySectionLabel.xib; sourceTree = "<group>"; };
 		4AC76EDA1C20DBB800CE2E79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountSectionLabel.xib; sourceTree = "<group>"; };
 		4AD7DB2E1C45E292008A339F /* JSONObjectDataConditionerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONObjectDataConditionerFactory.swift; path = DataDriver/JSONObjectDataConditionerFactory.swift; sourceTree = "<group>"; };
@@ -620,6 +638,7 @@
 				4A7634F11C02858D002DFB50 /* DataLayer.swift */,
 				4AEE7ECE1C0188CC009F0004 /* PersistentStoreCoordinator.swift */,
 				4A77251A1C5B10180024CAEA /* StoreReference.swift */,
+				4A5B9F2E1C6AB39600614752 /* RemoteStoreTransactionManager.swift */,
 			);
 			name = "Base Stack";
 			sourceTree = "<group>";
@@ -627,9 +646,8 @@
 		4A5B9F1F1C69747700614752 /* Core Data Request Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */,
 				4AC5DC331C1A17D400FF2547 /* NetworkStoreSaveRequest.swift */,
-				4AC5DC351C1A17F500FF2547 /* NetworkStoreFetchRequest.swift */,
+				4AC5DC351C1A17F500FF2547 /* RemoteStoreFetchRequests.swift */,
 			);
 			name = "Core Data Request Extensions";
 			sourceTree = "<group>";
@@ -637,6 +655,7 @@
 		4A5B9F201C6984C200614752 /* Request Validation */ = {
 			isa = PBXGroup;
 			children = (
+				4A5B9F261C6A6DB300614752 /* RequestValidationCondition.swift */,
 			);
 			name = "Request Validation";
 			sourceTree = "<group>";
@@ -648,9 +667,10 @@
 			name = "MOC Processing";
 			sourceTree = "<group>";
 		};
-		4A5B9F221C69853800614752 /* Network Store Request Transaction */ = {
+		4A5B9F221C69853800614752 /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
+				4A5B9F3A1C6AD9EF00614752 /* RemoteStoreTransaction.swift */,
 				4A5B9F231C69855700614752 /* Network Store Request Partition */,
 				4A5B9F211C69851A00614752 /* MOC Processing */,
 				4A7634F61C02A5A9002DFB50 /* Data Conditioning */,
@@ -658,12 +678,17 @@
 				4A7634F71C02A649002DFB50 /* Network Store Request Construction */,
 				4A5B9F201C6984C200614752 /* Request Validation */,
 			);
-			name = "Network Store Request Transaction";
+			name = Transactions;
 			sourceTree = "<group>";
 		};
 		4A5B9F231C69855700614752 /* Network Store Request Partition */ = {
 			isa = PBXGroup;
 			children = (
+				4A5B9F301C6AD5BA00614752 /* GETPartition.swift */,
+				4A5B9F321C6AD7B500614752 /* POSTPartition.swift */,
+				4A5B9F341C6AD81A00614752 /* PUTPartition.swift */,
+				4A5B9F361C6AD84700614752 /* PATCHPartition.swift */,
+				4A5B9F381C6AD87F00614752 /* DELETEPartition.swift */,
 			);
 			name = "Network Store Request Partition";
 			sourceTree = "<group>";
@@ -694,6 +719,8 @@
 		4A7634F71C02A649002DFB50 /* Network Store Request Construction */ = {
 			isa = PBXGroup;
 			children = (
+				4AC5DC311C1A0C3800FF2547 /* NetworkStoreRequest.swift */,
+				4A5B9F281C6A7A6E00614752 /* LocalStoreRequest.swift */,
 				4AEE7ED01C0188CC009F0004 /* URLProcessor.swift */,
 				4AEE7EC91C0188CC009F0004 /* EntityProcessor.swift */,
 				4AEE7ECB1C0188CC009F0004 /* InsertionFactory.swift */,
@@ -777,7 +804,7 @@
 				4A5B9ED71C695ECA00614752 /* Operation Base Architecture */,
 				4A5B9F1F1C69747700614752 /* Core Data Request Extensions */,
 				4A7634F51C02A595002DFB50 /* Constants */,
-				4A5B9F221C69853800614752 /* Network Store Request Transaction */,
+				4A5B9F221C69853800614752 /* Transactions */,
 				4AEE7ECD1C0188CC009F0004 /* OperationGraphManager.swift */,
 				4AEE7ED11C0188CC009F0004 /* URLResponse.swift */,
 			);
@@ -1008,18 +1035,23 @@
 				4A3D11DD1C1F4215000D6D85 /* MenuTableViewController.swift in Sources */,
 				4A5B9F051C695F3900614752 /* LocationOperation.swift in Sources */,
 				4A1F2E421C30C65300E3D05C /* ControllerTableViewCell.swift in Sources */,
+				4A5B9F3B1C6AD9EF00614752 /* RemoteStoreTransaction.swift in Sources */,
+				4A5B9F351C6AD81A00614752 /* PUTPartition.swift in Sources */,
 				4AEE88BA1C51D0AF00E3C5C7 /* Actor+CoreDataProperties.swift in Sources */,
 				4AEE88B71C51D0AF00E3C5C7 /* Season.swift in Sources */,
-				4AC5DC361C1A17F500FF2547 /* NetworkStoreFetchRequest.swift in Sources */,
+				4AC5DC361C1A17F500FF2547 /* RemoteStoreFetchRequests.swift in Sources */,
 				4A5B9F171C695F3900614752 /* UIUserNotifications+Operations.swift in Sources */,
 				4AEE88C51C51D0AF00E3C5C7 /* ContentItem.swift in Sources */,
+				4A5B9F331C6AD7B500614752 /* POSTPartition.swift in Sources */,
 				4AEE88B41C51D0AF00E3C5C7 /* Producer+CoreDataProperties.swift in Sources */,
 				4A5B9F131C695F3900614752 /* ReachabilityCondition.swift in Sources */,
 				4A5B9F101C695F3900614752 /* OperationQueue.swift in Sources */,
 				4A5B9EF91C695F3900614752 /* BackgroundObserver.swift in Sources */,
 				4AEE88B61C51D0AF00E3C5C7 /* Season+CoreDataProperties.swift in Sources */,
 				4A7947431C6546C400243509 /* CreditedTableViewCell.swift in Sources */,
+				4A5B9F371C6AD84700614752 /* PATCHPartition.swift in Sources */,
 				4AEE88C61C51D0AF00E3C5C7 /* ProgramTrailers+CoreDataProperties.swift in Sources */,
+				4A5B9F391C6AD87F00614752 /* DELETEPartition.swift in Sources */,
 				4AEE88B31C51D0AF00E3C5C7 /* Genre.swift in Sources */,
 				4AEE7EDD1C0188CC009F0004 /* URLProcessor.swift in Sources */,
 				4AFC41EA1C480705003BDAE1 /* CarouselView.swift in Sources */,
@@ -1075,6 +1107,7 @@
 				4A5B9EFC1C695F3900614752 /* CalendarCondition.swift in Sources */,
 				4A92645A1C4F3EAE0029B12E /* PlayerViewController.swift in Sources */,
 				4A1F2E161C2F51FC00E3D05C /* PosterTableViewCell.swift in Sources */,
+				4A5B9F2F1C6AB39600614752 /* RemoteStoreTransactionManager.swift in Sources */,
 				4AEE88BC1C51D0AF00E3C5C7 /* Series+CoreDataProperties.swift in Sources */,
 				4AEE7EDB1C0188CC009F0004 /* PersistentStoreCoordinator.swift in Sources */,
 				4AEE7ED41C0188CC009F0004 /* DataRequestOperation.swift in Sources */,
@@ -1089,6 +1122,7 @@
 				4AED71C91C4B28BB0083A9F9 /* NSMutableURL+PREMOUtilities.swift in Sources */,
 				4A77251C1C5B10180024CAEA /* StoreReference.swift in Sources */,
 				4A77251B1C5B10180024CAEA /* ImageDataProcessor.swift in Sources */,
+				4A5B9F271C6A6DB300614752 /* RequestValidationCondition.swift in Sources */,
 				4AFC41B11C473992003BDAE1 /* CarouselTableViewCell.swift in Sources */,
 				4AEE7ED61C0188CC009F0004 /* EntityProcessor.swift in Sources */,
 				4AEE7EDC1C0188CC009F0004 /* UpdateFactory.swift in Sources */,
@@ -1096,9 +1130,11 @@
 				4AEE88B21C51D0AF00E3C5C7 /* Genre+CoreDataProperties.swift in Sources */,
 				4AEE7ED51C0188CC009F0004 /* DeletionFactory.swift in Sources */,
 				4A5B9F141C695F3900614752 /* RemoteNotificationCondition.swift in Sources */,
+				4A5B9F291C6A7A6E00614752 /* LocalStoreRequest.swift in Sources */,
 				4A5B9F151C695F3900614752 /* SilentCondition.swift in Sources */,
 				4AEE7EDE1C0188CC009F0004 /* URLResponse.swift in Sources */,
 				4A5B9F0E1C695F3900614752 /* OperationErrors.swift in Sources */,
+				4A5B9F311C6AD5BA00614752 /* GETPartition.swift in Sources */,
 				4A1F2E441C30C67600E3D05C /* CreditsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
