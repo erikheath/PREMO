@@ -72,12 +72,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      - Warning: If the data layer can't be constructed, the application can not run. As such, the application must terminate. Because property initializers can not throw error messages, the current reporting strategy is to print to standard out. Notifiying the user of the error / program state is the responsibility of the calling method / object.
      */
     lazy var datalayer: DataLayer? = {
+        return self.reloadDataLayer()
+    }()
 
+    private func reloadDataLayer() -> DataLayer? {
         do {
-//            let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("PREMOCatalog.sqlite")
-//            print(storeURL)
+            //            let storeURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("PREMOCatalog.sqlite")
+            //            print(storeURL)
             let store = StoreReference(storeType: NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
-//          let store = StoreReference(storeType: NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+            //          let store = StoreReference(storeType: NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
             guard let modelURL = NSBundle.mainBundle().URLForResource("Premo", withExtension: "momd") else { throw DataLayerError.genericError }
             guard let model = NSManagedObjectModel(contentsOfURL: modelURL) else { throw DataLayerError.genericError }
             let preloadRequest = NetworkStoreFetchRequest(entityName: "AppConfig")
@@ -89,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error)
             return nil
         }
-    }()
+    }
 
     /**
      The transaction processor provides a unified object for handling user initiated store kit transactions as well as store kit driven transactions (e.g. auto-renew subscriptions). It must be instantiated no later than application:didFinishLaunchingWithOptions, but can also be part of the app delegate construction cycle.
@@ -192,6 +195,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let currentStatus = AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() == NotReachable ? ReachabilityStatus.NotReachable.rawValue : ReachabilityStatus.Reachable.rawValue
         if currentStatus == priorStatus {
             NSNotificationCenter.defaultCenter().postNotificationName(currentStatus, object: nil)
+            if currentStatus == ReachabilityStatus.Reachable.rawValue && self.datalayer?.preloadComplete == false {
+                // Reload the DataLayer as it is in an unknown state.
+                self.datalayer?.reset(true)
+            }
         } else {
             self.pollConnectionStatusForChange(5.0, status: AppDelegate.ReachabilityStatus.init(rawValue: currentStatus)!)
         }

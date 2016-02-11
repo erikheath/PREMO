@@ -51,7 +51,7 @@ class SlideController: SWRevealViewController {
     }
 
     func connectionFailure(notification: NSNotification) -> Void {
-        let alert = UIAlertController(title: "No Internet Connection", message: "After the internet connection is restored, please close and re-start the app.", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "No Internet Connection", message: "Please check your internet connection. PREMO services are only available with an internet connection.", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
 
         self.presentViewController(alert, animated: true, completion: nil)

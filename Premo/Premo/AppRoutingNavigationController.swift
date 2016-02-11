@@ -15,6 +15,7 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
         case videoStack = "videoStack"
         case credentialStack = "credentialStack"
         case accountStack = "accountStack"
+//        case loadingStack = "loadingStack"
     }
 
     // MARK: - Errors
@@ -28,11 +29,29 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
         }
     }
 
+    private var preloadContext = 0
+
+    private var observerToken = false
+    private var dispatchToken: dispatch_once_t = 0
+
     var foregroundView: UIView? = nil
 
     var currentNavigationStack: NavigationStack = NavigationStack.credentialStack
 
     var currentCategoryName: String? = nil
+
+    var userWelcomed = false
+
+    dynamic var reachable:NSNumber? = nil
+    private var reachableToken = false
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        guard let dataLayer = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer where observerToken == true else { return }
+        dataLayer.removeObserver(self, forKeyPath: "preloadComplete", context: &preloadContext)
+        self.removeObserver(self, forKeyPath: "reachable", context: &reachableToken)
+
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,35 +89,96 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
 
     func transitionToInitialStack() -> Void {
 
-        guard AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() != NotReachable else {
+        guard let dataLayer = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer else { return }
+        objc_sync_enter(dataLayer)
+        if dataLayer.preloadComplete == false {
             self.transitionToLoadingScreen(false)
-            return
+            dispatch_once(&dispatchToken) { () -> Void in
+                self.observerToken = true
+                self.addObserver(self, forKeyPath: "reachable", options: .New, context: &self.reachableToken)
+                dataLayer.addObserver(self, forKeyPath: "preloadComplete", options: NSKeyValueObservingOptions.init(rawValue:(NSKeyValueObservingOptions.Initial.rawValue | NSKeyValueObservingOptions.New.rawValue)), context: &self.preloadContext)
+            }
+
         }
+        objc_sync_exit(dataLayer)
+
+        guard observerToken == false else { return }
 
         switch self.currentNavigationStack {
 
         case .videoStack:
-            self.transitionToVideoStack(false)
+            self.transitionToVideoStack(true)
 
         case .credentialStack:
             if Account.loggedIn == true {
                 // take the user to features
-                self.transitionToVideoStack(false)
+                self.transitionToVideoStack(true)
             } else {
                 // take the user to login.
-                self.transitionToCredentialStack(false)
+                self.transitionToCredentialStack(true)
             }
 
         case .accountStack:
-            self.transitionToAccountStack(false)
+            self.transitionToAccountStack(true)
 
         }
+
+    }
+
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if context == &preloadContext {
+            if let preloadSucceeded = change?[NSKeyValueChangeNewKey] as? NSNumber where preloadSucceeded.boolValue == true && self.viewControllers.first is LaunchScreenViewController {
+
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    switch self.currentNavigationStack {
+
+                    case .videoStack:
+                        self.transitionToVideoStack(true)
+
+                    case .credentialStack:
+                        if Account.loggedIn == true || self.userWelcomed == true {
+                            // take the user to features
+                            self.transitionToVideoStack(true)
+                        } else {
+                            // take the user to login.
+                            self.transitionToCredentialStack(true)
+                        }
+                        
+                    case .accountStack:
+                        self.transitionToAccountStack(true)
+                        
+                    }
+                })
+                
+            } else if let preloadSucceeded = change?[NSKeyValueChangeNewKey] as? NSNumber where preloadSucceeded.boolValue == false && Account.loggedIn == false && self.viewControllers.first is LaunchScreenViewController && self.userWelcomed == false && AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() != NotReachable {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    self.userWelcomed = true
+                    self.transitionToCredentialStack(true)
+                })
+            } else if AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() == NotReachable {
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: AppDelegate.ReachabilityStatus.Reachable.rawValue, object: nil)
+            }
+        }
+
+        if context == &reachableToken {
+            if let canReach = change?[NSKeyValueChangeNewKey] as? NSNumber where canReach.boolValue == true && Account.loggedIn == false && self.viewControllers.first is LaunchScreenViewController && self.userWelcomed == false {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    self.userWelcomed = true
+                    self.transitionToCredentialStack(true)
+                })
+            }
+        }
+    }
+
+    func reachabilityChanged(notification: NSNotification) {
+        self.reachable = NSNumber(bool: true)
     }
 
     func transitionToLoadingScreen(animated: Bool) -> Void {
         guard let rootController = self.storyboard?.instantiateViewControllerWithIdentifier("loadingScreen") else { return }
         let controllers = [rootController]
         self.setViewControllers(controllers, animated: animated)
+
     }
 
     func transitionToAccountStack(animated: Bool) -> Void {
@@ -116,6 +196,16 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
     }
 
     func transitionToVideoStack(animated: Bool) -> Void {
+
+        guard let dataLayer = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer else { return }
+        objc_sync_enter(dataLayer)
+        if dataLayer.preloadComplete == false {
+            self.transitionToLoadingScreen(true)
+            objc_sync_exit(dataLayer)
+            return
+        }
+        objc_sync_exit(dataLayer)
+
         // Set menu as root state. Load the view controllers from the storyboard into an array and reset.
 
         guard let rootController = self.storyboard?.instantiateViewControllerWithIdentifier("CategoryTableViewController") as? CategoryTableViewController else {

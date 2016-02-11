@@ -14,6 +14,9 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
         super.init()
     }
 
+    deinit {
+        self.URLSession.invalidateAndCancel()
+    }
 
     // MARK : Properties
 
@@ -37,22 +40,29 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
         return opQueue
         }()
 
+    let sessionQueue: NSOperationQueue = {
+        let opQueue = NSOperationQueue()
+        opQueue.maxConcurrentOperationCount = 1
+        opQueue.name = "com.datadriverlayer.sessionqueue"
+
+        return opQueue
+    }()
+
     var coordinator: PersistentStoreCoordinator
 
+    var requestCount: Int = 0
+    var responseCount: Int = 0
 
     // MARK: Post Init Properties
 
-    var URLSession: NSURLSession {
-        get {
-            return NSURLSession(configuration: self.URLConfiguration, delegate: self, delegateQueue:nil)
-        }
-    }
+    lazy var URLSession: NSURLSession = { return NSURLSession(configuration: self.URLConfiguration, delegate: self, delegateQueue:self.sessionQueue)
+    }()
 
     // MARK: Operation Management
 
     func requestNetworkStoreOperations(changeRequests:Array<RemoteStoreRequest>) {
         let lock = NSLock()
-        let operation = DataRequestOperation(session: URLSession, requests: changeRequests)
+        let operation = DataRequestOperation(session: URLSession, requests: changeRequests, graphManager: self)
         lock.lock()
         self.dataRequestQueue.addOperation(operation)
         lock.unlock()

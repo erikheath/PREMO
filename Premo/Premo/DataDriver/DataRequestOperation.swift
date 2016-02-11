@@ -9,10 +9,11 @@ public class DataRequestOperation: NSOperation {
 
     // MARK: - Properties
     private(set) var remoteStoreRequests:Array<NSMutableURLRequest>
+
     let URLSession:NSURLSession
 
     // MARK: - Object Lifecycle
-    init (session:NSURLSession, requests:Array<RemoteStoreRequest> ) {
+    init (session:NSURLSession, requests:Array<RemoteStoreRequest>, graphManager: OperationGraphManager ) {
 
         var requestsArray:Array<NSMutableURLRequest> = []
 
@@ -51,6 +52,7 @@ public class DataRequestOperation: NSOperation {
 
         self.remoteStoreRequests = requestsArray
         self.URLSession = session
+        graphManager.requestCount = graphManager.requestCount + 1
 
         super.init()
     }

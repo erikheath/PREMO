@@ -30,6 +30,11 @@ public class DataLayer: NSObject {
     public let stackID: String
 
     /**
+     If / when the preload fetch completes, this property will be set to true. This value is KVO compliant.
+     */
+    dynamic public private(set) var preloadComplete: Bool = false
+
+    /**
      A preloadFetch is one or more NSFetchRequests that should be executed immediately upon successful object creation. Typically this will involve triggering an asynchronous fetch over the network for data that is not in one or more local stores. Because a preload does not return results to the initialization caller, it is strongly recommended that the request only be for object ids, and not for fully populated objects as this creates unnecessary processing overhead. All standard notifications are processed and dispatched with a preload fetch, which means that, depending on your initialization sequence, you may receive multiple notifications for requests you have not issued directly. Because of this, is essential to inspect the id of a notification to make certain that it corresponds to your request.
     */
     public let preloadFetch: Array<NSFetchRequest>?
@@ -122,6 +127,10 @@ public class DataLayer: NSObject {
 
     public var status: Bool = false
 
+    func preloadComplete(notification: NSNotification) {
+        self.preloadComplete = true
+    }
+
     // MARK: Object Lifecycle
 
     /**
@@ -173,8 +182,26 @@ public class DataLayer: NSObject {
         // Assign delegates, parent references to child objects, etc.
         self.persistentStoreCoordinator.dataManager = self
 
+        // Register for the notification for the preload fetch.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "preloadComplete:", name: "preloadComplete", object: nil)
+
         // Execute the preload fetch
-        guard let _ = self.preloadFetch else { return }
+        self.reset(true)
+        // Initialization complete
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func reset(reload:Bool) -> Void {
+        self.masterContext.reset()
+        self.mainContext.reset()
+        self.networkContext.reset()
+        self.persistentStoreCoordinator.operationGraphManager.requestCount = 0
+        self.persistentStoreCoordinator.operationGraphManager.responseCount = 0
+
+        guard let _ = self.preloadFetch where reload == true else { return }
         for request in self.preloadFetch! {
             self.masterContext.performBlock { () -> Void in
                 do {
@@ -188,7 +215,6 @@ public class DataLayer: NSObject {
             }
         }
 
-        // Initialization complete
     }
 
 }

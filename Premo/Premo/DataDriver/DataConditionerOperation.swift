@@ -288,6 +288,11 @@ public class DataConditionerOperation: NSOperation {
                 NotificationProcessor.processErrors(error as NSError, request: self.URLRequest)
                 
             }
+        graphManager.responseCount = graphManager.responseCount + 1
+
+        guard graphManager.responseCount == graphManager.requestCount && graphManager.coordinator.dataManager?.preloadComplete == false else { return }
+        NSNotificationCenter.defaultCenter().postNotificationName("preloadComplete", object: nil)
+
         }
 
 }

@@ -66,6 +66,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playCompleted:", name: OOOoyalaPlayerPlayCompletedNotification, object: self.player)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playbackError:", name: OOOoyalaPlayerErrorNotification, object: self.player)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerStateChanged:", name: OOOoyalaPlayerStateChangedNotification, object: self.player)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationBecameActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
 //            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.player)
 //            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.playerController)
 
@@ -96,6 +97,11 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
     //MARK: Process Observations
 
     // MARK: Process Notifications
+
+    func applicationBecameActive(notification: NSNotification) {
+        self.playerController?.closedCaptionsStyle.textSize = 18
+    }
+
     func playerNotificationObserver(notification: NSNotification) {
         print(notification)
     }
