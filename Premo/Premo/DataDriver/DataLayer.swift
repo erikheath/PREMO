@@ -40,7 +40,7 @@ public class DataLayer: NSObject {
     public var refreshSeconds: Int {
         set {
             if newValue > 1200 {
-                refreshDelay = 60
+                refreshDelay = newValue
             } else {
                 refreshDelay = 1200
             }
@@ -52,50 +52,40 @@ public class DataLayer: NSObject {
     }
 
     private var refreshDelay: Int = 1200
-    private var lastRefresh: NSDate? = nil
+    public private(set) var lastRefresh: NSDate? = nil
 
     /**
-     Turns auto-refresh on/off. By default, the data layer will not auto-refresh. If you set the data layer to auto-refresh, it will do so at intervals approximating the refreshSeconds property.
+     Turns auto-refresh on/off. By default, the data layer will not auto-refresh. If you set the data layer to auto-refresh, it will do so when the app comes to the foreground at intervals approximating the refreshSeconds property.
      */
     public var autoRefresh: Bool {
         set {
             objc_sync_enter(self)
-            guard newValue == true else {
-                refreshTimer?.invalidate()
-                refreshTimer = nil
-                objc_sync_exit(self)
-                return
-            }
-            guard refreshTimer == nil else {
-                objc_sync_exit(self)
-                return
-            }
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                objc_sync_enter(self.refreshTimer)
-                self.lastRefresh = NSDate()
-                self.refreshTimer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(self.refreshSeconds), target: self, selector: "refreshData:", userInfo: nil, repeats: true)
-                objc_sync_exit(self.refreshTimer)
-            }
+            refreshData = newValue
             objc_sync_exit(self)
         }
 
         get {
-            return refreshTimer != nil ? true : false
+            return refreshData
         }
     }
 
-    private var refreshTimer: NSTimer? = nil
+    private var refreshData: Bool = false
 
-    func refreshData(timer: NSTimer) {
-        guard abs((lastRefresh?.timeIntervalSinceNow)!) >= NSTimeInterval(refreshSeconds) else { return }
-        lastRefresh = NSDate()
-        self.reset(true)
+    func applicationEnteredForeground(notification: NSNotification) {
+        // Check the data refresh to see if it should be performed.
+        if self.autoRefresh == true && NSTimeInterval(self.refreshSeconds) < abs((self.lastRefresh?.timeIntervalSinceNow)!) {
+                self.reset(true)
+        } else if preloadComplete == true {
+            preloadComplete = true
+        }
     }
 
     /**
      A preloadFetch is one or more NSFetchRequests that should be executed immediately upon successful object creation. Typically this will involve triggering an asynchronous fetch over the network for data that is not in one or more local stores. Because a preload does not return results to the initialization caller, it is strongly recommended that the request only be for object ids, and not for fully populated objects as this creates unnecessary processing overhead. All standard notifications are processed and dispatched with a preload fetch, which means that, depending on your initialization sequence, you may receive multiple notifications for requests you have not issued directly. Because of this, is essential to inspect the id of a notification to make certain that it corresponds to your request.
     */
     public let preloadFetch: Array<NSFetchRequest>?
+
+    public private(set) var persistentStores: Array<StoreReference>
 
     /**
      The master context serves as the context that coordinates writing to the various stores. It is the ultimate parent context and operates on a private queue so that updates to the rather slow disk or network stores can be processed without interupting the UI or slowing down the processing of incoming network data (which is handled on the Network Context).
@@ -225,6 +215,7 @@ public class DataLayer: NSObject {
         self.masterContext = master
         self.mainContext = main
         self.networkContext = network
+        self.persistentStores = stores
 
         super.init()
 
@@ -242,6 +233,7 @@ public class DataLayer: NSObject {
 
         // Register for the notification for the preload fetch.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "preloadComplete:", name: "preloadComplete", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationEnteredForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
 
         // Execute the preload fetch
         self.reset(true)
@@ -253,12 +245,23 @@ public class DataLayer: NSObject {
     }
 
     func reset(reload:Bool) -> Void {
-        self.masterContext.reset()
-        self.mainContext.reset()
-        self.networkContext.reset()
-        self.persistentStoreCoordinator.operationGraphManager.requestCount = 0
-        self.persistentStoreCoordinator.operationGraphManager.responseCount = 0
-        self.preloadComplete = false
+        do {
+            self.preloadComplete = false
+            lastRefresh = NSDate()
+            // Remove the stores from the coordinator
+            for store in self.persistentStoreCoordinator.persistentStores {
+                try self.persistentStoreCoordinator.removePersistentStore(store)
+            }
+            // Add the stores
+            for store in persistentStores {
+                try persistentStoreCoordinator.addPersistentStoreWithType(store.storeType, configuration: store.configuration, URL: store.URL, options: store.options)
+            }
+            self.masterContext.reset()
+            self.mainContext.reset()
+            self.networkContext.reset()
+            self.persistentStoreCoordinator.operationGraphManager.requestCount = 0
+            self.persistentStoreCoordinator.operationGraphManager.responseCount = 0
+        } catch { }
 
         guard let _ = self.preloadFetch where reload == true else { return }
         for request in self.preloadFetch! {
@@ -275,6 +278,7 @@ public class DataLayer: NSObject {
         }
 
     }
+
 
 }
 

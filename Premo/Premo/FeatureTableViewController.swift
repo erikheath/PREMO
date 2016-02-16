@@ -78,6 +78,11 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
+    func applicationDidEnterBackground(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+
     func configureNavigationItemAppearance() {
         navigationItemSetup: do {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "  ", style: .Plain, target: nil, action: nil)
@@ -105,6 +110,7 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         self.configureNavigationItemAppearance()
 
         guard let contentItem = self.contentItem else { return }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: contentItem.managedObjectContext)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextDidSaveNotification, object: contentItem.managedObjectContext)
     }

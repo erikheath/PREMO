@@ -32,6 +32,14 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
 
+    func applicationDidEnterBackground(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        if self.carouselTimer != nil {
+            self.carouselTimer?.invalidate()
+            self.carouselTimer = nil
+        }
+    }
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self.configureNavigationItemAppearance()
@@ -84,6 +92,7 @@ class CategoryTableViewController: UITableViewController, NSFetchedResultsContro
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextObjectsDidChangeNotification, object: self.managedObjectContext)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "processCoreDataNotification:", name: NSManagedObjectContextDidSaveNotification, object: self.managedObjectContext)
         self.configureNavigationItemAppearance()
