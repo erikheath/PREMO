@@ -156,6 +156,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentPurchaseFailed:", name: TransactionProcessor.TransactionStatusNotification.failed.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "purchaseRequestSucceeded:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentReceiptProcessingError:", name: RegistrationProcessor.RegistrationStatusNotification.receiptError.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMultipleIDProcessingError:", name: RegistrationProcessor.RegistrationStatusNotification.registrationCredentialError.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentRegistrationFailure:", name: RegistrationProcessor.RegistrationStatusNotification.communicationError.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentPurchaseSuccessful:", name: RegistrationProcessor.RegistrationStatusNotification.registered.rawValue, object: nil)
 
@@ -370,6 +371,18 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             self.subscribeActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
         }
+    }
+
+    func presentMultipleIDProcessingError(noticiation: NSNotification) -> Void {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let alert = UIAlertController(title: "Active Subscription", message: "Your Apple ID is not registered with \(Account.userName). Please log in with the email address that was registered with the current Apple ID to use your subscription.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+                self.manageUserInteractions(true)
+            }))
+            self.subscribeActivityIndicator.stopAnimating()
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+
     }
 
     func presentPurchaseSuccessful(notification: NSNotification) -> Void {

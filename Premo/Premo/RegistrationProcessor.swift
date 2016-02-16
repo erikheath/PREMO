@@ -69,6 +69,7 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
         case registrationRequestError = "RegistrationRequestError"
         case registrationCredentialError = "RegistrationCredentialError"
         case registrationResponseError = "RegistrationResponseError"
+        case registrationMultipleIDError = "RegistrationMultipleIDError"
         case transactionRequestError = "TransactionRequestError"
     }
 
@@ -212,9 +213,13 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
                 TODO: Import Error Handling
                 There is error handling elsewhere that will manage the codes returned from the server.
                 */
-                
-                let notification = NSNotification(name: RegistrationStatusNotification.registrationCredentialError.rawValue, object: nil, userInfo: nil)
-                NSNotificationCenter.defaultCenter().postNotification(notification)
+                if let errorDictionary = (JSONObject.objectForKey("payload") as? NSDictionary)!.objectForKey("error") as? NSDictionary, let errorCode = errorDictionary.objectForKey("code") as? NSNumber where errorCode.intValue == 151 {
+                    let notification = NSNotification(name: RegistrationStatusNotification.registrationMultipleIDError.rawValue, object: nil, userInfo: nil)
+                    NSNotificationCenter.defaultCenter().postNotification(notification)
+                } else {
+                    let notification = NSNotification(name: RegistrationStatusNotification.registrationMultipleIDError.rawValue, object: nil, userInfo: nil)
+                    NSNotificationCenter.defaultCenter().postNotification(notification)
+                }
                 return
             }
 
