@@ -34,6 +34,11 @@
                 <entry key="remotestore.urltype" value="FEED"/>
             </userInfo>
         </attribute>
+        <attribute name="refreshSeconds" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="remotestore.jsonkeypath" value="refresh_seconds"/>
+            </userInfo>
+        </attribute>
         <attribute name="transientRoot" optional="YES" transient="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="remotestore.jsonrootkeypath" value="CURRENTROOT"/>
@@ -378,7 +383,7 @@
     </entity>
     <elements>
         <element name="Actor" positionX="594" positionY="387" width="128" height="90"/>
-        <element name="AppConfig" positionX="-99" positionY="-343" width="128" height="135"/>
+        <element name="AppConfig" positionX="-99" positionY="-343" width="128" height="150"/>
         <element name="Artwork" positionX="619" positionY="23" width="128" height="105"/>
         <element name="CarouselItem" positionX="-144" positionY="-189" width="128" height="105"/>
         <element name="Catalog" positionX="-351" positionY="-333" width="128" height="88"/>

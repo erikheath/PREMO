@@ -1,9 +1,6 @@
 //
 //  ContentItem+CoreDataProperties.swift
-//  Premo
-//
-//  Created by ERIKHEATH A THOMAS on 1/21/16.
-//  Copyright © 2016 Premo Network. All rights reserved.
+
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
 //  to delete and recreate this implementation file for your updated model.
@@ -14,6 +11,7 @@ import CoreData
 
 extension ContentItem {
 
+    @NSManaged var contentCaptionsIncluded: NSNumber?
     @NSManaged var contentCaptionsURL: String?
     @NSManaged var contentCopyright: String?
     @NSManaged var contentCountry: String?
@@ -36,7 +34,6 @@ extension ContentItem {
     @NSManaged var contentType: String?
     @NSManaged var contentURL: String?
     @NSManaged var remoteOrderPosition: NSDate?
-    @NSManaged var contentCaptionsIncluded: NSNumber?
     @NSManaged var actors: NSOrderedSet?
     @NSManaged var artwork: Artwork?
     @NSManaged var categoryMember: CategoryList?

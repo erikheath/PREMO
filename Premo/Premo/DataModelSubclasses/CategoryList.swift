@@ -1,9 +1,6 @@
 //
 //  CategoryList.swift
-//  Premo
-//
-//  Created by ERIKHEATH A THOMAS on 1/21/16.
-//  Copyright © 2016 Premo Network. All rights reserved.
+
 //
 
 import Foundation

@@ -114,6 +114,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             */
 
         }
+        // Observe data layer preload status
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "preloadCompleted:", name: "preloadComplete", object: nil)
 
         // Set up Reachability Monitors
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: kReachabilityChangedNotification, object: nil)
@@ -231,6 +233,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var managedObjectContext: NSManagedObjectContext? = {
         return self.datalayer?.mainContext
     }()
-    
+
+    /**
+    Turn on auto refresh for the data layer using the configurable number of seconds delivered from the server.
+    */
+    func preloadCompleted(notification: NSNotification) {
+        self.datalayer?.masterContext.performBlock({ () -> Void in
+            do {
+            let delayFetch = NSFetchRequest(entityName: "AppConfig")
+            guard let config = try self.datalayer?.masterContext.executeFetchRequest(delayFetch).first as? AppConfig, let delay = config.refreshSeconds?.intValue else { return }
+                self.datalayer?.refreshSeconds = Int(delay)
+                self.datalayer?.autoRefresh = true
+            } catch {
+
+            }
+
+        })
+    }
+
 }
 
