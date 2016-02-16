@@ -152,6 +152,16 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     // MARK: - Navigation
 
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        if AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() == NotReachable {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertController(title: "No Internet Connection", message: "To watch movies and trailers, please connect to the internet.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            })
+            return false
+        }
+
         switch identifier {
         case "showTrailer":
             guard let _ = self.trailerEmbedCode, let _ = self.trailerPcode else {
@@ -198,6 +208,16 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
     }
 
     @IBAction func updateCredentials(sender: AnyObject) {
+
+        if AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() == NotReachable {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let alert = UIAlertController(title: "No Internet Connection", message: "To watch movies and trailers, please connect to the internet.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            })
+            return
+        }
+
         if Account.loggedIn == true {
             let alert = UIAlertController(title: "Subscription Required", message: "To access full-length features, please subscribe to PREMO. Watch films, comedies, originals and more for $4.99/month, after a FREE 30-day trial.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Subscribe Now", style: .Default, handler: { (action: UIAlertAction) -> Void in
