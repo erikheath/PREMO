@@ -127,9 +127,10 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
 
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == &preloadContext {
-            if let preloadSucceeded = change?[NSKeyValueChangeNewKey] as? NSNumber where preloadSucceeded.boolValue == true && self.viewControllers.first is LaunchScreenViewController {
+            if let preloadSucceeded = change?[NSKeyValueChangeNewKey] as? NSNumber where preloadSucceeded.boolValue == true {
 
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    guard self.viewControllers.first is LaunchScreenViewController else { return }
                     switch self.currentNavigationStack {
 
                     case .videoStack:
@@ -150,8 +151,9 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
                     }
                 })
                 
-            } else if let preloadSucceeded = change?[NSKeyValueChangeNewKey] as? NSNumber where preloadSucceeded.boolValue == false && Account.loggedIn == false && self.viewControllers.first is LaunchScreenViewController && self.userWelcomed == false && AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() != NotReachable {
+            } else if let preloadSucceeded = change?[NSKeyValueChangeNewKey] as? NSNumber where preloadSucceeded.boolValue == false && Account.loggedIn == false && self.userWelcomed == false && AppDelegate.PREMOMainHostReachability?.currentReachabilityStatus() != NotReachable {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    guard self.viewControllers.first is LaunchScreenViewController else { return }
                     self.userWelcomed = true
                     self.transitionToCredentialStack(true)
                 })
@@ -161,8 +163,9 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
         }
 
         if context == &reachableToken {
-            if let canReach = change?[NSKeyValueChangeNewKey] as? NSNumber where canReach.boolValue == true && Account.loggedIn == false && self.viewControllers.first is LaunchScreenViewController && self.userWelcomed == false {
+            if let canReach = change?[NSKeyValueChangeNewKey] as? NSNumber where canReach.boolValue == true && Account.loggedIn == false && self.userWelcomed == false {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    guard self.viewControllers.first is LaunchScreenViewController else { return }
                     self.userWelcomed = true
                     self.transitionToCredentialStack(true)
                 })

@@ -288,12 +288,27 @@ public class DataConditionerOperation: NSOperation {
                 NotificationProcessor.processErrors(error as NSError, request: self.URLRequest)
                 
             }
-        graphManager.responseCount = graphManager.responseCount + 1
 
-        guard graphManager.responseCount == graphManager.requestCount && graphManager.coordinator.dataManager?.preloadComplete == false else { return }
-        NSNotificationCenter.defaultCenter().postNotificationName("preloadComplete", object: nil)
+        let artFetch = NSFetchRequest(entityName: "Artwork")
+        artFetch.resultType = .CountResultType
+        artFetch.predicate = NSPredicate(format: "artwork269x152 != nil", argumentArray: nil)
+        let contentItemsFetch = NSFetchRequest(entityName: "ContentItem")
+        contentItemsFetch.resultType = .CountResultType
+        contentItemsFetch.predicate = NSPredicate(format: "categoryMember.categoryName = %@", argumentArray: ["Featured"])
 
-        }
+
+        graphManager.coordinator.dataManager?.masterContext.performBlockAndWait({ () -> Void in
+            do {
+                guard self.graphManager.coordinator.dataManager?.preloadComplete == false else { return }
+                guard let artCount = try (self.graphManager.coordinator.dataManager?.masterContext.executeFetchRequest(artFetch).first as? NSNumber)?.intValue where artCount != 0 else { return }
+                guard let contentItemCount = try (self.graphManager.coordinator.dataManager?.masterContext.executeFetchRequest(contentItemsFetch).first as? NSNumber)?.intValue where contentItemCount != 0 else { return }
+                guard artCount == contentItemCount else { return }
+                NSNotificationCenter.defaultCenter().postNotificationName("preloadComplete", object: nil)
+            } catch {
+
+            }
+        })
+    }
 
 }
 
