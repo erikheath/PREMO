@@ -250,7 +250,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
     func presentPlaybackError() -> Void {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-        let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please try again, and if the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Playback Error", message: "There was an error playing the video. Please confirm you have a working internet connection and try again. If the problem persists, please contact PREMO support for assistance.", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
                 self.performSegueWithIdentifier("unwindFromVideoPlayback", sender: self)
             }))
