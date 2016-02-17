@@ -213,7 +213,7 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
                 TODO: Import Error Handling
                 There is error handling elsewhere that will manage the codes returned from the server.
                 */
-                if let errorDictionary = (JSONObject.objectForKey("payload") as? NSDictionary)!.objectForKey("error") as? NSDictionary, let errorCode = errorDictionary.objectForKey("code") as? NSNumber where errorCode.intValue == 151 {
+                if let errorDictionary = JSONObject.objectForKey("error") as? NSDictionary, let errorCode = errorDictionary.objectForKey("code") as? NSNumber where errorCode.intValue == 151 {
                     let notification = NSNotification(name: RegistrationStatusNotification.registrationMultipleIDError.rawValue, object: nil, userInfo: nil)
                     NSNotificationCenter.defaultCenter().postNotification(notification)
                 } else {

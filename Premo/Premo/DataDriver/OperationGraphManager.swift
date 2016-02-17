@@ -21,7 +21,9 @@ public class OperationGraphManager: NSObject, NSURLSessionDelegate, NSURLSession
     // MARK : Properties
 
     let URLConfiguration: NSURLSessionConfiguration = {
-        return NSURLSessionConfiguration.ephemeralSessionConfiguration()
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 300
+        return configuration
         }()
 
     let dataRequestQueue: NSOperationQueue = {

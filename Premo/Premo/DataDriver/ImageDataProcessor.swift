@@ -154,7 +154,7 @@ public class ImageDataProcessor: NSObject {
     func processLocalStoreImageData( imageData: NSData, request: NSURLRequest, context: NSManagedObjectContext) throws -> NSManagedObjectID {
         guard let requestProperty = request.requestProperty else { throw ImageProcessingError.missingPropertyValues }
         guard let destinationID = request.destinationObjectID else { throw ImageProcessingError.missingObjectIDError }
-        let destinationObject = try context.existingObjectWithID(destinationID)
+        let destinationObject = context.objectWithID(destinationID)
         let destinationKey = requestProperty.name
         guard destinationObject.entity.attributesByName[destinationKey] != nil else { throw ImageProcessingError.missingAttributeError }
 

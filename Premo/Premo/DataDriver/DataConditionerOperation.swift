@@ -281,7 +281,7 @@ public class DataConditionerOperation: NSOperation {
                 try self.saveContexts()
                 NotificationProcessor.processUpdatedObjects(objectIDArray, request: self.URLRequest)
 
-                defer { do { try self.resetContexts() } catch { } }
+//                defer { do { try self.resetContexts() } catch { } }
 
             } catch {
                 

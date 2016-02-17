@@ -146,20 +146,9 @@ public class JSONCollectionProcessor: NSObject {
             var managedObject:NSManagedObject? = nil
 
             if let _ = request.destinationObjectID {
-                var contextError: ErrorType? = nil
-
                 context.performBlockAndWait({ () -> Void in
-                    do {
-                        managedObject = try context.existingObjectWithID(request.destinationObjectID!)
-                    } catch {
-                        contextError = error
-                    }
+                    managedObject = context.objectWithID(request.destinationObjectID!)
                 })
-
-                if contextError != nil {
-                    throw contextError!
-                }
-
             } else {
                 managedObject = try self.managedObjectForRemoteStore(JSONObject, entity: entity, context: context)
             }

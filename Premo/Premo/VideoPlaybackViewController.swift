@@ -46,9 +46,9 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
         if let pCode = self.pCode, let embedCode = self.embedCode, let playback = self.playbackType {
             let player: Player
             if playback == PlaybackType.Trailer {
-                player = Player(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"))
+                player = Player(pcode: pCode, domain: OOPlayerDomain(string: "http://concurrent.ooyala.com"))
             } else {
-                player = Player(pcode: pCode, domain: OOPlayerDomain(string: "https://player.ooyala.com"), embedTokenGenerator: self)
+                player = Player(pcode: pCode, domain: OOPlayerDomain(string: "http://concurrent.ooyala.com"), embedTokenGenerator: self)
             }
 
             self.player = player

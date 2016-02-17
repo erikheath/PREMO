@@ -159,6 +159,8 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMultipleIDProcessingError:", name: RegistrationProcessor.RegistrationStatusNotification.registrationCredentialError.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentRegistrationFailure:", name: RegistrationProcessor.RegistrationStatusNotification.communicationError.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentPurchaseSuccessful:", name: RegistrationProcessor.RegistrationStatusNotification.registered.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMultipleIDProcessingError:", name: RegistrationProcessor.RegistrationStatusNotification.registrationMultipleIDError.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentAlreadyPurchasedError:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
 
         /*
         TODO: Add timeouts for each step?
@@ -239,19 +241,25 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
     }
 
     func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
-        defer { lock.unlock() }
 
         let lock = NSLock()
         
         do {
             lock.lock()
-            if self.currentMonitor == nil { return }
+            if self.currentMonitor == nil {
+                lock.unlock()
+                return
+            }
             self.currentMonitor = nil
         }
-        if response.products.count < 1 { self.presentProductRequestFailure(); return }
+        if response.products.count < 1 {
+            self.presentProductRequestFailure()
+            lock.unlock()
+            return
+        }
         self.products = response.products
         self.manageUserInteractions(true)
-
+        lock.unlock()
     }
 
 
@@ -381,6 +389,26 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
             }))
             self.subscribeActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)
+        }
+
+    }
+
+    func presentAlreadyPurchasedError(notification: NSNotification) -> Void {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.subscribeActivityIndicator.stopAnimating()
+            guard let appRouter = self.navigationController as? AppRoutingNavigationController else { return }
+            /*
+            TODO: This is a fatal error
+            This should never occur, but in the event of a fatal error, something needs to be displayed and the app should exit.
+            */
+            switch appRouter.currentNavigationStack {
+            case .accountStack:
+                self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+            case .credentialStack:
+                appRouter.transitionToVideoStack(true)
+            case .videoStack:
+                self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+            }
         }
 
     }

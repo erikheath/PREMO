@@ -29,6 +29,13 @@ public class DataLayer: NSObject {
      */
     public let stackID: String
 
+    public enum DataLayerStatus: String {
+        case Loading = "DataLayerLoading"
+        case NotLoading = "DataLayerNotLoading"
+    }
+
+    public private(set) var loadingStatus: DataLayerStatus = .NotLoading
+
     /**
      If / when the preload fetch completes, this property will be set to true. This value is KVO compliant.
      */
@@ -76,6 +83,7 @@ public class DataLayer: NSObject {
         if self.autoRefresh == true && NSTimeInterval(self.refreshSeconds) < abs((self.lastRefresh?.timeIntervalSinceNow)!) {
                 self.reset(true)
         } else if preloadComplete == true {
+            loadingStatus = .NotLoading
             preloadComplete = true
         }
     }
@@ -177,6 +185,7 @@ public class DataLayer: NSObject {
 
     func preloadComplete(notification: NSNotification) {
         self.preloadComplete = true
+        self.loadingStatus = .NotLoading
     }
 
     // MARK: Object Lifecycle
@@ -222,11 +231,11 @@ public class DataLayer: NSObject {
         // End of Phase One Initialization. Begin Phase Two Initialization
 
         // Add the stores
-        do {
-            for store in stores {
-                try coordinator.addPersistentStoreWithType(store.storeType, configuration: store.configuration, URL: store.URL, options: store.options)
-            }
-        }
+//        do {
+//            for store in stores {
+//                let result = try coordinator.addPersistentStoreWithType(store.storeType, configuration: store.configuration, URL: store.URL, options: store.options)
+//            }
+//        } catch { }
 
         // Assign delegates, parent references to child objects, etc.
         self.persistentStoreCoordinator.dataManager = self
@@ -247,6 +256,7 @@ public class DataLayer: NSObject {
     func reset(reload:Bool) -> Void {
         do {
             self.preloadComplete = false
+            self.loadingStatus = .Loading
             lastRefresh = NSDate()
             // Remove the stores from the coordinator
             for store in self.persistentStoreCoordinator.persistentStores {
@@ -256,9 +266,13 @@ public class DataLayer: NSObject {
             for store in persistentStores {
                 try persistentStoreCoordinator.addPersistentStoreWithType(store.storeType, configuration: store.configuration, URL: store.URL, options: store.options)
             }
-            self.masterContext.reset()
+            self.masterContext.performBlockAndWait({ () -> Void in
+                self.masterContext.reset()
+            })
             self.mainContext.reset()
-            self.networkContext.reset()
+            self.networkContext.performBlockAndWait({ () -> Void in
+                self.networkContext.reset()
+            })
             self.persistentStoreCoordinator.operationGraphManager.requestCount = 0
             self.persistentStoreCoordinator.operationGraphManager.responseCount = 0
         } catch { }
