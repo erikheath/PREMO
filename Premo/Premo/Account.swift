@@ -132,7 +132,7 @@ class Account: NSObject {
     static func removeDeviceFromService() {
         if self.loggedIn == true {
             do {
-                let logoutRequest = try NSMutableURLRequest.PREMOURLRequest(self.memberPath, method: NSMutableURLRequest.PREMORequestMethod.GET, HTTPBody: nil, authorizationRequired: true)
+                let logoutRequest = try NSMutableURLRequest.PREMOURLRequest(self.logoutPath, method: NSMutableURLRequest.PREMORequestMethod.GET, HTTPBody: nil, authorizationRequired: true)
                 self.sendLogoutRequest(logoutRequest)
             } catch { self.clearAccountSettings() }
         } else {
