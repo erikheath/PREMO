@@ -61,9 +61,9 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
             revealController.delegate = self
         }
 
-        dispatch_once(&notificationToken) { () -> Void in
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationEnteredBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
-        }
+//        dispatch_once(&notificationToken) { () -> Void in
+//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationEnteredBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+//        }
 
         self.transitionToInitialStack()
         
@@ -92,10 +92,10 @@ class AppRoutingNavigationController: UINavigationController, SWRevealViewContro
 
     // MARK: - Navigation
 
-    func applicationEnteredBackground(notification: NSNotification) {
-        // When the app enters the background, transition to the loading screen.
-        self.transitionToLoadingScreen(true)
-    }
+//    func applicationEnteredBackground(notification: NSNotification) {
+//        // When the app enters the background, transition to the loading screen.
+//        self.transitionToLoadingScreen(true)
+//    }
 
     func transitionToInitialStack() -> Void {
         guard let dataLayer = (UIApplication.sharedApplication().delegate as! AppDelegate).datalayer else { return }

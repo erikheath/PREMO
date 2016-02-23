@@ -240,17 +240,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     Turn on auto refresh for the data layer using the configurable number of seconds delivered from the server.
     */
     func preloadCompleted(notification: NSNotification) {
-        self.datalayer?.masterContext.performBlock({ () -> Void in
-            do {
-            let delayFetch = NSFetchRequest(entityName: "AppConfig")
-            guard let config = try self.datalayer?.masterContext.executeFetchRequest(delayFetch).first as? AppConfig, let delay = config.refreshSeconds?.intValue else { return }
-                self.datalayer?.refreshSeconds = Int(delay)
-                self.datalayer?.autoRefresh = true
-            } catch {
-
-            }
-
-        })
+//        self.datalayer?.masterContext.performBlock({ () -> Void in
+//            do {
+//            let delayFetch = NSFetchRequest(entityName: "AppConfig")
+//            guard let config = try self.datalayer?.masterContext.executeFetchRequest(delayFetch).first as? AppConfig, let delay = config.refreshSeconds?.intValue else { return }
+//                self.datalayer?.refreshSeconds = Int(delay)
+//                self.datalayer?.autoRefresh = true
+//            } catch {
+//
+//            }
+//
+//        })
     }
 
 }
