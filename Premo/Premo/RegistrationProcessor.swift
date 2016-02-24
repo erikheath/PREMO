@@ -216,8 +216,11 @@ final class RegistrationProcessor: NSObject, NSURLSessionDelegate, NSURLSessionD
                 if let errorDictionary = JSONObject.objectForKey("error") as? NSDictionary, let errorCode = errorDictionary.objectForKey("code") as? NSNumber where errorCode.intValue == 151 {
                     let notification = NSNotification(name: RegistrationStatusNotification.registrationMultipleIDError.rawValue, object: nil, userInfo: nil)
                     NSNotificationCenter.defaultCenter().postNotification(notification)
+                    if transaction != nil {
+                        (UIApplication.sharedApplication().delegate as? AppDelegate)?.transactionProcessor.completeTransaction(transaction!)
+                    }
                 } else {
-                    let notification = NSNotification(name: RegistrationStatusNotification.registrationMultipleIDError.rawValue, object: nil, userInfo: nil)
+                    let notification = NSNotification(name: RegistrationStatusNotification.registrationResponseError.rawValue, object: nil, userInfo: nil)
                     NSNotificationCenter.defaultCenter().postNotification(notification)
                 }
                 return

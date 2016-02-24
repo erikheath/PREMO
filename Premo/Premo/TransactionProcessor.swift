@@ -53,6 +53,7 @@ class TransactionProcessor: NSObject, SKPaymentTransactionObserver {
 
             case SKPaymentTransactionState.Failed:
                 let notification = NSNotification(name: TransactionStatusNotification.failed.rawValue, object: transaction, userInfo: nil)
+                self.completeTransaction(transaction)
                 NSNotificationCenter.defaultCenter().postNotification(notification)
 
             case SKPaymentTransactionState.Purchased:

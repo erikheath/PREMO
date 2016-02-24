@@ -160,7 +160,7 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentRegistrationFailure:", name: RegistrationProcessor.RegistrationStatusNotification.communicationError.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentPurchaseSuccessful:", name: RegistrationProcessor.RegistrationStatusNotification.registered.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMultipleIDProcessingError:", name: RegistrationProcessor.RegistrationStatusNotification.registrationMultipleIDError.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentAlreadyPurchasedError:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentAlreadyPurchasedError:", name: TransactionProcessor.TransactionStatusNotification.purchased.rawValue, object: nil)
 
         /*
         TODO: Add timeouts for each step?
@@ -383,9 +383,24 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
 
     func presentMultipleIDProcessingError(noticiation: NSNotification) -> Void {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            let alert = UIAlertController(title: "Active Subscription", message: "Your Apple ID is not registered with \(Account.userName). Please log in with the email address that was registered with the current Apple ID to use your subscription.", preferredStyle: UIAlertControllerStyle.Alert)
+            let appleIDText = Account.userName ?? "the currently logged in PREMO account."
+            let alert = UIAlertController(title: "Active Subscription", message: "Your Apple ID is not registered with \(appleIDText). Please log in with the email address that is registered with the current Apple ID to use your subscription.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
                 self.manageUserInteractions(true)
+                guard let appRouter = self.navigationController as? AppRoutingNavigationController else { return }
+                /*
+                TODO: This is a fatal error
+                This should never occur, but in the event of a fatal error, something needs to be displayed and the app should exit.
+                */
+                switch appRouter.currentNavigationStack {
+                case .accountStack:
+                    self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                case .credentialStack:
+                    appRouter.transitionToVideoStack(true)
+                case .videoStack:
+                    self.performSegueWithIdentifier("unwindFromSubscribe", sender: self)
+                }
+
             }))
             self.subscribeActivityIndicator.stopAnimating()
             self.presentViewController(alert, animated: true, completion: nil)

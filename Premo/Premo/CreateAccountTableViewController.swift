@@ -401,15 +401,7 @@ class CreateAccountTableViewController: UITableViewController, NSURLSessionDeleg
     }
 
     func processSuccessfulSignUp(payloadDictionary: NSDictionary) {
-        guard let jwt = payloadDictionary["payload"]?["jwt"] as? String, let userName = payloadDictionary["payload"]?["member"]?!["email"] as? String, let firstName = payloadDictionary["payload"]?["member"]?!["firstName"] as? String, let lastName = payloadDictionary["payload"]?["member"]?!["lastName"] as? String else { self.presentUnknownFailure(); return }
-        NSUserDefaults.standardUserDefaults().setObject(jwt, forKey: "jwt")
-        NSUserDefaults.standardUserDefaults().setObject(userName, forKey: "userName")
-        NSUserDefaults.standardUserDefaults().setObject(firstName, forKey: "firstName")
-        NSUserDefaults.standardUserDefaults().setObject(lastName, forKey: "lastName")
-        NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "subscription")
-
-        NSUserDefaults.standardUserDefaults().synchronize()
-
+        do { try Account.processAccountPayload(payloadDictionary) } catch { }
         self.displaySuccessAlert()
     }
 

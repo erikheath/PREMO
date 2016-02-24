@@ -294,9 +294,9 @@ class Account: NSObject {
      */
     private static func processMemberPayload(member: NSDictionary) throws -> Void {
         guard let userName = member.objectForKey("email") as? String, let firstName = member.objectForKey("firstName") as? String, let lastName = member.objectForKey("lastName") as? String else { throw AccountError.invalidMemberFormat }
-        NSUserDefaults.standardUserDefaults().setObject(userName, forKey: "userName")
-        NSUserDefaults.standardUserDefaults().setObject(firstName, forKey: "firstName")
-        NSUserDefaults.standardUserDefaults().setObject(lastName, forKey: "lastName")
+        NSUserDefaults.standardUserDefaults().setObject(userName, forKey: AccountInfo.userName.rawValue)
+        NSUserDefaults.standardUserDefaults().setObject(firstName, forKey: AccountInfo.firstName.rawValue)
+        NSUserDefaults.standardUserDefaults().setObject(lastName, forKey: AccountInfo.lastName.rawValue)
     }
 
 

@@ -179,7 +179,7 @@ class AccountTableViewController: UITableViewController, MFMailComposeViewContro
         }
 
         do {
-            guard let _ = NSUserDefaults.standardUserDefaults().stringForKey("jwt"), let userName = NSUserDefaults.standardUserDefaults().stringForKey("userName") else {
+            guard let _ = Account.authorizationToken, let userName = Account.userName else {
                 // The user is not logged in.
                 self.loginStateLabel.text = "LOG IN"
                 self.loginNameLabel.text = "Log in or sign up"
