@@ -33,6 +33,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
     var pCode: String? = nil
     var embedCode: String? = nil
     var playbackType: PlaybackType? = nil
+    var playheadOffset: Float64 = 0.0
     lazy var playbackSession: NSURLSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration(), delegate: nil, delegateQueue: nil)
 
 
@@ -67,7 +68,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playbackError:", name: OOOoyalaPlayerErrorNotification, object: self.player)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerStateChanged:", name: OOOoyalaPlayerStateChangedNotification, object: self.player)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationBecameActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
-//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.player)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playBegan:", name: OOOoyalaPlayerPlayStartedNotification, object: self.player)
 //            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerNotificationObserver:", name: nil, object: self.playerController)
 
             self.addChildViewController(playerController)
@@ -108,6 +109,13 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
     func playCompleted(notification: NSNotification) {
 //        self.fullscreenExit(notification)
+    }
+
+    func playBegan(notification: NSNotification) {
+        if self.playheadOffset != 0.0 {
+            self.player?.setPlayheadTime(self.playheadOffset)
+
+        }
     }
 
     func fullscreenExit(notification: NSNotification) {
@@ -155,7 +163,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
         do {
             guard let pCode = self.pCode, let embedCode = self.embedCode else { throw PlayerError.unknownError }
 
-            let tokenRequest = try NSMutableURLRequest.PREMOURLRequest("/api/v1/ooyalaplayertoken/" + pCode + "/" + embedCode, method: NSMutableURLRequest.PREMORequestMethod.GET, HTTPBody: nil, authorizationRequired: true)
+            let tokenRequest = try NSMutableURLRequest.PREMOURLRequest("/api/v1/xdr/ooyalaplayertoken/" + pCode + "/" + embedCode, method: NSMutableURLRequest.PREMORequestMethod.GET, HTTPBody: nil, authorizationRequired: true)
 
             let tokenRequestTask = self.playbackSession.dataTaskWithRequest(tokenRequest, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
 
@@ -176,6 +184,11 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
                 switch httpResponse.statusCode {
                 case 200...299:
+                    do {
+                        if let responseDictionary = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.init(rawValue: 0)) as? NSDictionary, let payloadDictionary = responseDictionary["payload"] as? NSDictionary, let offsetNumber = payloadDictionary["playheadSeconds"] as? NSNumber {
+                            self.playheadOffset = Float64(offsetNumber.floatValue)
+                        }
+                    } catch { }
                     self.processEmbedTokenResponse(responseData, callback: callback)
 
                 case 400:
