@@ -39,6 +39,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        (UIApplication.sharedApplication().delegate as? AppDelegate)?.currentPlaybackViewController = nil
     }
 
     override func viewDidLoad() {
@@ -74,6 +75,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             self.addChildViewController(playerController)
             self.playerView.addSubview(playerController.view)
             playerController.view.frame = self.playerView.bounds
+            (UIApplication.sharedApplication().delegate as? AppDelegate)?.currentPlaybackViewController = self
             playerController.player.play()
         }
     }
@@ -112,6 +114,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
     }
 
     func playBegan(notification: NSNotification) {
+        print(self.playerController?.view.subviews)
         if self.playheadOffset != 0.0 {
             self.player?.setPlayheadTime(self.playheadOffset)
             self.playheadOffset = 0.0

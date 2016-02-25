@@ -62,6 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case Reachable = "Reachable"
     }
 
+    weak var currentPlaybackViewController: VideoPlaybackViewController? = nil
+    weak var currentPlayer: AVPlayer? = nil
+
     /**
      The data layer contains the currently available content. The data layer is refreshed:
      - on application launch
@@ -155,8 +158,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-
-
+        if let currentPlaybackViewController = self.currentPlaybackViewController {
+            // The app is playing video, possibly in the background. Check and if necessary, remove the view to enable video to continue to playback if external playback is enabled.
+            guard currentPlaybackViewController.playerController?.player.externalPlaybackActive == true else { return }
+            guard let playerLayer = currentPlaybackViewController.playerController?.player.view.layer as? AVPlayerLayer else { return }
+            self.currentPlayer = playerLayer.player
+            playerLayer.player = nil
+        }
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -165,6 +173,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        if let currentPlaybackViewController = self.currentPlaybackViewController {
+            // The app is playing video, possibly in the background. Check and if necessary, remove the view to enable video to continue to playback if external playback is enabled.
+            guard currentPlaybackViewController.playerController?.player.externalPlaybackActive == true else { return }
+            guard let playerLayer = currentPlaybackViewController.playerController?.player.view.layer as? AVPlayerLayer, let player = self.currentPlayer else { return }
+            playerLayer.player = player
+            self.currentPlayer = nil
+        }
+
     }
 
     func applicationWillTerminate(application: UIApplication) {
