@@ -54,7 +54,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
             self.player = player
             player.setEmbedCode(embedCode)
-            player.actionAtEnd = OOOoyalaPlayerActionAtEndStop
+            player.actionAtEnd = OOOoyalaPlayerActionAtEndReset
             player.allowsExternalPlayback = true
             player.seekable = true
 
@@ -114,7 +114,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
     func playBegan(notification: NSNotification) {
         if self.playheadOffset != 0.0 {
             self.player?.setPlayheadTime(self.playheadOffset)
-
+            self.playheadOffset = 0.0
         }
     }
 
