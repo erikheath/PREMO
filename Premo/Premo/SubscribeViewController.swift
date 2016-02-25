@@ -383,8 +383,8 @@ class SubscribeViewController: UIViewController, SKProductsRequestDelegate, NSUR
 
     func presentMultipleIDProcessingError(noticiation: NSNotification) -> Void {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            let appleIDText = Account.userName ?? "the currently logged in PREMO account."
-            let alert = UIAlertController(title: "Active Subscription", message: "Your Apple ID is not registered with \(appleIDText). Please log in with the email address that is registered with the current Apple ID to use your subscription.", preferredStyle: UIAlertControllerStyle.Alert)
+
+            let alert = UIAlertController(title: "Active Subscription", message: "You already have an iTunes subscription that is associated with a different PREMO account. Please log in with the email address that is registered with that account. If you need help, please visit www.premonetwork.com/support or contact us at support@premonetwork.com.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
                 self.manageUserInteractions(true)
                 guard let appRouter = self.navigationController as? AppRoutingNavigationController else { return }
