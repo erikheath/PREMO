@@ -39,7 +39,6 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        (UIApplication.sharedApplication().delegate as? AppDelegate)?.currentPlaybackViewController = nil
     }
 
     override func viewDidLoad() {
@@ -56,7 +55,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             self.player = player
             player.setEmbedCode(embedCode)
             player.actionAtEnd = OOOoyalaPlayerActionAtEndReset
-            player.allowsExternalPlayback = true
+            player.allowsExternalPlayback = false
             player.seekable = true
 
             let playerController = OOOoyalaPlayerViewController(player: player, controlType: OOOoyalaPlayerControlType.FullScreen)
@@ -75,7 +74,6 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             self.addChildViewController(playerController)
             self.playerView.addSubview(playerController.view)
             playerController.view.frame = self.playerView.bounds
-            (UIApplication.sharedApplication().delegate as? AppDelegate)?.currentPlaybackViewController = self
             playerController.player.play()
         }
     }
