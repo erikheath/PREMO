@@ -9,6 +9,8 @@ class DetailPosterTableViewCell: UITableViewCell {
     @IBOutlet weak var readyToPlayButton: UIButton!
     
     @IBOutlet weak var subscribeToPlayButton: UIButton!
+
+    @IBOutlet weak var backgroundImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

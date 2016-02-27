@@ -325,8 +325,9 @@ class FeatureTableViewController: UITableViewController, NSURLSessionDelegate, N
         let outputImage = context.createCGImage(outputImageRecipie, fromRect: CGRectMake(0, 0, targetImageSize.width, targetImageSize.height))
         let posterImage: UIImage? = UIImage(CGImage: outputImage)
         guard let _ = posterImage else { return }
-        posterCell.subscribeToPlayButton.setBackgroundImage(posterImage, forState: UIControlState.Normal)
-        posterCell.readyToPlayButton.setBackgroundImage(posterImage, forState: UIControlState.Normal)
+//        posterCell.subscribeToPlayButton.setBackgroundImage(posterImage, forState: UIControlState.Normal)
+//        posterCell.readyToPlayButton.setBackgroundImage(posterImage, forState: UIControlState.Normal)
+        posterCell.backgroundImage.image = posterImage
         if let subscriptionValidUntilDate = NSUserDefaults.standardUserDefaults().objectForKey("subscriptionValidUntilDate") as? NSDate where subscriptionValidUntilDate.compare(NSDate()) == NSComparisonResult.OrderedDescending  {
             posterCell.subscribeToPlayButton.hidden = true
             posterCell.readyToPlayButton.hidden = false
