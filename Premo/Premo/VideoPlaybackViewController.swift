@@ -55,7 +55,7 @@ class VideoPlaybackViewController: UIViewController, OOEmbedTokenGenerator {
             self.player = player
             player.setEmbedCode(embedCode)
             player.actionAtEnd = OOOoyalaPlayerActionAtEndReset
-            player.allowsExternalPlayback = true
+            player.allowsExternalPlayback = false
             player.seekable = true
 
             let playerController = OOOoyalaPlayerViewController(player: player, controlType: OOOoyalaPlayerControlType.FullScreen)

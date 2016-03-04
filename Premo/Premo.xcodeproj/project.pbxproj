@@ -16,7 +16,6 @@
 		4A1F2E481C30C76100E3D05C /* FeatureTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1F2E471C30C76100E3D05C /* FeatureTableViewController.swift */; };
 		4A1F2E9A1C31B42200E3D05C /* FeatureSectionDivider.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A1F2E991C31B42200E3D05C /* FeatureSectionDivider.xib */; };
 		4A2A81CA1C44B5BE0032A8F4 /* VideoPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */; };
-		4A31B1C21C80FA4A00A3F89C /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A31B1C11C80FA4A00A3F89C /* OoyalaSDK.framework */; };
 		4A3D11D11C1E2E62000D6D85 /* Data ConditionerOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D11D01C1E2E62000D6D85 /* Data ConditionerOperationTests.swift */; };
 		4A3D11D31C1E2F6C000D6D85 /* PersistentStoreCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D11D21C1E2F6C000D6D85 /* PersistentStoreCoordinatorTests.swift */; };
 		4A3D11D51C1E3580000D6D85 /* OperationGraphManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D11D41C1E3580000D6D85 /* OperationGraphManagerTests.swift */; };
@@ -102,6 +101,7 @@
 		4AE318771C32F66900963C80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE318761C32F66900963C80 /* UIKit.framework */; };
 		4AE3187A1C335D9400963C80 /* TermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE318791C335D9400963C80 /* TermsViewController.swift */; };
 		4AE3187C1C336D8C00963C80 /* AccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */; };
+		4AE580EA1C8A1CFC004643CB /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE580E91C8A1CFC004643CB /* OoyalaSDK.framework */; };
 		4AED71C11C4AEDBC0083A9F9 /* TransactionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C01C4AEDBC0083A9F9 /* TransactionProcessor.swift */; };
 		4AED71C31C4AEDC90083A9F9 /* RegistrationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C21C4AEDC90083A9F9 /* RegistrationProcessor.swift */; };
 		4AED71C51C4AEEC80083A9F9 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AED71C41C4AEEC80083A9F9 /* Account.swift */; };
@@ -166,7 +166,6 @@
 		4A1F2E471C30C76100E3D05C /* FeatureTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTableViewController.swift; sourceTree = "<group>"; };
 		4A1F2E991C31B42200E3D05C /* FeatureSectionDivider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeatureSectionDivider.xib; sourceTree = "<group>"; };
 		4A2A81C91C44B5BE0032A8F4 /* VideoPlaybackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlaybackViewController.swift; sourceTree = "<group>"; };
-		4A31B1C11C80FA4A00A3F89C /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = Premo/OoyalaSDK.framework; sourceTree = "<group>"; };
 		4A3D11D01C1E2E62000D6D85 /* Data ConditionerOperationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data ConditionerOperationTests.swift"; sourceTree = "<group>"; };
 		4A3D11D21C1E2F6C000D6D85 /* PersistentStoreCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentStoreCoordinatorTests.swift; path = PremoTests/PersistentStoreCoordinatorTests.swift; sourceTree = SOURCE_ROOT; };
 		4A3D11D41C1E3580000D6D85 /* OperationGraphManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationGraphManagerTests.swift; sourceTree = "<group>"; };
@@ -259,6 +258,7 @@
 		4AE318761C32F66900963C80 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4AE318791C335D9400963C80 /* TermsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsViewController.swift; sourceTree = "<group>"; };
 		4AE3187B1C336D8C00963C80 /* AccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountTableViewController.swift; sourceTree = "<group>"; };
+		4AE580E91C8A1CFC004643CB /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = Premo/OoyalaSDK.framework; sourceTree = "<group>"; };
 		4AED71C01C4AEDBC0083A9F9 /* TransactionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionProcessor.swift; sourceTree = "<group>"; };
 		4AED71C21C4AEDC90083A9F9 /* RegistrationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationProcessor.swift; sourceTree = "<group>"; };
 		4AED71C41C4AEEC80083A9F9 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
@@ -304,7 +304,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A31B1C21C80FA4A00A3F89C /* OoyalaSDK.framework in Frameworks */,
+				4AE580EA1C8A1CFC004643CB /* OoyalaSDK.framework in Frameworks */,
 				4AFC41EC1C485895003BDAE1 /* FBSDKLoginKit.framework in Frameworks */,
 				4AE318711C32F64A00963C80 /* QuartzCore.framework in Frameworks */,
 				4AE318771C32F66900963C80 /* UIKit.framework in Frameworks */,
@@ -554,7 +554,7 @@
 		4AE318781C32F6FC00963C80 /* Frameworks (Legacy Linking) */ = {
 			isa = PBXGroup;
 			children = (
-				4A31B1C11C80FA4A00A3F89C /* OoyalaSDK.framework */,
+				4AE580E91C8A1CFC004643CB /* OoyalaSDK.framework */,
 				4AFC41A91C47307F003BDAE1 /* Facebook */,
 				4AC3F8621C3CAB08002464A7 /* StoreKit.framework */,
 				4AE318761C32F66900963C80 /* UIKit.framework */,
